@@ -1,0 +1,5 @@
+User-agent: *
+Disallow: /u/
+Disallow: /profile/
+
+Sitemap: https://stadia.google.com/sitemap/index.xml

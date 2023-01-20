@@ -14,7 +14,9 @@ Credits to r/stadia community, particularly to:
 - /u/ig-88ms
 - /u/debianite
 - /u/madushan1000
+
 For fetching hidden Firmware files.
 
 - /u/parkerlreed
+
 For the reference packet capture file.

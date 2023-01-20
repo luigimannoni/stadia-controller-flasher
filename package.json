@@ -6,7 +6,8 @@
   "author": "Luigi Mannoni <hello@luigimannoni.com>",
   "license": "MIT",
   "scripts": {
-    "serve": "ssl-serve --ssl ./reference/stadia.google.com/controller"
+    "serve:reference": "ssl-serve --ssl ./reference/stadia.google.com/controller",
+    "serve": "ssl-serve --ssl ./src"
   },
   "devDependencies": {
     "ssl-serve": "^6.5.8"

@@ -3072,7 +3072,7 @@ function We(a) {
   b.o("class", "AppContainer" + (g ? " panelBottomBarDocked" : ""));
   b.h();
   p && (b.open("div", "GJmiBd"), b.i(Ye || (Ye = ["class", "Scrim"])), b.h(), b.close());
- checkIfGoogleStaff()
+  checkIfGoogleStaff() && (b.open("div", "rQUyAb"), b.i(Ze || (Ze = ["class", "WarningBanner"])), b.h(), b.text(""),
     b.close();
   if (k) {
     b.open("div", "kddDV");

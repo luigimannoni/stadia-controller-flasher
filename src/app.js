@@ -2216,13 +2216,15 @@ function Qd() {
 }
 
 function Rd() {
-  var a = checkIfGoogleStaff() ? "http://go/gotham-ble-howto" : "https://support.google.com/stadia?p=controllerconnect";
-  return vd(a)
+  var url = "https://support.google.com/stadia?p=controllerconnect";
+  // var a = checkIfGoogleStaff() ? "http://go/gotham-ble-howto" : "https://support.google.com/stadia?p=controllerconnect";
+  return vd(url)
 }
 
 function Sd() {
-  var a = checkIfGoogleStaff() ? "http://go/gotham-ble-howto#bookmark=id.hyltxa1q9n1w" : "https://support.google.com/stadia?p=controllerconnect#devicelist";
-  return vd(a)
+  var url = "https://support.google.com/stadia?p=controllerconnect#devicelist";
+  // var a = checkIfGoogleStaff() ? "http://go/gotham-ble-howto#bookmark=id.hyltxa1q9n1w" : "https://support.google.com/stadia?p=controllerconnect#devicelist";
+  return vd(url)
 };
 /*
  SPDX-License-Identifier: Apache-2.0 */
@@ -6560,7 +6562,7 @@ const FIRMWARE_LIST = {
     bruce_pvt: "bruce_pvt_a_prod_signed.bin",
     gotham_dev: "gotham_dvt_a_dev_signed.bin",
     gotham_dvt: "gotham_dvt_a_stage_signed.bin",
-    gotham_pvt: "gotham_pvt_a_prod_signed.bin"
+    gotham_pvt: "ota.316382.stable-channel.gotham-pvt-b.da986392604309ea67eab5fa84f747e955f2875c.bin"
   };
 
 const BUILD_NUMBERS = {
@@ -6969,10 +6971,10 @@ Dm.g && (0 < Dm.g.length && Em(Dm.g), Dm.g = null);
       rd(b))
   },
   openUdevInstructions: function () {
-    var a = window;
-    var b = checkIfGoogleStaff() ? "http://go/gotham-ble-howto#bookmark=id.3wy2t3ujrxkq" : "https://support.google.com/stadia?p=controllerconnect#linuxrule";
-    b = vd(b);
-    return void Ae(a, rd(b), "_blank")
+    var url = "https://support.google.com/stadia?p=controllerconnect#linuxrule";
+    // var b = checkIfGoogleStaff() ? "http://go/gotham-ble-howto#bookmark=id.3wy2t3ujrxkq" : "https://support.google.com/stadia?p=controllerconnect#linuxrule";
+    url = vd(url);
+    return void Ae(window, rd(url), "_blank")
   },
   helpCenter: function () {
     return void Ae(window, rd(Rd()), "_blank")

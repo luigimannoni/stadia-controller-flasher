@@ -4,5 +4,11 @@
   "description": "Google Stadia Controller flasher utility",
   "main": "index.js",
   "author": "Luigi Mannoni <hello@luigimannoni.com>",
-  "license": "MIT"
+  "license": "MIT",
+  "scripts": {
+    "serve": "ssl-serve --ssl ./reference/stadia.google.com/controller"
+  },
+  "devDependencies": {
+    "ssl-serve": "^6.5.8"
+  }
 }

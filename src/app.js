@@ -3072,8 +3072,6 @@ function We(a) {
   b.o("class", "AppContainer" + (g ? " panelBottomBarDocked" : ""));
   b.h();
   p && (b.open("div", "GJmiBd"), b.i(Ye || (Ye = ["class", "Scrim"])), b.h(), b.close());
-  checkIfGoogleStaff() && (b.open("div", "rQUyAb"), b.i(Ze || (Ze = ["class", "WarningBanner"])), b.h(), b.text("HIGHLY CONFIDENTIAL. DO NOT SHARE OUTSIDE GOOGLE. go/gotham-flasher is for FTEs only. Dogfood ends January 10, 2023."),
-    b.close());
   if (k) {
     b.open("div", "kddDV");
     b.i($e || ($e = ["class", "WarningBanner"]));

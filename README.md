@@ -6,4 +6,15 @@ To run the utility write open up your terminal and install all node modules by t
 
 Serve the utility by running `npm run serve` then open the site on https://localhost:5000
 
-Largely work in progress and flashing is untested.
+The app has been changed to allow the controller to be flashed with Bruce firmware and revert with the latest Gotham build (which has been never released).
+
+Largely work in progress.
+
+Credits to r/stadia community, particularly to:
+- /u/ig-88ms
+- /u/debianite
+- /u/madushan1000
+For fetching hidden Firmware files.
+
+- /u/parkerlreed
+For the reference packet capture file.

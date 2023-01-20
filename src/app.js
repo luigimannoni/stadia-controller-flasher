@@ -3499,7 +3499,7 @@ function qf(a) {
 var Cf, Df, Ef, Ff, Gf, If, Jf, Kf, Lf, Mf, Nf, Pf, Qf, Rf, Sf, Uf, Wf, Xf, Zf, $f, ag;
 
 function ff(a, b) {
-  V(a, "Switch to Bluetooth mode", void 0, void 0, !0, void 0, "arrow_right_alt", void 0, void 0, void 0, b, "click:selectAction")
+  V(a, "Flash your controller", void 0, void 0, !0, void 0, "arrow_right_alt", void 0, void 0, void 0, b, "click:selectAction")
 }
 
 function mf(a) {
@@ -5148,7 +5148,7 @@ function Hj(a, b, c) {
       f.i(Ij || (Ij = ["class", "PanelContent CardsAction GridSpan10Center GridSmSpanFull GridXsSpanFull"]));
       f.h();
       var g = P(function (q) {
-          q.text(D("Switch to Bluetooth mode"))
+          q.text(D("Switch to Bluetooth Mode"))
         }),
         h = P(function (q) {
           if (!Jj["\u00010\u0001Play wirelessly on supported Bluetooth devices. This disables Stadia Wi-Fi wireless play.\u00011\u0001\u00010\u0001\u00012\u0001Switching is permanent\u00013\u0001\u00011\u0001"]) {

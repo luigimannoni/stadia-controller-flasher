@@ -22,7 +22,7 @@ Largely work in progress.
 
 ## Firmware select
 
-By adding `?device_type=` a different firmware type can be flashed onto the device, the query parameter value can be one of:
+By adding `?device_type=` on the url as query parameter a different firmware type can be flashed onto the device, the query parameter value can be one of:
 
 - `pvt` for Production firmware
 - `dvt` for Staging firmware

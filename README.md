@@ -28,26 +28,24 @@ By adding `?device_type=` on the url as query parameter a different firmware typ
 - `dvt` for Staging firmware
 - `dev` for Dev firmware
 
-## Credits
-
-Credits to r/stadia community, particularly to:
-- /u/ig-88ms
-- /u/debianite
-- /u/madushan1000
-
-For fetching hidden Firmware files.
-
-- /u/parkerlreed
-
-For the reference packet capture file.
-
 ## Binary Build
 
 Follow these steps to build for Windows, Max and Linux:
 - `npm run pkg`
 - then run the binary with ./dist/stadia-controller-flasher-linux
 
-Triggering a release:
+### Triggering a release
 
-1. git tag v0.0.0
-2. git push origin v0.0.0
+1. `npm version <patch|minor|major>`
+2. `git push
+
+## Credits
+
+Credits to all contributors, listed on the [Contributor tab](https://github.com/luigimannoni/stadia-controller-flasher/graphs/contributors), and to the [r/stadia](https://reddit.com/r/stadia) community, particularly to:
+
+- /u/ig-88ms
+- /u/debianite
+- /u/madushan1000
+- /u/parkerlreed
+
+For the initial research, fetching all hidden Firmware files and general knowledge.

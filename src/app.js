@@ -3081,7 +3081,7 @@ function We(a) {
     html.text("WARNING: "),
     html.close(),
     // Inner text
-    html.text("This utility can brick your device, keep in mind everything is everything is work in progress and experimental, please use "),
+    html.text("This utility can brick your device, keep in mind everything is work in progress and experimental, please use "),
     // Link
     html.open("a", "warnlink"),
     html.i(["href", "https://stadia.google.com/controller"]),
@@ -5164,7 +5164,7 @@ function Hj(a, b, c) {
       var g = P(function (q) {
           q.text(D("Switch to Bluetooth Mode"))
         }),
-        h = P(function (q) {
+        h = P(function (innerHtml) {
           if (!Jj["\u00010\u0001Play wirelessly on supported Bluetooth devices. This disables Stadia Wi-Fi wireless play.\u00011\u0001\u00010\u0001\u00012\u0001Switching is permanent\u00013\u0001\u00011\u0001"]) {
             Jj["\u00010\u0001Play wirelessly on supported Bluetooth devices. This disables Stadia Wi-Fi wireless play.\u00011\u0001\u00010\u0001\u00012\u0001Switching is permanent\u00013\u0001\u00011\u0001"] = [];
             var w = /\x01\d+\x01/g,
@@ -5179,33 +5179,33 @@ function Hj(a, b, c) {
             } while (F)
           }
           w = v(Jj["\u00010\u0001Play wirelessly on supported Bluetooth devices. This disables Stadia Wi-Fi wireless play.\u00011\u0001\u00010\u0001\u00012\u0001Switching is permanent\u00013\u0001\u00011\u0001"]);
-          for (m = w.next(); !m.done; m = w.next()) switch (m = m.value, m[0] && q.text(m[0]), m[1]) {
+          for (m = w.next(); !m.done; m = w.next()) switch (m = m.value, m[0] && innerHtml.text(m[0]), m[1]) {
             case "\u00010\u0001":
-              q.open("p", "sd0Kzc");
-              q.h();
+              innerHtml.open("p", "sd0Kzc");
+              innerHtml.h();
               break;
             case "\u00011\u0001":
-              q.close();
+              innerHtml.close();
               break;
             case "\u00012\u0001":
-              q.open("strong", "In7aAd");
-              q.h();
+              innerHtml.open("strong", "In7aAd");
+              innerHtml.h();
               break;
             case "\u00013\u0001":
-              q.close()
+              innerHtml.close()
           }
-          q.open("p",
+          innerHtml.open("p",
             "Nl00lf");
-          q.h();
-          q.open("a", "eepBqb");
-          q.i(Kj || (Kj = ["target", "_blank"]));
-          q.o("href", H(Sd()));
-          q.h();
-          var aa = q.m("W1pELd");
-          R(q, stringDevices, null, c);
-          q.l(aa);
-          q.close();
-          q.close()
+          innerHtml.h();
+          innerHtml.open("a", "eepBqb");
+          innerHtml.i(Kj || (Kj = ["target", "_blank"]));
+          innerHtml.o("href", H(Sd()));
+          innerHtml.h();
+          var aa = innerHtml.m("W1pELd");
+          R(innerHtml, stringDevices, null, c);
+          innerHtml.l(aa);
+          innerHtml.close();
+          innerHtml.close()
         }),
         k = P(function (q) {
           var w = q.m("NyLHoc");

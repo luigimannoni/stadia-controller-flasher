@@ -4,7 +4,7 @@ This repository retains an original backup of the Stadia Controller flasher util
 
 ## Disclaimer
 
-This utility can brick your device, keep in mind everything is everything is work in progress and experimental, please use the original flashing utility on the official site: https://stadia.google.com/controller
+This utility can brick your device, keep in mind everything is work in progress and experimental, please use the original flashing utility on the official site: https://stadia.google.com/controller
 
 ## Quick start
 

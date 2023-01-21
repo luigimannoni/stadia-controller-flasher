@@ -7,11 +7,38 @@
   "license": "MIT",
   "scripts": {
     "serve:reference": "ssl-serve --ssl ./reference/stadia.google.com/controller",
-    "serve": "ssl-serve --ssl ./src"
+    "serve": "ssl-serve --ssl ./src",
+    "pkg": "rm -rf dist && mkdir -p dist && pkg --compress GZip ."
   },
   "devDependencies": {
+    "finalhandler": "^1.2.0",
+    "pkg": "^5.8.0",
+    "serve-static": "^1.15.0",
     "eslint": "^8.32.0",
     "eslint-config-google": "^0.14.0",
     "ssl-serve": "^6.5.8"
+  },
+  "engines": {
+    "npm": ">=8.15.0",
+    "node": ">=v16.17.0"
+  },
+  "bin": "src/bin.js",
+  "pkg": {
+    "assets": [
+      "src/assets/**.svg",
+      "src/data/*.bin",
+      "src/app.css",
+      "src/index.html"
+    ],
+    "scripts": [
+      "src/controller/*.js",
+      "src/app.js"
+    ],
+    "targets": [
+      "node16-win-x64",
+      "node16-linux-x64",
+      "node16-macos"
+    ],
+    "outputPath": "dist"
   }
 }

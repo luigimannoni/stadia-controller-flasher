@@ -1,12 +1,10 @@
 var finalhandler = require('finalhandler')
 var http = require('http')
 var serveStatic = require('serve-static')
-var fs = require('fs')
 
 // Serve up public/ftp folder
-var serve = serveStatic('src', { index: ['index.html', 'index.htm'] })
+var serve = serveStatic(__dirname, { index: ['index.html', 'index.htm'] })
 
-// Create server
 var server = http.createServer(function onRequest(req, res) {
   var done = finalhandler(req, res, { onerror: logerror })
   serve(req, res, function (err, buf) {

@@ -24,13 +24,13 @@
   "pkg": {
     "assets": [
       "src/assets/**.svg",
-      "src/src/app.js",
       "src/data/*.bin",
-      "src/src/app.css",
-      "src/src/index.html"
+      "src/app.css",
+      "src/index.html"
     ],
     "scripts": [
-      "src/controller/*.js"
+      "src/controller/*.js",
+      "src/app.js"
     ],
     "targets": [
       "node16-win-x64",

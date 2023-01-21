@@ -1,0 +1,79 @@
+name: Binary release
+
+on:
+  push:
+    # tags:
+    #   - 'v*' # Push events to matching v*, i.e. v1.0, v20.15.10
+
+jobs:
+  build-binary:
+    runs-on: windows-latest
+    steps:
+      - uses: actions/checkout@v2
+
+      - name: Install and Build
+        run: |
+          npm install -g npm@latest
+          npm audit fix
+          npm uninstall node-pre-gyp --save
+          npm install @mapbox/node-pre-gyp --save
+          npm i pkg
+          npm run pkg
+
+      - uses: papeloto/action-zip@v1
+        with:
+          files: dist/
+          dest: stadia-controller-flasher.zip
+
+      - name: Create Release
+        id: create_release
+        uses: actions/create-release@v1
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+        with:
+          tag_name: ${{ github.ref }}
+          release_name: Release ${{ github.ref }}
+          draft: true
+          prerelease: true
+
+      - name: Upload all binaries
+        uses: actions/upload-release-asset@v1
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+        with:
+           # This pulls from the CREATE RELEASE step above, referencing it's ID to get its outputs object, which include a `upload_url`. 
+          #  See this blog post for more info: https://jasonet.co/posts/new-features-of-github-actions/#passing-data-to-future-steps 
+          upload_url: ${{ steps.create_release.outputs.upload_url }}
+          asset_path: stadia-controller-flasher.zip
+          asset_name: stadia-controller-flasher.zip
+          asset_content_type: application/zip
+
+      - name: Upload linux Asset
+        uses: actions/upload-release-asset@v1
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+        with:
+          upload_url: ${{ steps.create_release.outputs.upload_url }}
+          asset_path: dist/stadia-controller-flasher-linux
+          asset_name: stadia-controller-flasher-linux
+          asset_content_type: application/octet-stream
+
+      - name: Upload macos Asset
+        uses: actions/upload-release-asset@v1
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+        with:
+          upload_url: ${{ steps.create_release.outputs.upload_url }}
+          asset_path: dist/stadia-controller-flasher-macos
+          asset_name: stadia-controller-flasher-macos
+          asset_content_type: application/octet-stream
+
+      - name: Upload windows Asset
+        uses: actions/upload-release-asset@v1
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+        with:
+          upload_url: ${{ steps.create_release.outputs.upload_url }}
+          asset_path: dist/stadia-controller-flasher-win.exe
+          asset_name: stadia-controller-flasher-win.exe
+          asset_content_type: application/vnd.microsoft.portable-executable

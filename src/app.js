@@ -1,19 +1,20 @@
+/* eslint-disable */
 /*
 
  Copyright The Closure Library Authors.
  SPDX-License-Identifier: Apache-2.0
 */
 'use strict';
-var t;
+var closureTempHolder;
 
 function ba(a) {
   var b = 0;
   return function () {
     return b < a.length ? {
-      done: !1,
+      done: false,
       value: a[b++]
     } : {
-      done: !0
+      done: true
     }
   }
 }
@@ -42,8 +43,8 @@ function u(a, b) {
       c = c[e]
     }
     a = a[a.length - 1];d = c[a];b = b(d);b != d && null != b && da(c, a, {
-      configurable: !0,
-      writable: !0,
+      configurable: true,
+      writable: true,
       value: b
     })
   }
@@ -57,8 +58,8 @@ u("Symbol", function (a) {
   function c(f, g) {
     this.g = f;
     da(this, "description", {
-      configurable: !0,
-      writable: !0,
+      configurable: true,
+      writable: true,
       value: g
     })
   }
@@ -76,8 +77,8 @@ u("Symbol.iterator", function (a) {
   for (var b = "Array Int8Array Uint8Array Uint8ClampedArray Int16Array Uint16Array Int32Array Uint32Array Float32Array Float64Array".split(" "), c = 0; c < b.length; c++) {
     var d = fa[b[c]];
     "function" === typeof d && "function" != typeof d.prototype[a] && da(d.prototype, a, {
-      configurable: !0,
-      writable: !0,
+      configurable: true,
+      writable: true,
       value: function () {
         return ha(ba(this))
       }
@@ -128,7 +129,7 @@ else {
   var ma;
   a: {
     var na = {
-        a: !0
+        a: true
       },
       oa = {};
     try {
@@ -136,7 +137,7 @@ else {
       ma = oa.a;
       break a
     } catch (a) {}
-    ma = !1
+    ma = false
   }
   la = ma ? function (a, b) {
     a.__proto__ = b;
@@ -161,7 +162,7 @@ function ra(a, b) {
 }
 
 function sa() {
-  this.F = !1;
+  this.F = false;
   this.v = null;
   this.j = void 0;
   this.g = 1;
@@ -171,7 +172,7 @@ function sa() {
 
 function ta(a) {
   if (a.F) throw new TypeError("Generator is already running");
-  a.F = !0
+  a.F = true
 }
 sa.prototype.I = function (a) {
   this.j = a
@@ -180,7 +181,7 @@ sa.prototype.I = function (a) {
 function ua(a, b) {
   a.s = {
     La: b,
-    Na: !0
+    Na: true
   };
   a.g = a.D || a.u
 }
@@ -245,7 +246,7 @@ function Da(a, b) {
   if (c) return Fa(a, "return" in c ? c["return"] : function (d) {
     return {
       value: d,
-      done: !0
+      done: true
     }
   }, b, a.g.return);
   a.g.return(b);
@@ -256,7 +257,7 @@ function Fa(a, b, c, d) {
   try {
     var e = b.call(a.g.v, c);
     if (!(e instanceof Object)) throw new TypeError("Iterator result " + e + " is not an object");
-    if (!e.done) return a.g.F = !1, e;
+    if (!e.done) return a.g.F = false, e;
     var f = e.value
   } catch (g) {
     return a.g.v = null, ua(a.g, g), Ga(a)
@@ -269,26 +270,26 @@ function Fa(a, b, c, d) {
 function Ga(a) {
   for (; a.g.g;) try {
     var b = a.j(a.g);
-    if (b) return a.g.F = !1, {
+    if (b) return a.g.F = false, {
       value: b.value,
-      done: !1
+      done: false
     }
   } catch (c) {
     a.g.j = void 0, ua(a.g, c)
   }
-  a.g.F = !1;
+  a.g.F = false;
   if (a.g.s) {
     b = a.g.s;
     a.g.s = null;
     if (b.Na) throw b.La;
     return {
       value: b.return,
-      done: !0
+      done: true
     }
   }
   return {
     value: void 0,
-    done: !0
+    done: true
   }
 }
 
@@ -335,7 +336,7 @@ u("Promise", function (a) {
     this.g = 0;
     this.s = void 0;
     this.j = [];
-    this.F = !1;
+    this.F = false;
     var h = this.u();
     try {
       g(h.resolve, h.reject)
@@ -393,11 +394,11 @@ u("Promise", function (a) {
   b.prototype.u = function () {
     function g(l) {
       return function (n) {
-        k || (k = !0, l.call(h, n))
+        k || (k = true, l.call(h, n))
       }
     }
     var h = this,
-      k = !1;
+      k = false;
     return {
       resolve: g(this.N),
       reject: g(this.v)
@@ -412,10 +413,10 @@ u("Promise", function (a) {
           var h = null != g;
           break a;
         case "function":
-          h = !0;
+          h = true;
           break a;
         default:
-          h = !1
+          h = false
       }
       h ? this.M(g) : this.D(g)
     }
@@ -454,16 +455,16 @@ u("Promise", function (a) {
   };
   b.prototype.K =
     function () {
-      if (this.F) return !1;
+      if (this.F) return false;
       var g = fa.CustomEvent,
         h = fa.Event,
         k = fa.dispatchEvent;
-      if ("undefined" === typeof k) return !0;
+      if ("undefined" === typeof k) return true;
       "function" === typeof g ? g = new g("unhandledrejection", {
-        cancelable: !0
+        cancelable: true
       }) : "function" === typeof h ? g = new h("unhandledrejection", {
-        cancelable: !0
-      }) : (g = fa.document.createEvent("CustomEvent"), g.initCustomEvent("unhandledrejection", !1, !0, g));
+        cancelable: true
+      }) : (g = fa.document.createEvent("CustomEvent"), g.initCustomEvent("unhandledrejection", false, true, g));
       g.promise = this;
       g.reason = this.s;
       return k(g)
@@ -522,7 +523,7 @@ u("Promise", function (a) {
     }
     var l = this;
     null == this.j ? f.j(k) : this.j.push(k);
-    this.F = !0
+    this.F = true
   };
   b.resolve = d;
   b.reject = function (g) {
@@ -604,7 +605,7 @@ u("WeakMap", function (a) {
     })
   }
   if (function () {
-      if (!a || !Object.seal) return !1;
+      if (!a || !Object.seal) return false;
       try {
         var k = Object.seal({}),
           l = Object.seal({}),
@@ -612,12 +613,12 @@ u("WeakMap", function (a) {
             [k, 2],
             [l, 3]
           ]);
-        if (2 != n.get(k) || 3 != n.get(l)) return !1;
+        if (2 != n.get(k) || 3 != n.get(l)) return false;
         n.delete(k);
         n.set(l, 4);
         return !n.has(k) && 4 == n.get(l)
       } catch (p) {
-        return !1
+        return false
       }
     }()) return a;
   var g = "$jscomp_hidden_" + Math.random();
@@ -640,7 +641,7 @@ u("WeakMap", function (a) {
       g) && ia(k[g], this.g)
   };
   b.prototype.delete = function (k) {
-    return d(k) && ia(k, g) && ia(k[g], this.g) ? delete k[g][this.g] : !1
+    return d(k) && ia(k, g) && ia(k[g], this.g) ? delete k[g][this.g] : false
   };
   return b
 });
@@ -656,13 +657,13 @@ u("Map", function (a) {
       if (l) {
         for (; l.head != h.g;) l = l.T;
         for (; l.next != l.head;) return l = l.next, {
-          done: !1,
+          done: false,
           value: k(l)
         };
         l = null
       }
       return {
-        done: !0,
+        done: true,
         value: void 0
       }
     })
@@ -700,7 +701,7 @@ u("Map", function (a) {
     }
   }
   if (function () {
-      if (!a || "function" != typeof a || !a.prototype.entries || "function" != typeof Object.seal) return !1;
+      if (!a || "function" != typeof a || !a.prototype.entries || "function" != typeof Object.seal) return false;
       try {
         var h = Object.seal({
             x: 4
@@ -712,15 +713,15 @@ u("Map", function (a) {
             x: 4
           }) || k.set({
             x: 4
-          }, "t") != k || 2 != k.size) return !1;
+          }, "t") != k || 2 != k.size) return false;
         var l = k.entries(),
           n = l.next();
-        if (n.done || n.value[0] != h || "s" != n.value[1]) return !1;
+        if (n.done || n.value[0] != h || "s" != n.value[1]) return false;
         n = l.next();
         return n.done || 4 != n.value[0].x ||
-          "t" != n.value[1] || !l.next().done ? !1 : !0
+          "t" != n.value[1] || !l.next().done ? false : true
       } catch (p) {
-        return !1
+        return false
       }
     }()) return a;
   var f = new WeakMap;
@@ -740,7 +741,7 @@ u("Map", function (a) {
   e.prototype.delete = function (h) {
     h = d(this, h);
     return h.L && h.list ? (h.list.splice(h.index, 1), h.list.length || delete this.j[h.id], h.L.T.next = h.L.next, h.L.next.T = h.L.T, h.L.head = null, this.size--,
-      !0) : !1
+      true) : false
   };
   e.prototype.clear = function () {
     this.j = {};
@@ -780,19 +781,19 @@ u("Map", function (a) {
 function Ja(a, b) {
   a instanceof String && (a += "");
   var c = 0,
-    d = !1,
+    d = false,
     e = {
       next: function () {
         if (!d && c < a.length) {
           var f = c++;
           return {
             value: b(f, a[f]),
-            done: !1
+            done: false
           }
         }
-        d = !0;
+        d = true;
         return {
-          done: !0,
+          done: true,
           value: void 0
         }
       }
@@ -837,7 +838,7 @@ u("String.prototype.startsWith", function (a) {
       f = b.length;
     c = Math.max(0, Math.min(c | 0, d.length));
     for (var g = 0; g < f && c < e;)
-      if (d[c++] != b[g++]) return !1;
+      if (d[c++] != b[g++]) return false;
     return g >= f
   }
 });
@@ -872,9 +873,9 @@ u("Array.prototype.includes", function (a) {
     c = c || 0;
     for (0 > c && (c = Math.max(c + e, 0)); c < e; c++) {
       var f = d[c];
-      if (f === b || Object.is(f, b)) return !0
+      if (f === b || Object.is(f, b)) return true
     }
-    return !1
+    return false
   }
 });
 u("String.prototype.includes", function (a) {
@@ -1015,7 +1016,7 @@ function kb() {
   this.D = this.D;
   this.I = this.I
 }
-kb.prototype.D = !1;
+kb.prototype.D = false;
 kb.prototype.ca = function () {
   if (this.I)
     for (; this.I.length;) this.I.shift()()
@@ -1024,13 +1025,13 @@ kb.prototype.ca = function () {
 function lb(a, b) {
   this.type = a;
   this.currentTarget = this.target = b;
-  this.defaultPrevented = this.g = !1
+  this.defaultPrevented = this.g = false
 }
 lb.prototype.stopPropagation = function () {
-  this.g = !0
+  this.g = true
 };
 lb.prototype.preventDefault = function () {
-  this.defaultPrevented = !0
+  this.defaultPrevented = true
 };
 var mb = "closure_listenable_" + (1E6 * Math.random() | 0);
 var nb = 0;
@@ -1043,11 +1044,11 @@ function ob(a, b, c, d, e) {
   this.capture = !!d;
   this.ea = e;
   this.key = ++nb;
-  this.ma = this.pa = !1
+  this.ma = this.pa = false
 }
 
 function pb(a) {
-  a.ma = !0;
+  a.ma = true;
   a.listener = null;
   a.proxy = null;
   a.src = null;
@@ -1076,7 +1077,7 @@ tb.prototype.add = function (a, b, c, d, e) {
   var f = a.toString();
   a = this.g[f];
   a || (a = this.g[f] = [], this.j++);
-  var g = ub(a, b, d, e); - 1 < g ? (b = a[g], c || (b.pa = !1)) : (b = new ob(b, this.src, f, !!d, e), b.pa = c, a.push(b));
+  var g = ub(a, b, d, e); - 1 < g ? (b = a[g], c || (b.pa = false)) : (b = new ob(b, this.src, f, !!d, e), b.pa = c, a.push(b));
   return b
 };
 
@@ -1124,7 +1125,7 @@ function Db() {
   this.oa = null
 }
 Ra(Db, kb);
-Db.prototype[mb] = !0;
+Db.prototype[mb] = true;
 Db.prototype.removeEventListener = function (a, b, c, d) {
   zb(this, a, b, c, d)
 };
@@ -1142,15 +1143,15 @@ function C(a, b) {
     b = new lb(d, a);
     sb(b, e)
   }
-  e = !0;
+  e = true;
   if (c)
     for (var f = c.length - 1; !b.g && 0 <= f; f--) {
       var g = b.currentTarget = c[f];
-      e = Eb(g, d, !0, b) && e
+      e = Eb(g, d, true, b) && e
     }
-  b.g || (g = b.currentTarget = a, e = Eb(g, d, !0, b) && e, b.g || (e = Eb(g, d, !1, b) && e));
+  b.g || (g = b.currentTarget = a, e = Eb(g, d, true, b) && e, b.g || (e = Eb(g, d, false, b) && e));
   if (c)
-    for (f = 0; !b.g && f < c.length; f++) g = b.currentTarget = c[f], e = Eb(g, d, !1, b) && e;
+    for (f = 0; !b.g && f < c.length; f++) g = b.currentTarget = c[f], e = Eb(g, d, false, b) && e;
   return e
 }
 Db.prototype.ca = function () {
@@ -1169,20 +1170,20 @@ Db.prototype.ca = function () {
 };
 
 function Fb(a, b) {
-  a.s.add("complete", b, !0, void 0, void 0)
+  a.s.add("complete", b, true, void 0, void 0)
 }
 
 function Eb(a, b, c, d) {
   b = a.s.g[String(b)];
-  if (!b) return !0;
+  if (!b) return true;
   b = b.concat();
-  for (var e = !0, f = 0; f < b.length; ++f) {
+  for (var e = true, f = 0; f < b.length; ++f) {
     var g = b[f];
     if (g && !g.ma && g.capture == c) {
       var h = g.listener,
         k = g.ea || g.src;
       g.pa && vb(a.s, g);
-      e = !1 !== h.call(k, d) && e
+      e = false !== h.call(k, d) && e
     }
   }
   return e && !d.defaultPrevented
@@ -1193,7 +1194,7 @@ Gb.prototype.g = null;
 
 function Hb(a) {
   var b;
-  (b = a.g) || (b = {}, Ib(a) && (b[0] = !0, b[1] = !0), b = a.g = b);
+  (b = a.g) || (b = {}, Ib(a) && (b[0] = true, b[1] = true), b = a.g = b);
   return b
 };
 var Jb;
@@ -1228,7 +1229,7 @@ function Ob(a, b) {
 Ob.prototype.toString = function () {
   return this.j + ""
 };
-Ob.prototype.fa = !0;
+Ob.prototype.fa = true;
 Ob.prototype.g = function () {
   return this.j.toString()
 };
@@ -1246,7 +1247,7 @@ function Rb(a, b) {
 Rb.prototype.toString = function () {
   return this.j.toString()
 };
-Rb.prototype.fa = !0;
+Rb.prototype.fa = true;
 Rb.prototype.g = function () {
   return this.j.toString()
 };
@@ -1261,7 +1262,7 @@ var Ub = {};
 
 function Vb(a, b) {
   this.j = b === Ub ? a : "";
-  this.fa = !0
+  this.fa = true
 }
 Vb.prototype.g = function () {
   return this.j
@@ -1279,7 +1280,7 @@ var Xb = {};
 
 function Yb(a, b) {
   this.j = b === Xb ? a : "";
-  this.fa = !0
+  this.fa = true
 }
 Yb.prototype.toString = function () {
   return this.j.toString()
@@ -1297,7 +1298,7 @@ var $b = {};
 
 function ac(a, b) {
   this.j = b === $b ? a : "";
-  this.fa = !0
+  this.fa = true
 }
 ac.prototype.g = function () {
   return this.j.toString()
@@ -1339,10 +1340,10 @@ function dc(a) {
 }
 var ec = new ac(A.trustedTypes && A.trustedTypes.emptyHTML || "", $b);
 var fc = function (a) {
-  var b = !1,
+  var b = false,
     c;
   return function () {
-    b || (c = a(), b = !0);
+    b || (c = a(), b = true);
     return c
   }
 }(function () {
@@ -1450,7 +1451,7 @@ function pc() {
       if (("*" == h || k.origin == h) && k.data == g) this.port1.onmessage()
     }, this);
     f.addEventListener("message", e,
-      !1);
+      false);
     this.port1 = {};
     this.port2 = {
       postMessage: function () {
@@ -1516,12 +1517,12 @@ uc.prototype.set = function (a, b) {
 uc.prototype.reset = function () {
   this.next = this.g = this.j = null
 };
-var vc, wc = !1,
+var vc, wc = false,
   tc = new qc;
 
 function xc(a, b) {
   vc || yc();
-  wc || (vc(), wc = !0);
+  wc || (vc(), wc = true);
   tc.add(a, b)
 }
 
@@ -1546,14 +1547,14 @@ function zc() {
     }
     mc(rc, a)
   }
-  wc = !1
+  wc = false
 };
 
 function Ac(a) {
   this.g = 0;
   this.F = void 0;
   this.u = this.j = this.s = null;
-  this.v = this.D = !1;
+  this.v = this.D = false;
   if (a != Mb) try {
     var b = this;
     a.call(void 0, function (c) {
@@ -1568,11 +1569,11 @@ function Ac(a) {
 
 function Cc() {
   this.next = this.s = this.j = this.u = this.g = null;
-  this.v = !1
+  this.v = false
 }
 Cc.prototype.reset = function () {
   this.s = this.j = this.u = this.g = null;
-  this.v = !1
+  this.v = false
 };
 var Dc = new lc(function () {
   return new Cc
@@ -1590,7 +1591,7 @@ function Ec(a, b, c) {
 Ac.prototype.then = function (a, b, c) {
   return Fc(this, "function" === typeof a ? a : null, "function" === typeof b ? b : null, c)
 };
-Ac.prototype.$goog_Thenable = !0;
+Ac.prototype.$goog_Thenable = true;
 
 function Gc(a, b) {
   return Fc(a, null, b)
@@ -1665,28 +1666,28 @@ function Bc(a, b, c) {
         f = a.K;
       if (d instanceof Ac) {
         Lc(d, Ec(e || Mb, f || null, a));
-        var g = !0
+        var g = true
       } else {
         if (d) try {
           var h = !!d.$goog_Thenable
         } catch (l) {
-          h = !1
-        } else h = !1;
-        if (h) d.then(e, f, a), g = !0;
+          h = false
+        } else h = false;
+        if (h) d.then(e, f, a), g = true;
         else {
           if (Na(d)) try {
             var k = d.then;
             if ("function" === typeof k) {
               Nc(d, k, e, f, a);
-              g = !0;
+              g = true;
               break a
             }
           } catch (l) {
             f.call(a, l);
-            g = !0;
+            g = true;
             break a
           }
-          g = !1
+          g = false
         }
       }
     }
@@ -1696,13 +1697,13 @@ function Bc(a, b, c) {
 
 function Nc(a, b, c, d, e) {
   function f(k) {
-    h || (h = !0, d.call(e, k))
+    h || (h = true, d.call(e, k))
   }
 
   function g(k) {
-    h || (h = !0, c.call(e, k))
+    h || (h = true, c.call(e, k))
   }
-  var h = !1;
+  var h = false;
   try {
     b.call(a, g, f)
   } catch (k) {
@@ -1711,7 +1712,7 @@ function Nc(a, b, c, d, e) {
 }
 
 function Mc(a) {
-  a.D || (a.D = !0, xc(a.I, a))
+  a.D || (a.D = true, xc(a.I, a))
 }
 
 function Jc(a) {
@@ -1722,12 +1723,12 @@ function Jc(a) {
 }
 Ac.prototype.I = function () {
   for (var a; a = Jc(this);) Kc(this, a, this.g, this.F);
-  this.D = !1
+  this.D = false
 };
 
 function Kc(a, b, c, d) {
   if (3 == c && b.j && !b.v)
-    for (; a && a.v; a = a.s) a.v = !1;
+    for (; a && a.v; a = a.s) a.v = false;
   if (b.g) b.g.s = null, Pc(b, c, d);
   else try {
     b.v ? b.u.call(b.s) : Pc(b, c, d)
@@ -1742,7 +1743,7 @@ function Pc(a, b, c) {
 }
 
 function Oc(a, b) {
-  a.v = !0;
+  a.v = true;
   xc(function () {
     a.v && Qc.call(null, b)
   })
@@ -1779,14 +1780,14 @@ function Uc(a) {
   Db.call(this);
   this.headers = new Map;
   this.O = a || null;
-  this.j = !1;
+  this.j = false;
   this.N = this.g = null;
   this.v = this.Y = "";
-  this.u = this.S = this.F = this.R = !1;
+  this.u = this.S = this.F = this.R = false;
   this.M = 0;
   this.K = null;
   this.H = "";
-  this.Z = this.ha = !1
+  this.Z = this.ha = false
 }
 Ra(Uc, Db);
 var Vc = /^https?$/i,
@@ -1796,13 +1797,13 @@ function NetworkXhrIo(a, newURI) {
   if (a.g) throw Error("[goog.net.XhrIo] Object is active with another request=" + a.Y + "; newUri=" + newURI);
   a.Y = newURI;
   a.v = "";
-  a.R = !1;
-  a.j = !0;
+  a.R = false;
+  a.j = true;
   a.g = a.O ? Lb(a.O) : Lb(Jb);
   a.N = a.O ? Hb(a.O) : Hb(Jb);
   a.g.onreadystatechange = Qa(a.Ra, a);
   try {
-    a.S = !0, a.g.open("GET", String(newURI), !0), a.S = !1
+    a.S = true, a.g.open("GET", String(newURI), true), a.S = false
   } catch (e) {
     Yc(a, e);
     return
@@ -1811,14 +1812,14 @@ function NetworkXhrIo(a, newURI) {
   var c = Array.from(newURI.keys()).find(function (e) {
       return "content-type" == e.toLowerCase()
     }),
-    d = A.FormData && !1;
+    d = A.FormData && false;
   !(0 <= fb(Wc, "GET")) || c || d || newURI.set("Content-Type", "application/x-www-form-urlencoded;charset=utf-8");
   newURI = v(newURI);
   for (c = newURI.next(); !c.done; c = newURI.next()) d = v(c.value), c = d.next().value, d = d.next().value, a.g.setRequestHeader(c, d);
   a.H && (a.g.responseType = a.H);
   "withCredentials" in a.g && a.g.withCredentials !== a.ha && (a.g.withCredentials = a.ha);
   try {
-    Zc(a), 0 < a.M && (a.Z = $c(a.g), a.Z ? (a.g.timeout = a.M, a.g.ontimeout = Qa(a.Za, a)) : a.K = Rc(a.Za, a.M, a)), a.F = !0, a.g.send(""), a.F = !1
+    Zc(a), 0 < a.M && (a.Z = $c(a.g), a.Z ? (a.g.timeout = a.M, a.g.ontimeout = Qa(a.Za, a)) : a.K = Rc(a.Za, a.M, a)), a.F = true, a.g.send(""), a.F = false
   } catch (e) {
     Yc(a, e)
   }
@@ -1827,33 +1828,33 @@ function NetworkXhrIo(a, newURI) {
 function $c(a) {
   return isIELegacy && "number" === typeof a.timeout && void 0 !== a.ontimeout
 }
-t = Uc.prototype;
-t.Za = function () {
+closureTempHolder = Uc.prototype;
+closureTempHolder.Za = function () {
   "undefined" != typeof La && this.g && (this.v = "Timed out after " + this.M + "ms, aborting", C(this, "timeout"), this.abort(8))
 };
 
 function Yc(a, b) {
-  a.j = !1;
-  a.g && (a.u = !0, a.g.abort(), a.u = !1);
+  a.j = false;
+  a.g && (a.u = true, a.g.abort(), a.u = false);
   a.v = b;
   ad(a);
   bd(a)
 }
 
 function ad(a) {
-  a.R || (a.R = !0, C(a, "complete"), C(a, "error"))
+  a.R || (a.R = true, C(a, "complete"), C(a, "error"))
 }
-t.abort = function () {
-  this.g && this.j && (this.j = !1, this.u = !0, this.g.abort(), this.u = !1, C(this, "complete"), C(this, "abort"), bd(this))
+closureTempHolder.abort = function () {
+  this.g && this.j && (this.j = false, this.u = true, this.g.abort(), this.u = false, C(this, "complete"), C(this, "abort"), bd(this))
 };
-t.ca = function () {
-  this.g && (this.j && (this.j = !1, this.u = !0, this.g.abort(), this.u = !1), bd(this, !0));
+closureTempHolder.ca = function () {
+  this.g && (this.j && (this.j = false, this.u = true, this.g.abort(), this.u = false), bd(this, true));
   Uc.va.ca.call(this)
 };
-t.Ra = function () {
+closureTempHolder.Ra = function () {
   this.D || (this.S || this.F || this.u ? cd(this) : this.sb())
 };
-t.sb = function () {
+closureTempHolder.sb = function () {
   cd(this)
 };
 
@@ -1861,7 +1862,7 @@ function cd(a) {
   if (a.j && "undefined" != typeof La && (!a.N[1] || 4 != dd(a) || 2 != ed(a)))
     if (a.F && 4 == dd(a)) Rc(a.Ra, 0, a);
     else if (C(a, "readystatechange"), 4 == dd(a)) {
-    a.j = !1;
+    a.j = false;
     try {
       if (fd(a)) C(a, "complete"), C(a, "success");
       else {
@@ -1897,7 +1898,7 @@ function Zc(a) {
   a.g && a.Z && (a.g.ontimeout = null);
   a.K && (A.clearTimeout(a.K), a.K = null)
 }
-t.isActive = function () {
+closureTempHolder.isActive = function () {
   return !!this.g
 };
 
@@ -1911,10 +1912,10 @@ function fd(a) {
     case 206:
     case 304:
     case 1223:
-      var c = !0;
+      var c = true;
       break a;
     default:
-      c = !1
+      c = false
   }
   if (!c) {
     if (b = 0 === b) a = String(a.Y).match(Tc)[1] || null, !a && A.self && A.self.location && (a = A.self.location.protocol.slice(0, -1)), b = !Vc.test(a ? a.toLowerCase() : "");
@@ -1975,9 +1976,9 @@ function getFirmwareURL(a) {
 */
 var jd;
 try {
-  new URL("s://g"), jd = !0
+  new URL("s://g"), jd = true
 } catch (a) {
-  jd = !1
+  jd = false
 }
 var kd = jd;
 
@@ -2203,7 +2204,7 @@ function checkIfGoogleStaff() {
 var Nd = void 0;
 
 function Od() {
-  void 0 === Nd && (Nd = !1);
+  void 0 === Nd && (Nd = false);
   return Nd
 };
 
@@ -2281,7 +2282,7 @@ var de = "undefined" !== typeof Node && Node.prototype.getRootNode || function (
 
 function ee(a, b) {
   this.g = null;
-  this.s = !1;
+  this.s = false;
   this.j = a;
   this.key = b;
   this.text = void 0
@@ -2322,7 +2323,10 @@ var ie = null,
   me = [];
 
 function ne(a) {
+  console.trace('calling ne():', a);
+
   for (var b = J, c = oe(); c !== a;) {
+    console.trace('next:', c);
     var d = c.nextSibling;
     b.removeChild(c);
     ie.j.push(c);
@@ -2331,6 +2335,8 @@ function ne(a) {
 }
 
 function oe() {
+  // console.trace('calling oe()');
+
   return I ? I.nextSibling : J.firstChild
 }
 
@@ -2424,7 +2430,7 @@ function xe(a) {
     d = a;
   a = me;
   c = c.g || (c.g = Xd(a.length));
-  for (var e = !c.length || !1, f = 0; f < a.length; f += 2) {
+  for (var e = !c.length || false, f = 0; f < a.length; f += 2) {
     var g = a[f];
     if (e) c[f] = g;
     else if (c[f] !== g) break;
@@ -2486,24 +2492,25 @@ var Be = {
       };
       I = e;
       c(d);
+      console.trace('passing ne to:', b, J, c, d);
       J && ne(b.nextSibling);
       return e === I ? null : I
     }, a)
   }(Be);
 
-function Ee() {
+function DOMBuilder() {
   this.X = []
 }
-t = Ee.prototype;
-t.open = function (a, b) {
-  return qe(a, this.ua(b))
+closureTempHolder = DOMBuilder.prototype;
+closureTempHolder.open = function (tag, key) {
+  return qe(tag, this.ua(key))
 };
-t.m = function (a) {
+closureTempHolder.m = function (a) {
   var b = this.ta();
   this.X[this.X.length - 1] = this.ua(a);
   return b
 };
-t.ua = function (a) {
+closureTempHolder.ua = function (a) {
   var b = this.ta();
   if (void 0 === a) a = b;
   else {
@@ -2512,45 +2519,45 @@ t.ua = function (a) {
   }
   return a
 };
-t.l = function (a) {
+closureTempHolder.l = function (a) {
   this.X[this.X.length - 1] = a
 };
-t.ta = function () {
+closureTempHolder.ta = function () {
   return this.X[this.X.length - 1] || ""
 };
-t.close = function () {
+closureTempHolder.close = function () {
   return re()
 };
-t.G = function () {
+closureTempHolder.G = function () {
   var a = this.close();
   a && a.__soy_patch_handler && a.__soy_patch_handler()
 };
-t.text = function (a) {
+closureTempHolder.text = function (a) {
   if (a) return ye(a)
 };
-t.o = function (a, b) {
+closureTempHolder.o = function (a, b) {
   var c = me;
   c.push(a);
   c.push(b)
 };
-t.Ha = function () {
+closureTempHolder.Ha = function () {
   return oe()
 };
-t.Fa = function () {
+closureTempHolder.Fa = function () {
   return J
 };
-t.Xa = function () {
+closureTempHolder.Xa = function () {
   I = oe()
 };
-t.h = function () {
+closureTempHolder.h = function () {
   xe(ze)
 };
-t.i = function (a) {
+closureTempHolder.i = function (a) {
   var b = ze;
   b = void 0 === b ? ae : b;
   var c = J;
   var d = ge(c);
-  if (!d.s && (d.s = !0, a && a.length)) {
+  if (!d.s && (d.s = true, a && a.length)) {
     var e = d.g;
     if (e && e.length) {
       for (e = 0; e < a.length; e += 2) we[a[e]] = e + 1;
@@ -2569,49 +2576,49 @@ t.i = function (a) {
 };
 
 function Fe() {
-  this.g = !1
+  this.g = false
 }
-t = Fe.prototype;
-t.m = function () {
+closureTempHolder = Fe.prototype;
+closureTempHolder.m = function () {
   return ""
 };
-t.ua = function () {
+closureTempHolder.ua = function () {
   return ""
 };
-t.l = function () {};
-t.ta = function () {
+closureTempHolder.l = function () {};
+closureTempHolder.ta = function () {
   return ""
 };
-t.open = function () {
-  this.g = !0
+closureTempHolder.open = function () {
+  this.g = true
 };
-t.close = function () {
-  this.g = !0
+closureTempHolder.close = function () {
+  this.g = true
 };
-t.G = function () {
-  this.g = !0
+closureTempHolder.G = function () {
+  this.g = true
 };
-t.text = function (a) {
-  a && (this.g = !0)
+closureTempHolder.text = function (a) {
+  a && (this.g = true)
 };
-t.o = function () {
-  this.g = !0
+closureTempHolder.o = function () {
+  this.g = true
 };
-t.Ha = function () {
+closureTempHolder.Ha = function () {
   return null
 };
-t.h = function () {
-  this.g = !0
+closureTempHolder.h = function () {
+  this.g = true
 };
-t.i = function () {
-  this.g = !0
+closureTempHolder.i = function () {
+  this.g = true
 };
-t.key = function () {};
-t.Fa = function () {};
-t.Xa = function () {
-  this.g = !0
+closureTempHolder.key = function () {};
+closureTempHolder.Fa = function () {};
+closureTempHolder.Xa = function () {
+  this.g = true
 };
-const CURRENCIES = {
+const CURRENCY_FORMAT = {
   AED: [2, "dh", "\u062f.\u0625."],
   ALL: [0, "Lek", "Lek"],
   AUD: [2, "$", "AU$"],
@@ -2701,18 +2708,18 @@ function Ie() {
   this.g = 1;
   this.j = 3;
   this.I = this.s = 0;
-  this.S = !1;
+  this.S = false;
   this.O = this.N = "";
   this.H = L.ya;
   this.K = "";
   this.u = 1;
-  this.D = !1;
+  this.D = false;
   this.v = [];
-  this.M = this.R = !1;
+  this.M = this.R = false;
   var a = L.ab,
     b = [0];
   this.N = Je(this, a, b);
-  for (var c = b[0], d = -1, e = 0, f = 0, g = 0, h = -1, k = a.length, l = !0; b[0] < k && l; b[0]++) switch (a.charAt(b[0])) {
+  for (var c = b[0], d = -1, e = 0, f = 0, g = 0, h = -1, k = a.length, l = true; b[0] < k && l; b[0]++) switch (a.charAt(b[0])) {
     case "#":
       0 < f ? g++ : e++;
       0 <= h && 0 > d && h++;
@@ -2733,15 +2740,15 @@ function Ie() {
       break;
     case "E":
       if (this.M) throw Error('Multiple exponential symbols in pattern "' + a + '"');
-      this.M = !0;
+      this.M = true;
       this.I = 0;
-      b[0] + 1 < k && "+" == a.charAt(b[0] + 1) && (b[0]++, this.S = !0);
+      b[0] + 1 < k && "+" == a.charAt(b[0] + 1) && (b[0]++, this.S = true);
       for (; b[0] + 1 < k && "0" == a.charAt(b[0] + 1);) b[0]++, this.I++;
       if (1 > e + f || 1 > this.I) throw Error('Malformed exponential pattern "' + a + '"');
-      l = !1;
+      l = false;
       break;
     default:
-      b[0]--, l = !1
+      b[0]--, l = false
   }
   0 == f && 0 < e && 0 <= d && (f = d, 0 == f && f++, g = e - f, e = f - 1, f = 1);
   if (0 > d && 0 < g || 0 <= d && (d < e || d > e + f) || 0 == h) throw Error('Malformed pattern "' + a + '"');
@@ -2755,7 +2762,7 @@ function Ie() {
   this.R = 0 == d || d == g;
   c = b[0] - c;
   this.O = Je(this, a, b);
-  b[0] < a.length && ";" == a.charAt(b[0]) ? (b[0]++, 1 != this.u && (this.D = !0), this.H = Je(this, a, b), b[0] += c, this.K = Je(this, a, b)) : (this.H += this.N, this.K += this.O)
+  b[0] < a.length && ";" == a.charAt(b[0]) ? (b[0]++, 1 != this.u && (this.D = true), this.H = Je(this, a, b), b[0] += c, this.K = Je(this, a, b)) : (this.H += this.N, this.K += this.O)
 }
 
 function Ke(a, b, c, d) {
@@ -2766,7 +2773,7 @@ function Ke(a, b, c, d) {
   isFinite(e) ? (b = Math.floor(O(e, -a.j)), e = Math.floor(e - O(b, a.j))) : e = 0;
   var f = b;
   var g = e;
-  var h = 0 < a.s || 0 < g || !1;
+  var h = 0 < a.s || 0 < g || false;
   e = a.s;
   h && (e = a.s);
   var k = "";
@@ -2838,7 +2845,7 @@ function Le(a, b, c) {
 }
 
 function Je(a, b, c) {
-  for (var d = "", e = !1, f = b.length; c[0] < f; c[0]++) {
+  for (var d = "", e = false, f = b.length; c[0] < f; c[0]++) {
     var g = b.charAt(c[0]);
     if ("'" == g) c[0] + 1 < f && "'" == b.charAt(c[0] + 1) ? (c[0]++, d += "'") : e = !e;
     else if (e) d += g;
@@ -2850,20 +2857,20 @@ function Je(a, b, c) {
       case ";":
         return d;
       case "\u00a4":
-        c[0] + 1 < f && "\u00a4" == b.charAt(c[0] + 1) ? (c[0]++, d += L.wa) : (g = L.wa, d += g in CURRENCIES ? CURRENCIES[g][1] : g);
+        c[0] + 1 < f && "\u00a4" == b.charAt(c[0] + 1) ? (c[0]++, d += L.wa) : (g = L.wa, d += g in CURRENCY_FORMAT ? CURRENCY_FORMAT[g][1] : g);
         break;
       case "%":
         if (!a.D && 1 != a.u) throw Error("Too many percent/permill");
         if (a.D && 100 != a.u) throw Error("Inconsistent use of percent/permill characters");
         a.u = 100;
-        a.D = !1;
+        a.D = false;
         d += L.hb;
         break;
       case "\u2030":
         if (!a.D && 1 != a.u) throw Error("Too many percent/permill");
         if (a.D && 1E3 != a.u) throw Error("Inconsistent use of percent/permill characters");
         a.u = 1E3;
-        a.D = !1;
+        a.D = false;
         d += L.ib;
         break;
       default:
@@ -2919,10 +2926,10 @@ function Ne(a) {
  Copyright The Closure Library Authors.
  SPDX-License-Identifier: Apache-2.0
 */
-var Oe = new Ee,
-  Pe = new Ee;
+var Oe = new DOMBuilder,
+  Pe = new DOMBuilder;
 ze.checked = function (a, b, c) {
-  null == c ? (a.removeAttribute("checked"), a.checked = !1) : (a.setAttribute("checked", String(c)), a.checked = !(!1 === c || "false" === c))
+  null == c ? (a.removeAttribute("checked"), a.checked = false) : (a.setAttribute("checked", String(c)), a.checked = !(false === c || "false" === c))
 };
 ze.value = function (a, b, c) {
   null == c ? (a.removeAttribute("value"), a.value = "") : (a.setAttribute("value", String(c)), a.value = String(c))
@@ -2947,7 +2954,7 @@ function P(a) {
   b.na = function () {
     return ud(b.W()).na()
   };
-  b.Oa = !0;
+  b.Oa = true;
   return b
 }
 
@@ -3031,13 +3038,13 @@ function S(a, b) {
 }
 
 function T(a) {
-  if (!a) return !1;
+  if (!a) return false;
   if (a.Oa) {
     var b = new Fe;
     a.Ma(b);
     return b.g
   }
-  return a instanceof sanitizer ? !!a.W() : "object" !== typeof a ? !!String(a) : !0
+  return a instanceof sanitizer ? !!a.W() : "object" !== typeof a ? !!String(a) : true
 };
 var Ue = void 0;
 
@@ -3049,7 +3056,7 @@ function Ve(a, b) {
 }
 
 function We(a) {
-  var b = new Ee,
+  var html = new DOMBuilder,
     c = a.vb,
     d = a.Ja,
     e = a.Wa,
@@ -3059,324 +3066,189 @@ function We(a) {
     k = a.ra,
     l = a.Ua,
     n = a.sa,
-    p = void 0 === c ? !1 : c;
-  d = void 0 === d ? !1 : d;
+    p = void 0 === c ? false : c;
+  d = void 0 === d ? false : d;
   c = a.xb;
   var q = a.wb;
   a = a.ob;
-  e = void 0 === e ? !1 : e;
-  f = void 0 === f ? !1 : f;
-  g = void 0 === g ? !1 : g;
-  b.open("div", "UP9hZb");
-  b.i(Xe || (Xe = ["id", "app-container"]));
-  b.o("class", "AppContainer" + (g ? " panelBottomBarDocked" : ""));
-  b.h();
-  p && (b.open("div", "GJmiBd"), b.i(Ye || (Ye = ["class", "Scrim"])), b.h(), b.close());
+  e = void 0 === e ? false : e;
+  f = void 0 === f ? false : f;
+  g = void 0 === g ? false : g;
+  html.open("div", "UP9hZb");
+  html.i(Xe || (Xe = ["id", "app-container"]));
+  html.o("class", "AppContainer" + (g ? " panelBottomBarDocked" : ""));
+  html.h();
+  p && (html.open("div", "GJmiBd"), html.i(Ye || (Ye = ["class", "Scrim"])), html.h(), html.close());
+  checkIfGoogleStaff() && (
+    html.open("div", "rQUyAb"),
+    html.i(Ze || (Ze = ["class", "WarningBanner"])),
+    html.h(),
+    // Strong warning
+    html.open("strong", "warn1"),
+    html.text("WARNING: "),
+    html.close(),
+    // Inner text
+    html.text("This utility can brick your device, keep in mind everything is work in progress and experimental, please use "),
+    // Link
+    html.open("a", "warnlink"),
+    html.i(["href", "https://stadia.google.com/controller"]),
+    html.text("the original flashing utility."),
+    html.close(),
+  html.close());
   if (k) {
-    b.open("div", "kddDV");
-    b.i($e || ($e = ["class", "WarningBanner"]));
-    b.h();
-    b.text("This page is currently configured to flash");
+    html.open("div", "kddDV");
+    html.i($e || ($e = ["class", "WarningBanner"]));
+    html.h();
+    html.text("This page is currently configured to flash");
     switch (Na(k) ? k.toString() : k) {
       case "dev":
-        b.text(" DVT devices with dev-signed firmware.");
+        html.text(" DVT devices with dev-signed firmware.");
         break;
       case "dvt":
-        b.text(" DVT devices with stage-signed firmware.");
+        html.text(" DVT devices with stage-signed firmware.");
         break;
       default:
-        b.text(" PVT devices with prod-signed firmware.")
+        html.text(" PVT devices with prod-signed firmware.")
     }
-    b.text(" To enable automatic firmware selection, remove the device_type url parameter.");
-    b.close()
+    html.text(" To enable automatic firmware selection, remove the device_type url parameter.");
+    html.close()
   }
-  if (k = !l && !Od()) g = b.m("UfInJc"), b.open("header",
-    "jRXaod"), b.i(af || (af = ["class", "TopNav"])), b.h(), b.open("div", "NBYCd"), b.i(bf || (bf = ["class", "LogoArea"])), b.h(), b.open("img", "yk7Tqc"), b.i(cf || (cf = ["class", "TopNavLogo", "src", "assets/logo-dark.svg"])), b.o("alt", "Stadia"), b.h(), b.close(), b.open("div", "ZRMrHe"), b.i(df || (df = ["class", "Divider"])), b.h(), b.close(), b.open("div", "rQ5pWc"), b.i(ef || (ef = ["class", "ProductName"])), b.h(), b.text(D("Bluetooth\u00ae mode")), b.close(), b.close(), e && (p = b.m("yIFP1b"), ff(b), b.l(p)), b.G(), b.l(g);
-  b.open("div", "Blfkpf");
-  b.i(gf || (gf = ["id", "main-scroll-container"]));
-  b.o("class", "PageContents " + (k ? " page-home" : ""));
-  b.h();
-  k && (b.open("div", "a8hO0d"), b.i(hf || (hf = ["class", "BTRing BTRing__Small"])), b.h(), b.close(), b.open("div", "Z51mtf"), b.i(jf || (jf = ["class", "BTRing BTRing__Medium"])), b.h(), b.close(), b.open("div", "xcV2b"), b.i(kf || (kf = ["class", "BTRing BTRing__Large"])), b.h(), b.close());
-  b.open("main", "o1GZpe");
-  b.i(lf || (lf = ["aria-live", "polite"]));
-  b.h();
-  Od() ? (l = b.m("oFFLke"), mf(b), b.l(l)) : l ? wd(c) && !q ? (c = b.m("Wn3c8c"), l(b, {
+  if (k = !l && !Od()) g = html.m("UfInJc"), html.open("header",
+    "jRXaod"), html.i(af || (af = ["class", "TopNav"])), html.h(), html.open("div", "NBYCd"), html.i(bf || (bf = ["class", "LogoArea"])), html.h(), html.open("img", "yk7Tqc"), html.i(cf || (cf = ["class", "TopNavLogo", "src", "assets/logo-dark.svg"])), html.o("alt", "Stadia"), html.h(), html.close(), html.open("div", "ZRMrHe"), html.i(df || (df = ["class", "Divider"])), html.h(), html.close(), html.open("div", "rQ5pWc"), html.i(ef || (ef = ["class", "ProductName"])), html.h(), html.text(D("Unofficial flashing utility")), html.close(), html.close(), e && (p = html.m("yIFP1b"), ff(html), html.l(p)), html.G(), html.l(g);
+  html.open("div", "Blfkpf");
+  html.i(gf || (gf = ["id", "main-scroll-container"]));
+  html.o("class", "PageContents " + (k ? " page-home" : ""));
+  html.h();
+  k && (html.open("div", "a8hO0d"), html.i(hf || (hf = ["class", "BTRing BTRing__Small"])), html.h(), html.close(), html.open("div", "Z51mtf"), html.i(jf || (jf = ["class", "BTRing BTRing__Medium"])), html.h(), html.close(), html.open("div", "xcV2b"), html.i(kf || (kf = ["class", "BTRing BTRing__Large"])), html.h(), html.close());
+  html.open("main", "o1GZpe");
+  html.i(lf || (lf = ["aria-live", "polite"]));
+  html.h();
+  Od() ? (l = html.m("oFFLke"), mf(html), html.l(l)) : l ? wd(c) && !q ? (c = html.m("Wn3c8c"), l(html, {
     locale: h,
     ga: f
-  }, void 0), b.l(c)) : a ? q ? (l = b.m("SsHKhd"), nf(b), b.l(l)) : (l = b.m("TZl2df"), of (b), b.l(l)) : (l = b.m("QTNRqe"), pf(b), b.l(l)) : (l = b.m("qmdSJc"), qf(b), b.l(l));
-  b.close();
-  l = b.m("UkUCbf");
-  b.open("footer", "AzCefc");
-  b.i(rf || (rf = ["class", "Footer"]));
-  b.h();
-  b.open("div", "Ud4sec");
-  b.i(sf || (sf = ["class", "FooterContent"]));
-  b.h();
-  b.open("div", "uFqgxe");
-  b.i(tf || (tf = ["class", "FooterLeft"]));
-  b.h();
-  b.open("img", "TP4smb");
-  b.i(uf || (uf = ["class", "FooterLogo", "src", "assets/logo-dark.svg"]));
-  b.o("alt", "Stadia");
-  b.h();
-  b.close();
-  b.open("div", "WshlE");
-  b.i(vf || (vf = ["class", "FooterLinks"]));
-  b.h();
-  b.open("div", "IYF5Pc");
-  b.i(wf || (wf = ["class", "FooterLink"]));
-  b.h();
-  b.open("a", "oeiPz");
-  b.i(xf || (xf = ["target", "_blank"]));
-  c = b.o;
-  q = vd("https://policies.google.com/privacy");
-  c.call(b, "href", H(q));
-  b.h();
-  b.text(D("Privacy"));
-  b.close();
-  b.close();
-  b.open("div", "RneHN");
-  b.i(yf || (yf = ["class", "FooterLink"]));
-  b.h();
-  b.open("a", "wzSlue");
-  b.i(zf || (zf = ["target", "_blank"]));
-  b.o("href", H(Pd()));
-  b.h();
-  b.text(D("Terms"));
-  b.close();
-  b.close();
-  b.close();
-  b.close();
-  b.open("div", "D8fNIe");
-  b.i(Af || (Af = ["class", "FooterLanguage"]));
-  b.h();
-  c = b.m("vzHlje");
-  b.open("select", "Z5AGAb");
-  b.i(Bf || (Bf = "id language-selector class LanguageSelect jsaction change:languageSelected".split(" ")));
-  b.o("aria-label", "Select language");
-  b.h();
-  b.open("option", "oNJ9yf");
-  changeLanguage(b, "ca", h);
-  b.h();
-  b.text("Catal\u00e0");
-  b.close();
-  b.open("option", "jkkPib");
-  changeLanguage(b, "cs", h);
-  b.h();
-  b.text("\u010ce\u0161tina");
-  b.close();
-  b.open("option", "Q3EJNe");
-  changeLanguage(b, "da", h);
-  b.h();
-  b.text("Dansk");
-  b.close();
-  b.open("option", "Honiff");
-  changeLanguage(b, "nl", h);
-  b.h();
-  b.text("Nederlands");
-  b.close();
-  b.open("option", "ly9YNb");
-  changeLanguage(b, "en-GB", h);
-  b.h();
-  b.text("English (United Kingdom)");
-  b.close();
-  b.open("option", "OU7j2b");
-  changeLanguage(b, "en-US", h);
-  b.h();
-  b.text("English (United States)");
-  b.close();
-  b.open("option", "mzPAnf");
-  changeLanguage(b, "fi", h);
-  b.h();
-  b.text("Suomi");
-  b.close();
-  b.open("option", "M22Unf");
-  changeLanguage(b, "fr", h);
-  b.h();
-  b.text("Fran\u00e7ais");
-  b.close();
-  b.open("option", "LxNFab");
-  changeLanguage(b, "fr-CA", h);
-  b.h();
-  b.text("Fran\u00e7ais (Canada)");
-  b.close();
-  b.open("option", "WJUupc");
-  changeLanguage(b, "de",
-    h);
-  b.h();
-  b.text("Deutsch");
-  b.close();
-  b.open("option", "kUyFye");
-  changeLanguage(b, "hu", h);
-  b.h();
-  b.text("Magyar");
-  b.close();
-  b.open("option", "q9MJ7d");
-  changeLanguage(b, "it", h);
-  b.h();
-  b.text("Italiano");
-  b.close();
-  b.open("option", "hbu1vd");
-  changeLanguage(b, "no", h);
-  b.h();
-  b.text("Norsk");
-  b.close();
-  b.open("option", "c9pBbb");
-  changeLanguage(b, "pl", h);
-  b.h();
-  b.text("Polski");
-  b.close();
-  b.open("option", "Zne7lc");
-  changeLanguage(b, "pt-PT", h);
-  b.h();
-  b.text("Portugu\u00eas (Portugal)");
-  b.close();
-  b.open("option", "liMFJd");
-  changeLanguage(b, "ro", h);
-  b.h();
-  b.text("Rom\u00e2n\u0103");
-  b.close();
-  b.open("option",
-    "MOmFkd");
-  changeLanguage(b, "sk", h);
-  b.h();
-  b.text("Sloven\u010dina");
-  b.close();
-  b.open("option", "fRHVVe");
-  changeLanguage(b, "es", h);
-  b.h();
-  b.text("Espa\u00f1ol");
-  b.close();
-  b.open("option", "L4mgDb");
-  changeLanguage(b, "es-419", h);
-  b.h();
-  b.text("Espa\u00f1ol (Latinoam\u00e9rica)");
-  b.close();
-  b.open("option", "XY1Nhf");
-  changeLanguage(b, "sv", h);
-  b.h();
-  b.text("Svenska");
-  b.close();
-  b.open("option", "xC9HGd");
-  changeLanguage(b, "tr", h);
-  b.h();
-  b.text("T\u00fcrk\u00e7e");
-  b.close();
-  b.G();
-  b.l(c);
-  b.close();
-  b.close();
-  b.G();
-  b.l(l);
-  b.close();
-  n && (h = b.m("h8yHfc"), n(b, {
+  }, void 0), html.l(c)) : a ? q ? (l = html.m("SsHKhd"), nf(html), html.l(l)) : (l = html.m("TZl2df"), of (html), html.l(l)) : (l = html.m("QTNRqe"), pf(html), html.l(l)) : (l = html.m("qmdSJc"), createMainPage(html), html.l(l));
+  html.close();
+  l = html.m("UkUCbf");
+  html.open("footer", "AzCefc");
+  html.i(rf || (rf = ["class", "Footer"]));
+  html.h();
+  html.open("div", "Ud4sec");
+  html.i(sf || (sf = ["class", "FooterContent"]));
+  html.h();
+  html.open("div", "uFqgxe");
+  html.i(tf || (tf = ["class", "FooterLeft"]));
+  html.h();
+  html.open("img", "TP4smb");
+  html.i(uf || (uf = ["class", "FooterLogo", "src", "assets/logo-dark.svg"]));
+  html.o("alt", "Stadia");
+  html.h();
+  html.close();
+  html.close();
+  html.G();
+  html.l(l);
+  html.close();
+  html.close();
+  n && (h = html.m("h8yHfc"), n(html, {
     qa: d
-  }, void 0), b.l(h));
-  b.G()
+  }, void 0), html.l(h));
+  html.G()
 }
 We.B = E;
+
 var Xe, Ye, Ze, $e, gf, hf, jf, kf, lf, af, bf, cf, df, ef, rf, sf, tf, uf, vf, wf, xf, yf, zf, Af, Bf;
 
-function changeLanguage(a, b, c) {
-  var d = a.o;
-  void 0 === Ue && (Ue = (new Map).set(checkForNull("ca"), "index_ca.html").set(checkForNull("cs"), "index_cs.html").set(checkForNull("da"), "index_da.html").set(checkForNull("nl"), "index_nl.html").set(checkForNull("en-GB"), "index_en_GB.html").set(checkForNull("en-US"), "index_en_US.html").set(checkForNull("fi"), "index_fi.html").set(checkForNull("fr"), "index_fr.html").set(checkForNull("fr-CA"), "index_fr_CA.html").set(checkForNull("de"), "index_de.html").set(checkForNull("hu"), "index_hu.html").set(checkForNull("it"), "index_it.html").set(checkForNull("no"), "index_no.html").set(checkForNull("pl"), "index_pl.html").set(checkForNull("pt-PT"), "index_pt_PT.html").set(checkForNull("ro"),
-    "index_ro.html").set(checkForNull("sk"), "index_sk.html").set(checkForNull("es"), "index_es.html").set(checkForNull("es-419"), "index_es_419.html").set(checkForNull("sv"), "index_sv.html").set(checkForNull("tr"), "index_tr.html"));
-  d.call(a, "value", "" + Ue.get(b));
-  c == b && a.o("selected", "")
-}
-
-function qf(a) {
-  a.open("div", "Bhvrjb");
-  a.i(Cf || (Cf = ["class", "Grid MainContentContainer"]));
-  a.h();
-  a.open("div", "c45mdb");
-  a.i(Df || (Df = ["class", "HeroContentContainer GridSpanFull"]));
-  a.h();
-  a.open("div", "DcB2Ic");
-  a.i(Ef || (Ef = ["class", "HeroContent"]));
-  a.h();
-  a.open("img", "uP3uDd");
-  a.i(Ff || (Ff = "class LogoMark width 48 height 32 type image/svg src assets/logo-mark.svg".split(" ")));
-  a.o("alt", "Stadia");
-  a.h();
-  a.close();
-  a.open("h1", "PdIASd");
-  a.h();
-  a.text(D("Play wirelessly with\u00a0Bluetooth"));
-  a.close();
-  a.open("p",
+function createMainPage(innerHtml) {
+  innerHtml.open("div", "Bhvrjb");
+  innerHtml.i(Cf || (Cf = ["class", "Grid MainContentContainer"]));
+  innerHtml.h();
+  innerHtml.open("div", "c45mdb");
+  innerHtml.i(Df || (Df = ["class", "HeroContentContainer GridSpanFull"]));
+  innerHtml.h();
+  innerHtml.open("div", "DcB2Ic");
+  innerHtml.i(Ef || (Ef = ["class", "HeroContent"]));
+  innerHtml.h();
+  innerHtml.open("img", "uP3uDd");
+  innerHtml.i(Ff || (Ff = "class LogoMark width 48 height 32 type image/svg src assets/logo-mark.svg".split(" ")));
+  innerHtml.o("alt", "Stadia");
+  innerHtml.h();
+  innerHtml.close();
+  innerHtml.open("h1", "PdIASd");
+  innerHtml.h();
+  innerHtml.text(D("Flash your Stadia\u00ae Controller"));
+  innerHtml.close();
+  innerHtml.open("p",
     "zt76Lc");
-  a.i(Gf || (Gf = ["role", "doc-subtitle"]));
-  a.h();
-  var b = a.m("A7rC4e");
-  R(a, stringBluetooth, null);
-  a.l(b);
-  a.close();
-  a.open("div", "KNDsmb");
-  a.i(If || (If = ["class", "ButtonAndMetatext"]));
-  a.h();
-  var c = a.m("KxbODe");
-  ff(a, "main-call-to-action");
-  a.l(c);
-  a.open("div", "xHVu8c");
-  a.i(Jf || (Jf = ["class", "Metatext"]));
-  a.h();
-  a.text(D("Switching to Bluetooth mode downloads a software update"));
-  a.open("br", "RENzXc");
-  a.h();
-  a.close();
-  a.text(D("System requirements: Chrome 108 or newer"));
-  a.close();
-  a.close();
-  a.close();
-  a.open("img", "ykhp7c");
-  a.i(Kf || (Kf = "class;HeroImage GridSpanFull;srcset;assets/controller-1x.webp 1x, assets/controller-2x.webp 1.5x;type;image/webp;src;assets/controller-1x.webp".split(";")));
-  a.o("alt", "A Stadia Controller with a hand-drawn rocket flying out of the top alongside pulsing Bluetooth radio waves.");
-  a.h();
-  a.close();
-  a.close();
-  a.open("div", "Mhamdd");
-  a.i(Lf || (Lf = ["class", "KeyThingsArea GridSpan10Center GridSmSpanFull GridXsSpanFull"]));
-  a.h();
-  a.open("h2", "Y940Ec");
-  a.i(Mf || (Mf = ["class", "KeyThingsTitle"]));
-  a.h();
-  a.text(D("Important things to know"));
-  a.close();
-  a.open("div", "PiNcUc");
-  a.i(Nf || (Nf = ["class", "KeyThingsCardContainer"]));
-  a.h();
+  innerHtml.i(Gf || (Gf = ["role", "doc-subtitle"]));
+  innerHtml.h();
+  var b = innerHtml.m("A7rC4e");
+  R(innerHtml, stringBluetooth, null);
+  innerHtml.l(b);
+  innerHtml.close();
+  innerHtml.open("div", "KNDsmb");
+  innerHtml.i(If || (If = ["class", "ButtonAndMetatext"]));
+  innerHtml.h();
+  var c = innerHtml.m("KxbODe");
+  ff(innerHtml, "main-call-to-action");
+  innerHtml.l(c);
+  innerHtml.open("div", "xHVu8c");
+  innerHtml.i(Jf || (Jf = ["class", "Metatext"]));
+  innerHtml.h();
+  innerHtml.text(D("Switching to Bluetooth mode downloads a software update"));
+  innerHtml.open("br", "RENzXc");
+  innerHtml.h();
+  innerHtml.close();
+  innerHtml.text(D("System requirements: Chrome 108 or newer"));
+  innerHtml.close();
+  innerHtml.close();
+  innerHtml.close();
+  innerHtml.open("img", "ykhp7c");
+  innerHtml.i(Kf || (Kf = "class;HeroImage GridSpanFull;srcset;assets/controller-1x.webp 1x, assets/controller-2x.webp 1.5x;type;image/webp;src;assets/controller-1x.webp".split(";")));
+  innerHtml.o("alt", "A Stadia Controller with a hand-drawn rocket flying out of the top alongside pulsing Bluetooth radio waves.");
+  innerHtml.h();
+  innerHtml.close();
+  innerHtml.close();
+  innerHtml.open("div", "Mhamdd");
+  innerHtml.i(Lf || (Lf = ["class", "KeyThingsArea GridSpan10Center GridSmSpanFull GridXsSpanFull"]));
+  innerHtml.h();
+  innerHtml.open("h2", "Y940Ec");
+  innerHtml.i(Mf || (Mf = ["class", "KeyThingsTitle"]));
+  innerHtml.h();
+  innerHtml.text(D("Important things to know"));
+  innerHtml.close();
+  innerHtml.open("div", "PiNcUc");
+  innerHtml.i(Nf || (Nf = ["class", "KeyThingsCardContainer"]));
+  innerHtml.h();
   var d = P(function (m) {
       var r = m.m("mv233e");
-      V(m, "Switch to Bluetooth mode", void 0, "text", !0, void 0, void 0, void 0, void 0, void 0, void 0, "click:selectBruce");
+      V(m, "Switch to Bluetooth mode", void 0, "text", true, void 0, void 0, void 0, void 0, void 0, void 0, "click:selectBruce");
       m.l(r)
     }),
-    e = a.m("Q6lWyb");
-  Of(a, "toggle_on", "Switching is permanent", "Once you switch your controller to Bluetooth mode, you can\u2019t change it back to use Wi-Fi on Stadia. You can still play wired with USB in Bluetooth mode.",
+    e = innerHtml.m("Q6lWyb");
+  Of(innerHtml, "toggle_on", "Switching is permanent", "Once you switch your controller to Bluetooth mode, you can\u2019t change it back to use Wi-Fi on Stadia. You can still play wired with USB in Bluetooth mode.",
     d);
-  a.l(e);
+  innerHtml.l(e);
   d = P(function (m) {
     var r = m.m("NxMG7");
-    V(m, "Go to mode selection page", void 0, "text", !0, void 0, void 0, void 0, void 0, void 0, void 0, "click:selectAction");
+    V(m, "Go to mode selection page", void 0, "text", true, void 0, void 0, void 0, void 0, void 0, void 0, "click:selectAction");
     m.l(r)
   });
-  var f = a.m("DiKXlc");
-  Of(a, "calendar_today", "Available until December 31, 2023", "You can switch to Bluetooth mode, check the controller mode, and check for Bluetooth updates until Dec 31, 2023.", d);
-  a.l(f);
-  a.close();
-  a.close();
-  a.open("div", "zdBG3e");
-  a.i(Pf || (Pf = ["class", "FaqArea GridSpan8Center GridSmSpanFull GridXsSpanFull"]));
-  a.h();
-  a.open("h2",
+  var f = innerHtml.m("DiKXlc");
+  Of(innerHtml, "calendar_today", "Available until December 31, 2023", "You can switch to Bluetooth mode, check the controller mode, and check for Bluetooth updates until Dec 31, 2023.", d);
+  innerHtml.l(f);
+  innerHtml.close();
+  innerHtml.close();
+  innerHtml.open("div", "zdBG3e");
+  innerHtml.i(Pf || (Pf = ["class", "FaqArea GridSpan8Center GridSmSpanFull GridXsSpanFull"]));
+  innerHtml.h();
+  innerHtml.open("h2",
     "RzOZUe");
-  a.i(Qf || (Qf = ["class", "FaqAreaTitle"]));
-  a.h();
-  a.text(D("Find the answers you need"));
-  a.close();
-  a.open("div", "oi6B9d");
-  a.i(Rf || (Rf = ["class", "FaqItemList"]));
-  a.h();
+  innerHtml.i(Qf || (Qf = ["class", "FaqAreaTitle"]));
+  innerHtml.h();
+  innerHtml.text(D("Find the answers you need"));
+  innerHtml.close();
+  innerHtml.open("div", "oi6B9d");
+  innerHtml.i(Rf || (Rf = ["class", "FaqItemList"]));
+  innerHtml.h();
   d = P(function (m) {
     m.text(D("After switching your controller into Bluetooth mode, press and hold the \u201cY + Stadia\u201d buttons for 2 seconds to enter pairing mode. The status light will flash orange.\n\nThen, go to the device you want to play on and pair your controller in the settings. Once paired and connected, the status light on the controller will turn solid white.\n\nCongrats! You\u2019re ready to start playing. The next time you turn on the controller, it should automatically connect to the last paired device."));
     m.open("p", "LB1TMc");
@@ -3388,9 +3260,9 @@ function qf(a) {
     m.close();
     m.close()
   });
-  var g = a.m("giFsq");
-  Tf(a, "How do I pair my controller using Bluetooth?", d);
-  a.l(g);
+  var g = innerHtml.m("giFsq");
+  Tf(innerHtml, "How do I pair my controller using Bluetooth?", d);
+  innerHtml.l(g);
   d = P(function (m) {
     m.text(D("Not all Bluetooth devices are the same, so compatibility will vary. The Stadia Controller uses Bluetooth Low Energy connections, so some features, such as pass-through audio, aren\u2019t possible wirelessly.\n\nWe\u2019ve verified that the Stadia Controller works for gameplay with the list of supported devices. It hasn\u2019t been tested with all Bluetooth device types, so it might not work with others."));
     m.open("p", "JQKsSb");
@@ -3405,21 +3277,21 @@ function qf(a) {
     m.close();
     m.close()
   });
-  var h = a.m("AhWz8b");
-  Tf(a, "What devices are supported?", d);
-  a.l(h);
+  var h = innerHtml.m("AhWz8b");
+  Tf(innerHtml, "What devices are supported?", d);
+  innerHtml.l(h);
   d = P(function (m) {
     m.text(D("When using the controller wirelessly in Bluetooth mode, the 3.5mm port and USB port won\u2019t be able to be used for headphones.\n\nWhen using the controller wired with USB, you\u2019ll be able to plug headphones into the controller\u2019s 3.5mm port."))
   });
-  var k = a.m("pxfWOc");
-  Tf(a, "Is audio supported in Bluetooth mode?", d);
-  a.l(k);
+  var k = innerHtml.m("pxfWOc");
+  Tf(innerHtml, "Is audio supported in Bluetooth mode?", d);
+  innerHtml.l(k);
   d = P(function (m) {
     m.text(D("Yes. By default, the Google Assistant and Capture buttons won\u2019t do anything in Bluetooth mode until remapped. You can remap the buttons using button mapping services."))
   });
-  var l = a.m("JOu0Ne");
-  Tf(a, "Can I remap the Assistant and Capture buttons?", d);
-  a.l(l);
+  var l = innerHtml.m("JOu0Ne");
+  Tf(innerHtml, "Can I remap the Assistant and Capture buttons?", d);
+  innerHtml.l(l);
   d = P(function (m) {
     m.text(D("You can verify whether your controller is in Bluetooth mode by checking the controller mode. Doing this also checks for any updates to Bluetooth mode."));
     m.open("p", "ChKJXd");
@@ -3431,9 +3303,9 @@ function qf(a) {
     m.close();
     m.close()
   });
-  var n = a.m("depSEb");
-  Tf(a, "How do I verify my controller\u2019s mode?", d);
-  a.l(n);
+  var n = innerHtml.m("depSEb");
+  Tf(innerHtml, "How do I verify my controller\u2019s mode?", d);
+  innerHtml.l(n);
   d = P(function (m) {
     m.text(D("Make sure your controller is charged for at least 30 minutes, and that you\u2019re using a USB data cable that can transfer data. The cable that came with your controller will work."));
     m.open("p", "qfymOb");
@@ -3448,9 +3320,9 @@ function qf(a) {
     m.close();
     m.close()
   });
-  var p = a.m("MEMsTe");
-  Tf(a, "I can\u2019t complete a step. What should I do?", d);
-  a.l(p);
+  var p = innerHtml.m("MEMsTe");
+  Tf(innerHtml, "I can\u2019t complete a step. What should I do?", d);
+  innerHtml.l(p);
   d = P(function (m) {
     m.text(D("Make sure your controller is charged for at least 30 minutes. Unplug your controller and hold the Stadia button for 10 seconds \u2014 this should reset the device to be playable again.\n\nIf this still doesn\u2019t work, factory reset the controller by holding the Google Assistant and Capture buttons for 6 seconds \u2014 the controller should vibrate and the status light should flash."));
     m.open("p", "Jg5gkc");
@@ -3465,9 +3337,9 @@ function qf(a) {
     m.close();
     m.close()
   });
-  var q = a.m("FclGQd");
-  Tf(a, "My controller isn\u2019t working. What should I do?", d);
-  a.l(q);
+  var q = innerHtml.m("FclGQd");
+  Tf(innerHtml, "My controller isn\u2019t working. What should I do?", d);
+  innerHtml.l(q);
   d = P(function (m) {
     m.text(D("Unfortunately, customer support is not available for Bluetooth mode. If you have any questions, please go to the help center article."));
     m.open("p", "nuWLz");
@@ -3482,22 +3354,22 @@ function qf(a) {
     m.close();
     m.close()
   });
-  var w = a.m("Co3rac");
-  Tf(a, "Something else is wrong. Who do I contact?", d);
-  a.l(w);
-  a.close();
-  a.close();
-  a.open("div", "Z5aXRe");
-  a.i(ag || (ag = ["class", "LegalArea GridSpan10Center GridSmSpanFull GridXsSpanFull"]));
-  a.h();
-  a.text(D("The Bluetooth\u00ae word mark and logos are registered trademarks owned by Bluetooth SIG, Inc. and any use of such marks by Google is under license. Other trademarks and trade names are those of their respective owners."));
-  a.close();
-  a.G()
+  var w = innerHtml.m("Co3rac");
+  Tf(innerHtml, "Something else is wrong. Who do I contact?", d);
+  innerHtml.l(w);
+  innerHtml.close();
+  innerHtml.close();
+  innerHtml.open("div", "Z5aXRe");
+  innerHtml.i(ag || (ag = ["class", "LegalArea GridSpan10Center GridSmSpanFull GridXsSpanFull"]));
+  innerHtml.h();
+  innerHtml.text(D("The Bluetooth\u00ae word mark and logos are registered trademarks owned by Bluetooth SIG, Inc. and any use of such marks by Google is under license. Other trademarks and trade names are those of their respective owners."));
+  innerHtml.close();
+  innerHtml.G()
 }
 var Cf, Df, Ef, Ff, Gf, If, Jf, Kf, Lf, Mf, Nf, Pf, Qf, Rf, Sf, Uf, Wf, Xf, Zf, $f, ag;
 
 function ff(a, b) {
-  V(a, "Flash your controller", void 0, void 0, !0, void 0, "arrow_right_alt", void 0, void 0, void 0, b, "click:selectAction")
+  V(a, "Flash your controller", void 0, void 0, true, void 0, "arrow_right_alt", void 0, void 0, void 0, b, "click:selectAction")
 }
 
 function mf(a) {
@@ -3513,12 +3385,12 @@ function mf(a) {
       e.i(bg || (bg = ["class", "ErrorContent"]));
       e.h();
       var f = e.m("Wf3be");
-      V(e, "Help Center", void 0, "outlined", !0, void 0, "open_in_new", void 0, !0, void 0, void 0, "click:helpCenter");
+      V(e, "Help Center", void 0, "outlined", true, void 0, "open_in_new", void 0, true, void 0, void 0, "click:helpCenter");
       e.l(f);
       e.close()
     }),
     d = a.m("kTXOYb");
-  cg(a, b, c, "hourglass_top", void 0, !1);
+  cg(a, b, c, "hourglass_top", void 0, false);
   a.l(d)
 }
 var bg;
@@ -3529,7 +3401,7 @@ function of (a) {
       d.i(dg || (dg = ["class", "ErrorContent"]));
       d.h();
       var e = d.m("B0X5xf");
-      V(d, "Download Chrome", void 0, "outlined", !0, void 0, void 0, void 0, !0, void 0, void 0, "click:downloadChrome");
+      V(d, "Download Chrome", void 0, "outlined", true, void 0, void 0, void 0, true, void 0, void 0, "click:downloadChrome");
       d.l(e);
       d.open("div", "nBJVnb");
       d.i(eg || (eg = ["class", "Legal"]));
@@ -3619,7 +3491,7 @@ function nf(a) {
       d.i(lg || (lg = ["class", "ErrorContent"]));
       d.h();
       var e = d.m("fXKlJd");
-      V(d, "Update Chrome", void 0, "outlined", !0, void 0, void 0, void 0, !0, void 0, void 0, "click:updateChrome");
+      V(d, "Update Chrome", void 0, "outlined", true, void 0, void 0, void 0, true, void 0, void 0, "click:updateChrome");
       d.l(e);
       d.open("div", "GjFdAb");
       d.i(mg || (mg = ["class", "Legal"]));
@@ -3671,7 +3543,7 @@ function cg(a, b, c, d, e, f) {
     a.i(qg || (qg = ["class", "TopLeftContent"]));
     a.h();
     var g = a.m("ed6XBf");
-    V(a, stringHome(), void 0, "stadiatext", !0, "left", "arrow_back", void 0, void 0, void 0, void 0, "click:returnHome");
+    V(a, stringHome(), void 0, "stadiatext", true, "left", "arrow_back", void 0, void 0, void 0, void 0, "click:returnHome");
     a.l(g);
     a.close()
   }
@@ -3703,7 +3575,7 @@ var qg, sg, tg, ug, wg;
 function xg(a, b, c) {
   var d = P(function (g) {
       var h = g.m("qRlJQ");
-      V(g, stringHome(), void 0, "stadiatext", !0, "left", "arrow_back", void 0, void 0, void 0, void 0, "click:returnHome");
+      V(g, stringHome(), void 0, "stadiatext", true, "left", "arrow_back", void 0, void 0, void 0, void 0, "click:returnHome");
       g.l(h)
     }),
     e = P(function (g) {
@@ -3721,9 +3593,9 @@ var yg;
 
 function W(a, b, c, d, e, f, g, h, k, l, n, p, q) {
   var w = void 0 === e ? "flasher" : e,
-    m = void 0 === f ? !1 : f,
-    r = void 0 === h ? !0 : h,
-    F = void 0 === k ? !0 : k,
+    m = void 0 === f ? false : f,
+    r = void 0 === h ? true : h,
+    F = void 0 === k ? true : k,
     aa = void 0 === n ? "click:cancelAndExit" : n,
     M = q ? q : "Next step";
   e = P(function (y) {
@@ -3765,7 +3637,7 @@ function W(a, b, c, d, e, f, g, h, k, l, n, p, q) {
         y.h();
         T(l) && S(y, l);
         var N = y.m("faTsD");
-        V(y, M, void 0, "secondary", !0, void 0, void 0, null != p, null !=
+        V(y, M, void 0, "secondary", true, void 0, void 0, null != p, null !=
           p, void 0, void 0, p);
         y.l(N);
         y.close()
@@ -3890,7 +3762,7 @@ function dh(a, b, c, d, e, f, g) {
     a.i(fh || (fh = ["class", "Icon", "aria-hidden", "true"]));
     a.h();
     var h = a.m("hDiRK");
-    gh(a, d, !0);
+    gh(a, d, true);
     a.l(h);
     a.close()
   }
@@ -3989,7 +3861,7 @@ function Of(a, b, c, d, e) {
   a.i(vh || (vh = ["class", "Icon", "aria-hidden", "true"]));
   a.h();
   var f = a.m("MIzvFc");
-  gh(a, b, !0);
+  gh(a, b, true);
   a.l(f);
   a.close();
   a.open("div", "SO151b");
@@ -4017,7 +3889,7 @@ function Of(a, b, c, d, e) {
 var uh, vh, wh, xh, yh, zh;
 
 function gh(a, b, c) {
-  c = void 0 === c ? !1 : c;
+  c = void 0 === c ? false : c;
   a.open("span", "gPpZX");
   a.o("class", "CardIcon" + (c ? " symbol" : ""));
   a.h();
@@ -4028,11 +3900,11 @@ function gh(a, b, c) {
 function V(a, b, c, d, e, f, g, h, k, l, n, p) {
   c = void 0 === c ? "" : c;
   d = void 0 === d ? "brand" : d;
-  e = void 0 === e ? !1 : e;
+  e = void 0 === e ? false : e;
   f = void 0 === f ? "right" : f;
   g = void 0 === g ? "arrow_right_alt" : g;
-  h = void 0 === h ? !0 : h;
-  k = void 0 === k ? !1 : k;
+  h = void 0 === h ? true : h;
+  k = void 0 === k ? false : k;
   a.open("button", "IXluUb");
   a.o("class", "Button " + d + (e ? " " + ("left" == f ? "iconleft" : "icon") : "") + (l ? " " + l : ""));
   p && a.o("jsaction", p);
@@ -4160,7 +4032,7 @@ function Sh(a, b) {
   a.i(ji || (ji = ["class", "ModalFooter__LeftControls"]));
   a.h();
   c = a.m("EBCqQb");
-  V(a, "Help Center", void 0, "text", !0, void 0, "open_in_new", void 0, void 0, void 0, void 0, "click:helpCenter");
+  V(a, "Help Center", void 0, "text", true, void 0, "open_in_new", void 0, void 0, void 0, void 0, "click:helpCenter");
   a.l(c);
   a.close();
   c = "Page " +
@@ -4181,8 +4053,8 @@ function Sh(a, b) {
   a.open("div", "YHgkwc");
   a.i(li || (li = ["class", "ModalFooter__RightControls"]));
   a.h();
-  1 == b ? (b = a.m("YzY0te"), V(a, "Next", void 0, "secondary", void 0, void 0, void 0, void 0, !0, "NextButton", void 0, "click:gettingStartedModal2"),
-    a.l(b)) : (b = a.m("cozlJf"), V(a, "Back", void 0, "stadiasecondary", void 0, void 0, void 0, void 0, !0, "BackButton", void 0, "click:gettingStartedModal1"), a.l(b));
+  1 == b ? (b = a.m("YzY0te"), V(a, "Next", void 0, "secondary", void 0, void 0, void 0, void 0, true, "NextButton", void 0, "click:gettingStartedModal2"),
+    a.l(b)) : (b = a.m("cozlJf"), V(a, "Back", void 0, "stadiasecondary", void 0, void 0, void 0, void 0, true, "BackButton", void 0, "click:gettingStartedModal1"), a.l(b));
   a.close();
   a.close();
   a.G()
@@ -4268,7 +4140,7 @@ function ri(a, b) {
 }
 
 function si(a, b, c) {
-  var d = ti();
+  var d = stringResetControllerConfirm();
   Jg(a, "Cancel and exit?", P(function (e) {
     c ? (e.open("p", "FflBx"), e.h(), e.open("strong", "l2Lkdb"), e.h(), e.text(D("Important: Unplug and reset your controller to use it again.")), e.close(), e.close(), e.open("p", "p9JOnf"), e.h(), e.text(D("Your controller is unlocked, so it can\u2019t be used. To lock and reset it back to normal, unplug the controller and hold the Stadia button for 10 seconds.")), e.close()) : e.text(D("You\u2019ll lose any progress and need to start over."))
   }), {
@@ -4332,7 +4204,7 @@ function zi(a, b, c) {
 }
 
 function Ai(a, b, c, d) {
-  Jg(b, Bi(), P(function (e) {
+  Jg(b, stringControllerRestart(), P(function (e) {
     e.open("p", "YsMOUe");
     e.h();
     e.text(D("Sorry \u2014 the update was interrupted and your controller needs to be reset."));
@@ -4340,13 +4212,13 @@ function Ai(a, b, c, d) {
     e.open("p", "MsvVYb");
     e.h();
     var f = e.m("AupbBc");
-    R(e, Ci, null, a);
+    R(e, stringControllerReset, null, a);
     e.l(f);
     e.close()
   }), {
     label: "Start over",
     action: "connectController"
-  }, "restart_alt", void 0, void 0, ti(), c, void 0, d)
+  }, "restart_alt", void 0, void 0, stringResetControllerConfirm(), c, void 0, d)
 }
 zi.B = E;
 
@@ -4355,7 +4227,7 @@ function Di(a, b, c) {
 }
 
 function Ei(a, b, c) {
-  Jg(b, Bi(), P(function (d) {
+  Jg(b, stringControllerRestart(), P(function (d) {
     d.open("p", "HITwyd");
     d.h();
     d.text(D("Your controller is still unlocked. This can cause issues."));
@@ -4363,7 +4235,7 @@ function Ei(a, b, c) {
     d.open("p", "mheSh");
     d.h();
     var e = d.m("LpOsne");
-    R(d, Ci, null, a);
+    R(d, stringControllerReset, null, a);
     d.l(e);
     d.close();
     d.open("p", "fExFHf");
@@ -4381,7 +4253,7 @@ function Ei(a, b, c) {
 Di.B = E;
 
 function Fi(a, b, c) {
-  Jg(a, Bi(), P(function (d) {
+  Jg(a, stringControllerRestart(), P(function (d) {
     d.open("p", "yrHdpd");
     d.h();
     d.text(D("Your controller is still unlocked and needs to be reset."));
@@ -4389,7 +4261,7 @@ function Fi(a, b, c) {
     d.open("p", "n1IKSd");
     d.h();
     var e = d.m("FXOiGe");
-    R(d, Ci, null, c);
+    R(d, stringControllerReset, null, c);
     d.l(e);
     d.close()
   }), {
@@ -4456,15 +4328,15 @@ function Ji(a, b) {
 Ii.B = E;
 var Ki = {};
 
-function Bi() {
+function stringControllerRestart() {
   return "Reset your controller and start over"
 }
 
-function Ci() {
+function stringControllerReset() {
   return "Unplug your controller, then hold the Stadia button for 10 seconds to reset it. Once that\u2019s done, you can start over."
 }
 
-function ti() {
+function stringResetControllerConfirm() {
   return "I confirm that I unplugged and reset my controller"
 };
 
@@ -4537,13 +4409,13 @@ function Ri(a) {
   } catch (k) {
     throw Error("Failed to read build info");
   }
-  var e = d.getUint32(0, !0);
-  d.getUint32(4, !0);
-  var f = d.getUint32(8, !0);
-  d.getUint32(12, !0);
-  c = d.getUint32(16, !0);
-  var g = d.getUint32(20, !0);
-  d = d.getUint32(252, !0);
+  var e = d.getUint32(0, true);
+  d.getUint32(4, true);
+  var f = d.getUint32(8, true);
+  d.getUint32(12, true);
+  c = d.getUint32(16, true);
+  var g = d.getUint32(20, true);
+  d = d.getUint32(252, true);
   if (1953699234 !== e) throw Error("Invalid build info. Expected header of 0x" +
     (1953699234).toString(16) + ", got 0x" + e.toString(16) + " instead");
   if (1200016776 !== d) throw Error("Invalid build info. Expected footer of 0x" + (1200016776).toString(16) + ", got 0x" + d.toString(16) + " instead");
@@ -4551,7 +4423,7 @@ function Ri(a) {
   d = 4;
   b && (d += 4096);
   try {
-    var h = (new DataView(a)).getUint32(d, !0)
+    var h = (new DataView(a)).getUint32(d, true)
   } catch (k) {
     throw Error("Failed to read reset handler address at 0x" + d.toString(16));
   }
@@ -4608,8 +4480,8 @@ function Zi(a) {
   this.j = new Li;
   this.g = new Li;
   a.addEventListener("inputreport", function (c) {
-    console.debug(c);
-    8137 === b.device.vendorId && 309 === b.device.productId && 4 === c.reportId ? (c = c.data.getUint32(0, !1), Ni(b.j, {
+    console.trace(c);
+    8137 === b.device.vendorId && 309 === b.device.productId && 4 === c.reportId ? (c = c.data.getUint32(0, false), Ni(b.j, {
       ub: c
     })) : 5538 === b.device.vendorId && 115 === b.device.productId && (3 === c.reportId ? $i(b, c.data) : 4 === c.reportId ? aj(b, c.data) : Ni(b.g, Error("unknown reply packet type " + c.reportId)))
   })
@@ -4756,19 +4628,19 @@ function hj(a) {
       case 3:
         return x(e, pj(a), 4);
       case 4:
-        return console.log("Configuring registers to get flash type"), x(e, qj(a, 128, 2147483648, !0), 5);
+        return console.log("Configuring registers to get flash type"), x(e, qj(a, 128, 2147483648, true), 5);
       case 5:
-        return x(e, qj(a, 20, 30, !0), 6);
+        return x(e, qj(a, 20, 30, true), 6);
       case 6:
-        return x(e, qj(a, 160, 0, !1), 7);
+        return x(e, qj(a, 160, 0, false), 7);
       case 7:
-        return x(e, qj(a, 184, 1, !1), 8);
+        return x(e, qj(a, 184, 1, false), 8);
       case 8:
-        return x(e, qj(a, 188, 1, !1), 9);
+        return x(e, qj(a, 188, 1, false), 9);
       case 9:
-        return x(e, qj(a, 164, 2, !1), 10);
+        return x(e, qj(a, 164, 2, false), 10);
       case 10:
-        return x(e, qj(a, 176, 1, !1),
+        return x(e, qj(a, 176, 1, false),
           11);
       case 11:
         console.log("Waiting for flash detection"), c = 0;
@@ -4822,7 +4694,7 @@ function mj(a, b, c, d) {
     if (4 != h.g) {
       if (!(0 < e)) return h.J(0);
       f = 16384 < e ? 16384 : e;
-      console.debug("Step: erasing 0x" + Ti(f) + " bytes from 0x" + Ti(b));
+      console.trace("Step: erasing 0x" + Ti(f) + " bytes from 0x" + Ti(b));
       return x(h, sj(a, {
         P: 2,
         flags: 0,
@@ -4909,7 +4781,7 @@ function oj(a, b) {
     if (!c.la) throw Error("no data received in reply");
     if (4 !== c.la.byteLength) throw Error("invalid reply data size: " + c.la.byteLength);
     d = new DataView(c.la);
-    e = d.getUint32(0, !0);
+    e = d.getUint32(0, true);
     console.log("    *(0x" + Ti(b) + ") == 0x" + Ti(e));
     return f.return(e)
   })
@@ -4932,7 +4804,7 @@ function dj(a, b) {
           a += (null != (e = d.reportSize) ? e : 0) * (null != (f = d.reportCount) ? f : 0)
         }
         a >>>= 3;
-        console.debug("Report length for reportId " + b + " is " + a + " bytes");
+        console.trace("Report length for reportId " + b + " is " + a + " bytes");
         return new ArrayBuffer(a)
       }
   }
@@ -4943,11 +4815,11 @@ function dj(a, b) {
 function cj(a, b) {
   var c = dj(a, 1),
     d = new DataView(c);
-  d.setUint16(0, b.P, !1);
-  d.setUint32(2, b.address, !1);
+  d.setUint16(0, b.P, false);
+  d.setUint32(2, b.address, false);
   d.setUint8(6, b.Aa);
-  d.setUint32(7, b.Ia, !1);
-  d.setUint32(11, b.data, !1);
+  d.setUint32(7, b.Ia, false);
+  d.setUint32(11, b.data, false);
   d.setUint8(15, 0);
   return a.device.sendReport(1, c)
 }
@@ -4962,7 +4834,7 @@ function sj(a, b) {
       g.setUint8(1, b.flags);
       g.setUint8(2, 0);
       g.setUint8(3, b.parameters.length);
-      for (var h = 0; h < b.parameters.length; h++) g.setUint32(4 * h + 4, b.parameters[h], !0);
+      for (var h = 0; h < b.parameters.length; h++) g.setUint32(4 * h + 4, b.parameters[h], true);
       c = f;
       d = dj(a, 1);
       vj(d, c);
@@ -5026,17 +4898,17 @@ function vj(a, b) {
   a = new DataView(a);
   var c = new DataView(b);
   a.setUint8(0, 0);
-  a.setUint16(1, b.byteLength, !0);
+  a.setUint16(1, b.byteLength, true);
   for (var d = 0; d < b.byteLength; d++) a.setUint8(3 + d, c.getUint8(d))
 }
 
 function wj(a) {
-  for (var b = a.getUint16(1, !0), c = new ArrayBuffer(b), d = new DataView(c), e = 0; e < b; e++) d.setUint8(e, a.getUint8(e + 3));
+  for (var b = a.getUint16(1, true), c = new ArrayBuffer(b), d = new DataView(c), e = 0; e < b; e++) d.setUint8(e, a.getUint8(e + 3));
   return c
 }
 
 function xj(a) {
-  for (var b = a.getUint8(0), c = a.getUint8(1), d = a.getUint8(3), e = [], f = 0; f < d; f++) e.push(a.getUint32(4 + 4 * f, !0));
+  for (var b = a.getUint8(0), c = a.getUint8(1), d = a.getUint8(3), e = [], f = 0; f < d; f++) e.push(a.getUint32(4 + 4 * f, true));
   return {
     P: b,
     flags: c,
@@ -5109,7 +4981,7 @@ function Dj(a) {
   return z(function (c) {
     if (1 == c.g) return x(c, Bj(a, 129), 2);
     b = c.j;
-    return c.return(b.getUint32(0, !0))
+    return c.return(b.getUint32(0, true))
   })
 }
 
@@ -5126,7 +4998,7 @@ function Ej(a) {
       case 3:
         return x(c, Bj(a, 132), 4);
       case 4:
-        return b = c.j, c.return(b.getUint16(0, !0))
+        return b = c.j, c.return(b.getUint16(0, true))
     }
   })
 };
@@ -5148,7 +5020,7 @@ function Hj(a, b, c) {
       var g = P(function (q) {
           q.text(D("Switch to Bluetooth Mode"))
         }),
-        h = P(function (q) {
+        h = P(function (innerHtml) {
           if (!Jj["\u00010\u0001Play wirelessly on supported Bluetooth devices. This disables Stadia Wi-Fi wireless play.\u00011\u0001\u00010\u0001\u00012\u0001Switching is permanent\u00013\u0001\u00011\u0001"]) {
             Jj["\u00010\u0001Play wirelessly on supported Bluetooth devices. This disables Stadia Wi-Fi wireless play.\u00011\u0001\u00010\u0001\u00012\u0001Switching is permanent\u00013\u0001\u00011\u0001"] = [];
             var w = /\x01\d+\x01/g,
@@ -5163,37 +5035,37 @@ function Hj(a, b, c) {
             } while (F)
           }
           w = v(Jj["\u00010\u0001Play wirelessly on supported Bluetooth devices. This disables Stadia Wi-Fi wireless play.\u00011\u0001\u00010\u0001\u00012\u0001Switching is permanent\u00013\u0001\u00011\u0001"]);
-          for (m = w.next(); !m.done; m = w.next()) switch (m = m.value, m[0] && q.text(m[0]), m[1]) {
+          for (m = w.next(); !m.done; m = w.next()) switch (m = m.value, m[0] && innerHtml.text(m[0]), m[1]) {
             case "\u00010\u0001":
-              q.open("p", "sd0Kzc");
-              q.h();
+              innerHtml.open("p", "sd0Kzc");
+              innerHtml.h();
               break;
             case "\u00011\u0001":
-              q.close();
+              innerHtml.close();
               break;
             case "\u00012\u0001":
-              q.open("strong", "In7aAd");
-              q.h();
+              innerHtml.open("strong", "In7aAd");
+              innerHtml.h();
               break;
             case "\u00013\u0001":
-              q.close()
+              innerHtml.close()
           }
-          q.open("p",
+          innerHtml.open("p",
             "Nl00lf");
-          q.h();
-          q.open("a", "eepBqb");
-          q.i(Kj || (Kj = ["target", "_blank"]));
-          q.o("href", H(Sd()));
-          q.h();
-          var aa = q.m("W1pELd");
-          R(q, stringDevices, null, c);
-          q.l(aa);
-          q.close();
-          q.close()
+          innerHtml.h();
+          innerHtml.open("a", "eepBqb");
+          innerHtml.i(Kj || (Kj = ["target", "_blank"]));
+          innerHtml.o("href", H(Sd()));
+          innerHtml.h();
+          var aa = innerHtml.m("W1pELd");
+          R(innerHtml, stringDevices, null, c);
+          innerHtml.l(aa);
+          innerHtml.close();
+          innerHtml.close()
         }),
         k = P(function (q) {
           var w = q.m("NyLHoc");
-          V(q, "Start", "Start switching the controller into Bluetooth mode", "secondary", !0, void 0, void 0, void 0, !0, void 0, void 0, "click:selectBruce");
+          V(q, "Start", "Start switching the controller into Bluetooth mode", "secondary", true, void 0, void 0, void 0, true, void 0, void 0, "click:selectBruce");
           q.l(w)
         }),
         l = f.m("bGPAu");
@@ -5207,7 +5079,7 @@ function Hj(a, b, c) {
       });
       k = P(function (q) {
         var w = q.m("mz6oEd");
-        V(q, "Check", void 0, "outlined", !0, void 0, void 0, void 0, void 0, void 0, void 0, "click:checkMode");
+        V(q, "Check", void 0, "outlined", true, void 0, void 0, void 0, void 0, void 0, void 0, "click:checkMode");
         q.l(w)
       });
       var n = f.m("DPxxsb");
@@ -5234,14 +5106,14 @@ function Lj(a, b) {
 }
 
 function Mj(a, b) {
-  var c = P(function (e) {
-      e.open("div", "iqjG8c");
-      e.i(Nj || (Nj = ["class", "PanelContent GridSpan6Center GridSmSpan4Center GridXsSpanFull"]));
-      e.h();
-      var f = e.m("lmjj8d");
-      Yh(e, "Verify_Plug_in_controller.svg", "A Stadia Controller with an arrow indicating that you plug the USB cable into the USB port on the top of the controller.", 1.3333333333333333);
-      e.l(f);
-      e.close()
+  var c = P(function (innerHtml) {
+      innerHtml.open("div", "iqjG8c");
+      innerHtml.i(Nj || (Nj = ["class", "PanelContent GridSpan6Center GridSmSpan4Center GridXsSpanFull"]));
+      innerHtml.h();
+      var f = innerHtml.m("lmjj8d");
+      Yh(innerHtml, "Verify_Plug_in_controller.svg", "A Stadia Controller with an arrow indicating that you plug the USB cable into the USB port on the top of the controller.", 1.3333333333333333);
+      innerHtml.l(f);
+      innerHtml.close()
     }),
     d = a.m("nidk8e");
   W(a, 1, "First, plug your Stadia Controller into your computer", c, b ? "flasher" : "empty", void 0, "Make sure your controller has been charged for 30 minutes, and you\u2019re using a USB data cable.",
@@ -5256,32 +5128,32 @@ function Oj(a, b) {
 }
 
 function Pj(a, b, c, d) {
-  var e = P(function (g) {
-      g.open("div", "raBDRc");
-      g.i(Qj || (Qj = ["class", "PanelContent GridSpan6Center GridSmSpan4Center GridXsSpanFull"]));
-      g.h();
-      g.open("div", "NyP9mf");
-      g.i(Rj || (Rj = ["class", "PanelTopButtonRow"]));
-      g.h();
-      var h = g.m("bdTlx");
-      V(g, "Allow Chrome to verify", void 0, "secondary", void 0, void 0, void 0, void 0, !0, void 0, void 0, "click:selectControllerUsbDevice");
-      g.l(h);
+  var e = P(function (innerHtml) {
+      innerHtml.open("div", "raBDRc");
+      innerHtml.i(Qj || (Qj = ["class", "PanelContent GridSpan6Center GridSmSpan4Center GridXsSpanFull"]));
+      innerHtml.h();
+      innerHtml.open("div", "NyP9mf");
+      innerHtml.i(Rj || (Rj = ["class", "PanelTopButtonRow"]));
+      innerHtml.h();
+      var h = innerHtml.m("bdTlx");
+      V(innerHtml, "Allow Chrome to verify", void 0, "secondary", void 0, void 0, void 0, void 0, true, void 0, void 0, "click:selectControllerUsbDevice");
+      innerHtml.l(h);
       if (c) {
-        g.open("div", "HgC96e");
-        g.i(Sj || (Sj = ["class", "TopButtonHelpText"]));
-        g.h();
-        var k = g.m("xUhbVc");
-        Tj(g);
-        g.l(k);
-        g.close()
+        innerHtml.open("div", "HgC96e");
+        innerHtml.i(Sj || (Sj = ["class", "TopButtonHelpText"]));
+        innerHtml.h();
+        var k = innerHtml.m("xUhbVc");
+        Tj(innerHtml);
+        innerHtml.l(k);
+        innerHtml.close()
       }
-      g.close();
+      innerHtml.close();
       var l = "A two-part image illustrating what to do during this step after selecting the \u201cAllow Chrome to verify\u201d button. The first part shows the Chrome device list dialog with the text \u201c" + Gj() + " wants to connect\u201d. The device list has one entry titled \u201cStadia Controller rev. A\u201d as an example. A mouse is clicking the device to select it. In the second part of the image, a mouse is clicking the \u201cConnect\u201d button in that same dialog.",
-        n = g.m("HT9JPc");
-      Uj(g, "" + Ve("Chrome_dialog_Verify.svg",
+        n = innerHtml.m("HT9JPc");
+      Uj(innerHtml, "" + Ve("Chrome_dialog_Verify.svg",
         b), Vj("Stadia Controller", "SP Blank RT Family", "USB COMPOSITE DEVICE", "Bootloader"), l, void 0, "No compatible devices found? Make sure your controller has been charged for 30 minutes and you\u2019re using a USB data cable, then try again.", 1.9722650231124808);
-      g.l(n);
-      g.close()
+      innerHtml.l(n);
+      innerHtml.close()
     }),
     f = a.m("dVOwy");
   W(a, 1, "Allow Chrome to verify your controller", e, d ? "flasher" : "empty", void 0, "This opens a device list by your URL bar. Select your controller in the list, then click \u201cConnect\u201d.", void 0, null != d);
@@ -5293,7 +5165,7 @@ var Qj, Rj, Sj;
 function Wj(a) {
   var b = Xj(),
     c = stringHome(),
-    d = P(function (g) {
+    d = P(function (innerHtml) {
       if (!Yj["Your controller has the latest version of Bluetooth mode. It can connect to devices using\u00a0Bluetooth.\n\u00010\u0001List of supported devices\u00011\u0001"]) {
         Yj["Your controller has the latest version of Bluetooth mode. It can connect to devices using\u00a0Bluetooth.\n\u00010\u0001List of supported devices\u00011\u0001"] = [];
         var h = /\x01\d+\x01/g,
@@ -5307,42 +5179,42 @@ function Wj(a) {
         } while (n)
       }
       h = v(Yj["Your controller has the latest version of Bluetooth mode. It can connect to devices using\u00a0Bluetooth.\n\u00010\u0001List of supported devices\u00011\u0001"]);
-      for (k = h.next(); !k.done; k = h.next()) switch (k = k.value, k[0] && g.text(k[0]), k[1]) {
+      for (k = h.next(); !k.done; k = h.next()) switch (k = k.value, k[0] && innerHtml.text(k[0]), k[1]) {
         case "\u00010\u0001":
-          g.open("a", "i7Dbsc");
-          g.i(Zj || (Zj = ["target", "_blank"]));
-          g.o("href", H(Sd()));
-          g.h();
+          innerHtml.open("a", "i7Dbsc");
+          innerHtml.i(Zj || (Zj = ["target", "_blank"]));
+          innerHtml.o("href", H(Sd()));
+          innerHtml.h();
           break;
         case "\u00011\u0001":
-          g.close()
+          innerHtml.close()
       }
     }),
-    e = P(function (g) {
-      g.open("div", "cEqhUc");
-      g.i(ak || (ak = ["class", "PanelContent GridSpan6Center GridSmSpan4Center GridXsSpanFull"]));
-      g.h();
-      var h = g.m("WrVLNb");
-      Yh(g, "Check_Bluetooth_mode.svg", void 0, 1.3333333333333333);
-      g.l(h);
-      g.close();
-      g.open("div", "lN3q3e");
-      g.i(bk || (bk = ["class", "ButtonStack GridSpan4Center GridSmSpan4Center GridXsSpanFull"]));
-      g.h();
-      var k = g.m("o58d6c");
-      V(g, b, void 0, "secondary", void 0, void 0, void 0, void 0, !0, void 0, void 0, "click:gettingStartedModal1");
-      g.l(k);
-      var l = g.m("z9JXwb");
-      V(g, "Reinstall Bluetooth mode", void 0, "stadiasecondary", void 0, void 0, void 0, void 0, void 0, void 0, void 0, "click:applyBruce");
-      g.l(l);
-      var n = g.m("Tan5mc");
-      V(g, c, void 0, "stadiatext", void 0, void 0, void 0, void 0, void 0, void 0, void 0, "click:returnHome");
-      g.l(n);
-      g.close()
+    e = P(function (innerHtml) {
+      innerHtml.open("div", "cEqhUc");
+      innerHtml.i(ak || (ak = ["class", "PanelContent GridSpan6Center GridSmSpan4Center GridXsSpanFull"]));
+      innerHtml.h();
+      var h = innerHtml.m("WrVLNb");
+      Yh(innerHtml, "Check_Bluetooth_mode.svg", void 0, 1.3333333333333333);
+      innerHtml.l(h);
+      innerHtml.close();
+      innerHtml.open("div", "lN3q3e");
+      innerHtml.i(bk || (bk = ["class", "ButtonStack GridSpan4Center GridSmSpan4Center GridXsSpanFull"]));
+      innerHtml.h();
+      var k = innerHtml.m("o58d6c");
+      V(innerHtml, b, void 0, "secondary", void 0, void 0, void 0, void 0, true, void 0, void 0, "click:gettingStartedModal1");
+      innerHtml.l(k);
+      var l = innerHtml.m("z9JXwb");
+      V(innerHtml, "Reinstall Bluetooth mode", void 0, "stadiasecondary", void 0, void 0, void 0, void 0, void 0, void 0, void 0, "click:applyBruce");
+      innerHtml.l(l);
+      var n = innerHtml.m("Tan5mc");
+      V(innerHtml, c, void 0, "stadiatext", void 0, void 0, void 0, void 0, void 0, void 0, void 0, "click:returnHome");
+      innerHtml.l(n);
+      innerHtml.close()
     }),
     f = a.m("B80zwb");
   W(a, 1, "Your controller is up to date in Bluetooth mode", e, "empty",
-    !0, d, !1);
+    true, d, false);
   a.l(f)
 }
 Wj.B = E;
@@ -5352,33 +5224,33 @@ var Yj = {},
 function ck(a) {
   var b = Xj(),
     c = stringHome(),
-    d = P(function (g) {
-      g.text(D("Your controller is on an older version of Bluetooth mode. Update to the latest version \u2014 this should only take a few minutes."))
+    d = P(function (innerHtml) {
+      innerHtml.text(D("Your controller is on an older version of Bluetooth mode. Update to the latest version \u2014 this should only take a few minutes."))
     }),
-    e = P(function (g) {
-      g.open("div", "atE8G");
-      g.i(dk || (dk = ["class", "PanelContent GridSpan6Center GridSmSpan4Center GridXsSpanFull"]));
-      g.h();
-      var h = g.m("HqXteb");
-      Yh(g, "Check_Bluetooth_mode.svg", void 0, 1.3333333333333333);
-      g.l(h);
-      g.close();
-      g.open("div", "PSQ0Vc");
-      g.i(ek || (ek = ["class", "ButtonStack GridSpan4Center GridSmSpan4Center GridXsSpanFull"]));
-      g.h();
-      var k = g.m("dz5ldb");
-      V(g, "Update to latest version", void 0, "secondary", !0, void 0, void 0, void 0, !0, void 0, void 0, "click:applyBruce");
-      g.l(k);
-      var l = g.m("YZpCSc");
-      V(g, b, void 0, "stadiasecondary", void 0, void 0, void 0, void 0, void 0, void 0, void 0, "click:gettingStartedModal1");
-      g.l(l);
-      var n = g.m("pyt4Ze");
-      V(g, c, void 0, "stadiatext", void 0, void 0, void 0, void 0, void 0, void 0, void 0, "click:returnHome");
-      g.l(n);
-      g.close()
+    e = P(function (innerHtml) {
+      innerHtml.open("div", "atE8G");
+      innerHtml.i(dk || (dk = ["class", "PanelContent GridSpan6Center GridSmSpan4Center GridXsSpanFull"]));
+      innerHtml.h();
+      var h = innerHtml.m("HqXteb");
+      Yh(innerHtml, "Check_Bluetooth_mode.svg", void 0, 1.3333333333333333);
+      innerHtml.l(h);
+      innerHtml.close();
+      innerHtml.open("div", "PSQ0Vc");
+      innerHtml.i(ek || (ek = ["class", "ButtonStack GridSpan4Center GridSmSpan4Center GridXsSpanFull"]));
+      innerHtml.h();
+      var k = innerHtml.m("dz5ldb");
+      V(innerHtml, "Update to latest version", void 0, "secondary", true, void 0, void 0, void 0, true, void 0, void 0, "click:applyBruce");
+      innerHtml.l(k);
+      var l = innerHtml.m("YZpCSc");
+      V(innerHtml, b, void 0, "stadiasecondary", void 0, void 0, void 0, void 0, void 0, void 0, void 0, "click:gettingStartedModal1");
+      innerHtml.l(l);
+      var n = innerHtml.m("pyt4Ze");
+      V(innerHtml, c, void 0, "stadiatext", void 0, void 0, void 0, void 0, void 0, void 0, void 0, "click:returnHome");
+      innerHtml.l(n);
+      innerHtml.close()
     }),
     f = a.m("wL8ggd");
-  W(a, 1, "A new version of Bluetooth mode is available", e, void 0, !0, d, !1);
+  W(a, 1, "A new version of Bluetooth mode is available", e, void 0, true, d, false);
   a.l(f)
 }
 ck.B = E;
@@ -5402,7 +5274,7 @@ function fk(a) {
       f.h();
       var h =
         f.m("NFj8Xb");
-      V(f, "Switch to Bluetooth mode", void 0, "secondary", void 0, void 0, void 0, void 0, !0, void 0, void 0, "click:applyBruce");
+      V(f, "Switch to Bluetooth mode", void 0, "secondary", void 0, void 0, void 0, void 0, true, void 0, void 0, "click:applyBruce");
       f.l(h);
       var k = f.m("e7ApSc");
       V(f, "Check another Stadia Controller", void 0, "stadiasecondary", void 0, void 0, void 0, void 0, void 0, void 0, void 0, "click:selectAction");
@@ -5414,24 +5286,24 @@ function fk(a) {
     }),
     e = a.m("Xb38Oe");
   W(a, 1, "Your controller is in Stadia Wi-Fi mode", d, "empty",
-    !0, c, !1);
+    true, c, false);
   a.l(e)
 }
 fk.B = E;
 var gk, hk;
 
 function ik(a) {
-  var b = P(function (d) {
-      d.open("div", "x5B42d");
-      d.i(jk || (jk = ["class", "PanelContent GridSpan6Center GridSmSpan4Center GridXsSpanFull"]));
-      d.h();
-      var e = d.m("RYg7mf");
-      Yh(d, "Verify_Chrome_verified_your_controller.svg", void 0, 1.3333333333333333);
-      d.l(e);
-      d.close()
+  var b = P(function (innerHtml) {
+      innerHtml.open("div", "x5B42d");
+      innerHtml.i(jk || (jk = ["class", "PanelContent GridSpan6Center GridSmSpan4Center GridXsSpanFull"]));
+      innerHtml.h();
+      var e = innerHtml.m("RYg7mf");
+      Yh(innerHtml, "Verify_Chrome_verified_your_controller.svg", void 0, 1.3333333333333333);
+      innerHtml.l(e);
+      innerHtml.close()
     }),
     c = a.m("OTcTHc");
-  W(a, 1, "Chrome verified your Stadia Controller", b, void 0, !0, "Go to the next step to unlock your controller", void 0, void 0, void 0, void 0, "click:enterSdpMode");
+  W(a, 1, "Chrome verified your Stadia Controller", b, void 0, true, "Go to the next step to unlock your controller", void 0, void 0, void 0, void 0, "click:enterSdpMode");
   a.l(c)
 }
 ik.B = E;
@@ -5550,7 +5422,7 @@ function ok(a, b, c) {
 }
 
 function pk(a, b, c, d, e, f) {
-  var g = void 0 === f ? !1 : f;
+  var g = void 0 === f ? false : f;
   f = "";
   "bruce" == c ? f += "Download Bluetooth mode update" : "gotham" == c && (f += "Download Wi-Fi mode");
   var h = P(function (p) {
@@ -5588,7 +5460,7 @@ function pk(a, b, c, d, e, f) {
         p.i(vk || (vk = ["class", "PanelTopButtonRow"]));
         p.h();
         var w = p.m("GrjH3e");
-        V(p, "Allow Chrome to download", void 0, "secondary", void 0, void 0, void 0, void 0, !0, void 0, void 0, "click:selectController");
+        V(p, "Allow Chrome to download", void 0, "secondary", void 0, void 0, void 0, void 0, true, void 0, void 0, "click:selectController");
         p.l(w);
         if (e) {
           p.open("div", "dtI4N");
@@ -5622,7 +5494,7 @@ function pk(a, b, c, d, e, f) {
     }),
     l = P(function (p) {
       var q = p.m("V5FAMe");
-      V(p, "Back to Unlock step", void 0, "outlined", void 0, void 0, void 0, void 0, !0, void 0, void 0, "click:enterSdpMode");
+      V(p, "Back to Unlock step", void 0, "outlined", void 0, void 0, void 0, void 0, true, void 0, void 0, "click:enterSdpMode");
       p.l(q)
     }),
     n = b.m("qyj8Ob");
@@ -5650,7 +5522,7 @@ function zk(a, b) {
     e.close()
   });
   var d = a.m("xx9bMc");
-  W(a, 3, "Download complete", c, void 0, !0, b, void 0, void 0, void 0, void 0, "click:uploadFirmware");
+  W(a, 3, "Download complete", c, void 0, true, b, void 0, void 0, void 0, void 0, "click:uploadFirmware");
   a.l(d)
 }
 yk.B = E;
@@ -5676,7 +5548,7 @@ function Ck(a, b, c, d, e) {
           (Ek = ["class", "PanelTopButtonRow"]));
         l.h();
         var n = l.m("YdGuX");
-        V(l, "Allow Chrome to install", void 0, "secondary", void 0, void 0, void 0, void 0, !0, void 0, void 0, "click:selectController");
+        V(l, "Allow Chrome to install", void 0, "secondary", void 0, void 0, void 0, void 0, true, void 0, void 0, "click:selectController");
         l.l(n);
         l.close();
         var p = "A two-part image illustrating what to do during this step after selecting the \u201cAllow Chrome to install\u201d button. The first part shows the Chrome device list dialog with the text \u201c" + Gj() + " wants to connect to a HID device\u201d. The device list has one entry titled \u201cUSB COMPOSITE DEVICE\u201d as an example. A mouse is clicking the device to select it. In the second part of the image, a mouse is clicking the \u201cConnect\u201d button in that same dialog.",
@@ -5716,7 +5588,7 @@ function Ck(a, b, c, d, e) {
       l.close()
     }),
     k = b.m("V4peNc");
-  W(b, 4, f, h, void 0, void 0, g, null == e, !1);
+  W(b, 4, f, h, void 0, void 0, g, null == e, false);
   b.l(k)
 }
 Bk.B = E;
@@ -5749,7 +5621,7 @@ function Jk(a, b) {
         var k = stringHome(),
           l = f.m("BpOomf");
         V(f, g, void 0, "secondary",
-          void 0, void 0, void 0, void 0, !0, void 0, void 0, "click:gettingStartedModal1");
+          void 0, void 0, void 0, void 0, true, void 0, void 0, "click:gettingStartedModal1");
         f.l(l);
         var n = f.m("cEnfFc");
         V(f, "Update another Stadia Controller", void 0, "stadiasecondary", void 0, void 0, void 0, void 0, void 0, void 0, void 0, "click:selectAction");
@@ -5760,7 +5632,7 @@ function Jk(a, b) {
         f.close()
       }),
       d = a.m("LlrLfb");
-    W(a, 4, "The latest Bluetooth mode update is installed. Game on!", c, void 0, !0, b, !1);
+    W(a, 4, "The latest Bluetooth mode update is installed. Game on!", c, void 0, true, b, false);
     a.l(d)
   } else if ("gotham" ==
     b) {
@@ -5789,7 +5661,7 @@ function Jk(a, b) {
       g = stringHome();
       var k = f.m("SiZJif");
       V(f, "Update another Stadia Controller", void 0, "stadiasecondary",
-        void 0, void 0, void 0, void 0, !0, void 0, void 0, "click:selectAction");
+        void 0, void 0, void 0, void 0, true, void 0, void 0, "click:selectAction");
       f.l(k);
       var l = f.m("roDMtc");
       V(f, g, void 0, "stadiatext", void 0, void 0, void 0, void 0, void 0, void 0, void 0, "click:returnHome");
@@ -5797,7 +5669,7 @@ function Jk(a, b) {
       f.close()
     });
     var e = a.m("ENlWoe");
-    W(a, 4, "Wi-Fi mode is enabled. Game on!", c, void 0, !0, b, !1);
+    W(a, 4, "Wi-Fi mode is enabled. Game on!", c, void 0, true, b, false);
     a.l(e)
   }
 }
@@ -5816,7 +5688,7 @@ function Ok(a) {
       e.i(Qk || (Qk = ["class", "PanelTopButtonRow"]));
       e.h();
       var f = e.m("nMTav");
-      V(e, "Check controller mode", void 0, "secondary", void 0, void 0, void 0, void 0, !0, void 0, void 0, "click:checkMode");
+      V(e, "Check controller mode", void 0, "secondary", void 0, void 0, void 0, void 0, true, void 0, void 0, "click:checkMode");
       e.l(f);
       e.close();
       var g = e.m("AKPpge");
@@ -5825,7 +5697,7 @@ function Ok(a) {
       e.close()
     }),
     d = a.m("mll0K");
-  W(a, 4, "Check the controller mode to confirm installation", c, void 0, !0, b, !1);
+  W(a, 4, "Check the controller mode to confirm installation", c, void 0, true, b, false);
   a.l(d)
 }
 Ok.B = E;
@@ -5931,7 +5803,7 @@ function bl(a, b) {
 }
 
 function cl(a) {
-  a.preventDefault ? a.preventDefault() : a.returnValue = !1
+  a.preventDefault ? a.preventDefault() : a.returnValue = false
 }
 
 function dl(a) {
@@ -5939,11 +5811,11 @@ function dl(a) {
   !a.getAttribute && a.parentNode && (a = a.parentNode);
   return a
 }
-var el = "undefined" != typeof navigator && /Macintosh/.test(navigator.userAgent),
-  fl = "undefined" != typeof navigator && !/Opera/.test(navigator.userAgent) && /WebKit/.test(navigator.userAgent),
-  gl = "undefined" != typeof navigator && (/MSIE/.test(navigator.userAgent) || /Trident/.test(navigator.userAgent)),
-  hl = "undefined" != typeof navigator && !/Opera|WebKit/.test(navigator.userAgent) && /Gecko/.test(navigator.product),
-  il = {
+var isMacintosh = "undefined" != typeof navigator && /Macintosh/.test(navigator.userAgent),
+  isWebkit = "undefined" != typeof navigator && !/Opera/.test(navigator.userAgent) && /WebKit/.test(navigator.userAgent),
+  isMSIE = "undefined" != typeof navigator && (/MSIE/.test(navigator.userAgent) || /Trident/.test(navigator.userAgent)),
+  isGecko = "undefined" != typeof navigator && !/Opera|WebKit/.test(navigator.userAgent) && /Gecko/.test(navigator.product),
+  tagNames = {
     A: 1,
     INPUT: 1,
     TEXTAREA: 1,
@@ -5952,7 +5824,7 @@ var el = "undefined" != typeof navigator && /Macintosh/.test(navigator.userAgent
   };
 
 function jl() {
-  this._mouseEventsPrevented = !0
+  this._mouseEventsPrevented = true
 }
 
 function kl(a) {
@@ -5992,43 +5864,43 @@ var ll = {
     TREEITEM: 13
   },
   nl = {
-    CHECKBOX: !0,
-    FILE: !0,
-    OPTION: !0,
-    RADIO: !0
+    CHECKBOX: true,
+    FILE: true,
+    OPTION: true,
+    RADIO: true
   },
   ol = {
-    COLOR: !0,
-    DATE: !0,
-    DATETIME: !0,
-    "DATETIME-LOCAL": !0,
-    EMAIL: !0,
-    MONTH: !0,
-    NUMBER: !0,
-    PASSWORD: !0,
-    RANGE: !0,
-    SEARCH: !0,
-    TEL: !0,
-    TEXT: !0,
-    TEXTAREA: !0,
-    TIME: !0,
-    URL: !0,
-    WEEK: !0
+    COLOR: true,
+    DATE: true,
+    DATETIME: true,
+    "DATETIME-LOCAL": true,
+    EMAIL: true,
+    MONTH: true,
+    NUMBER: true,
+    PASSWORD: true,
+    RANGE: true,
+    SEARCH: true,
+    TEL: true,
+    TEXT: true,
+    TEXTAREA: true,
+    TIME: true,
+    URL: true,
+    WEEK: true
   },
   pl = {
-    A: !0,
-    AREA: !0,
-    BUTTON: !0,
-    DIALOG: !0,
-    IMG: !0,
-    INPUT: !0,
-    LINK: !0,
-    MENU: !0,
-    OPTGROUP: !0,
-    OPTION: !0,
-    PROGRESS: !0,
-    SELECT: !0,
-    TEXTAREA: !0
+    A: true,
+    AREA: true,
+    BUTTON: true,
+    DIALOG: true,
+    IMG: true,
+    INPUT: true,
+    LINK: true,
+    MENU: true,
+    OPTGROUP: true,
+    OPTION: true,
+    PROGRESS: true,
+    SELECT: true,
+    TEXTAREA: true
   };
 /*
 
@@ -6050,7 +5922,7 @@ function ql(a, b, c, d, e, f) {
   this.j = {};
   this.j["main-actionflow-branch"] = 1;
   this.v = {};
-  this.u = !1;
+  this.u = false;
   this.g = {};
   this.F = {};
   c && b && "click" == c.type && this.action(b);
@@ -6060,17 +5932,17 @@ function ql(a, b, c, d, e, f) {
   null != vl && C(vl, b)
 }
 ra(ql, Db);
-t = ql.prototype;
-t.id = function () {
+closureTempHolder = ql.prototype;
+closureTempHolder.id = function () {
   return this.Y
 };
-t.done = function (a, b, c) {
+closureTempHolder.done = function (a, b, c) {
   if (this.u || !this.j[a]) wl(this, "done", a, b);
   else {
     if (b) {
       this.u && wl(this, "tick", void 0, b);
       c = c || {};
-      b in this.S && (this.v[b] = !0);
+      b in this.S && (this.v[b] = true);
       var d = c.time || Date.now();
       !c.lb && !c.Eb && d > this.R && (this.R = d);
       for (var e = d - this.O, f = this.K.length; 0 < f && this.K[f - 1][1] > e;) f--;
@@ -6081,10 +5953,10 @@ t.done = function (a, b, c) {
     0 == this.j[a] && delete this.j[a];
     a: {
       for (var g in this.j) {
-        a = !1;
+        a = false;
         break a
       }
-      a = !0
+      a = true
     }
     if (a)
       if (vl) {
@@ -6093,9 +5965,9 @@ t.done = function (a, b, c) {
         b && (this.F.dup = b);
         h = new ul("beforedone",
           this);
-        C(this, h) && C(vl, h) ? ((a = xl(this.F)) && (this.g.cad = a), h.type = "done", a = C(vl, h)) : a = !1
-      } else a = !0;
-    a && (this.u = !0, gb(sl, this), this.M = this.N = null, this.D || (this.D = !0, this.ca()))
+        C(this, h) && C(vl, h) ? ((a = xl(this.F)) && (this.g.cad = a), h.type = "done", a = C(vl, h)) : a = false
+      } else a = true;
+    a && (this.u = true, gb(sl, this), this.M = this.N = null, this.D || (this.D = true, this.ca()))
   }
 };
 
@@ -6119,7 +5991,7 @@ function xl(a) {
   });
   return b.join(",")
 }
-t.action = function (a) {
+closureTempHolder.action = function (a) {
   this.u && wl(this, "action");
   var b = [],
     c = null,
@@ -6147,16 +6019,16 @@ function zl(a, b) {
 function yl(a, b) {
   for (; a && 1 == a.nodeType; a = a.parentNode) b(a)
 }
-t.event = function () {
+closureTempHolder.event = function () {
   return this.M
 };
-t.eventType = function () {
+closureTempHolder.eventType = function () {
   return this.Z
 };
-t.target = function () {
+closureTempHolder.target = function () {
   return this.H
 };
-t.value = function (a) {
+closureTempHolder.value = function (a) {
   var b = this.N;
   return b ? a in b ? b[a] : b.getAttribute ? b.getAttribute(a) : void 0 : void 0
 };
@@ -6207,7 +6079,7 @@ Bl.prototype.s = function (a, b) {
         if ("keypress" == h || "keydown" == h || "keyup" == h) {
           if (document.createEvent)
             if (e = document.createEvent("KeyboardEvent"), e.initKeyboardEvent) {
-              if (gl) {
+              if (isMSIE) {
                 h = f.ctrlKey;
                 var k = f.metaKey,
                   l = f.shiftKey,
@@ -6218,37 +6090,37 @@ Bl.prototype.s = function (a, b) {
                 l && n.push("Shift");
                 h = n.join(" ");
                 e.initKeyboardEvent(g ||
-                  f.type, !0, !0, window, f.key, f.location, h, f.repeat, f.locale)
-              } else e.initKeyboardEvent(g || f.type, !0, !0, window, f.key, f.location, f.ctrlKey, f.altKey, f.shiftKey, f.metaKey), Object.defineProperty(e, "repeat", {
+                  f.type, true, true, window, f.key, f.location, h, f.repeat, f.locale)
+              } else e.initKeyboardEvent(g || f.type, true, true, window, f.key, f.location, f.ctrlKey, f.altKey, f.shiftKey, f.metaKey), Object.defineProperty(e, "repeat", {
                 get: Al(f.repeat),
-                enumerable: !0
+                enumerable: true
               }), Object.defineProperty(e, "locale", {
                 get: Al(f.locale),
-                enumerable: !0
+                enumerable: true
               });
-              fl && f.key && "" === e.key && Object.defineProperty(e, "key", {
+              isWebkit && f.key && "" === e.key && Object.defineProperty(e, "key", {
                 get: Al(f.key),
-                enumerable: !0
+                enumerable: true
               });
-              if (fl || gl || hl) Object.defineProperty(e, "charCode", {
+              if (isWebkit || isMSIE || isGecko) Object.defineProperty(e, "charCode", {
                 get: Al(f.charCode),
-                enumerable: !0
+                enumerable: true
               }), g = Al(f.keyCode), Object.defineProperty(e,
                 "keyCode", {
                   get: g,
-                  enumerable: !0
+                  enumerable: true
                 }), Object.defineProperty(e, "which", {
                 get: g,
-                enumerable: !0
+                enumerable: true
               })
-            } else e.initKeyEvent(g || f.type, !0, !0, window, f.ctrlKey, f.altKey, f.shiftKey, f.metaKey, f.keyCode, f.charCode);
+            } else e.initKeyEvent(g || f.type, true, true, window, f.ctrlKey, f.altKey, f.shiftKey, f.metaKey, f.keyCode, f.charCode);
           else e = document.createEventObject(), e.type = g || f.type, e.repeat = f.repeat, e.ctrlKey = f.ctrlKey, e.altKey = f.altKey, e.shiftKey = f.shiftKey, e.metaKey = f.metaKey, e.key = f.key, e.keyCode = f.keyCode, e.charCode = f.charCode;
           e.ja = f.timeStamp;
           g = e
         } else if ("click" == h || "dblclick" == h || "mousedown" == h || "mouseover" == h || "mouseout" == h ||
-          "mousemove" == h) document.createEvent ? (e = document.createEvent("MouseEvent"), e.initMouseEvent(g || f.type, !0, !0, window, f.detail || 1, f.screenX || 0, f.screenY || 0, f.clientX || 0, f.clientY || 0, f.ctrlKey || !1, f.altKey || !1, f.shiftKey || !1, f.metaKey || !1, f.button || 0, f.relatedTarget || null)) : (e = document.createEventObject(), e.type = g || f.type, e.clientX = f.clientX, e.clientY = f.clientY, e.button = f.button, e.detail = f.detail, e.ctrlKey = f.ctrlKey, e.altKey = f.altKey, e.shiftKey = f.shiftKey, e.metaKey = f.metaKey), e.ja = f.timeStamp, g = e;
+          "mousemove" == h) document.createEvent ? (e = document.createEvent("MouseEvent"), e.initMouseEvent(g || f.type, true, true, window, f.detail || 1, f.screenX || 0, f.screenY || 0, f.clientX || 0, f.clientY || 0, f.ctrlKey || false, f.altKey || false, f.shiftKey || false, f.metaKey || false, f.button || 0, f.relatedTarget || null)) : (e = document.createEventObject(), e.type = g || f.type, e.clientX = f.clientX, e.clientY = f.clientY, e.button = f.button, e.detail = f.detail, e.ctrlKey = f.ctrlKey, e.altKey = f.altKey, e.shiftKey = f.shiftKey, e.metaKey = f.metaKey), e.ja = f.timeStamp, g = e;
         else if ("focus" ==
-          h || "blur" == h || "focusin" == h || "focusout" == h || "scroll" == h) document.createEvent ? (e = document.createEvent("UIEvent"), e.initUIEvent(g || f.type, void 0 !== f.bubbles ? f.bubbles : !0, f.cancelable || !1, f.view || window, f.detail || 0)) : (e = document.createEventObject(), e.type = g || f.type, e.bubbles = void 0 !== f.bubbles ? f.bubbles : !0, e.cancelable = f.cancelable || !1, e.view = f.view || window, e.detail = f.detail || 0), e.relatedTarget = f.relatedTarget || null, e.ja = f.timeStamp, g = e;
+          h || "blur" == h || "focusin" == h || "focusout" == h || "scroll" == h) document.createEvent ? (e = document.createEvent("UIEvent"), e.initUIEvent(g || f.type, void 0 !== f.bubbles ? f.bubbles : true, f.cancelable || false, f.view || window, f.detail || 0)) : (e = document.createEventObject(), e.type = g || f.type, e.bubbles = void 0 !== f.bubbles ? f.bubbles : true, e.cancelable = f.cancelable || false, e.view = f.view || window, e.detail = f.detail || 0), e.relatedTarget = f.relatedTarget || null, e.ja = f.timeStamp, g = e;
         else if ("_custom" == h) {
           g = {
             _type: g,
@@ -6257,13 +6129,13 @@ Bl.prototype.s = function (a, b) {
             Ib: f.detail.triggeringEvent
           };
           try {
-            e = document.createEvent("CustomEvent"), e.initCustomEvent("_custom", !0, !1, g)
+            e = document.createEvent("CustomEvent"), e.initCustomEvent("_custom", true, false, g)
           } catch (p) {
-            e = document.createEvent("HTMLEvents"), e.initEvent("_custom", !0, !1), e.detail = g
+            e = document.createEvent("HTMLEvents"), e.initEvent("_custom", true, false), e.detail = g
           }
           g = e;
           g.ja = f.timeStamp
-        } else document.createEvent ? (e = document.createEvent("Event"), e.initEvent(g || f.type, !0, !0)) : (e = document.createEventObject(), e.type = g || f.type), e.ja = f.timeStamp, g = e;
+        } else document.createEvent ? (e = document.createEvent("Event"), e.initEvent(g || f.type, true, true)) : (e = document.createEventObject(), e.type = g || f.type), e.ja = f.timeStamp, g = e;
         d = d.targetElement;
         f = g;
         d.dispatchEvent ? d.dispatchEvent(f) : d.fireEvent("on" + f.type, f)
@@ -6276,16 +6148,16 @@ Bl.prototype.s = function (a, b) {
     if (b) {
       c = a.event;
       a = this.v[a.eventType];
-      b = !1;
+      b = false;
       if (a)
-        for (d = 0; f = a[d++];) !1 === f(c) && (b = !0);
+        for (d = 0; f = a[d++];) false === f(c) && (b = true);
       b && cl(c)
     } else b = a.action, c || (c = this.j[b]), c ? (a = this.u(a), c(a), a.done("main-actionflow-branch")) : (c = kl(a.event), a.event = c, this.g.push(a))
   }
 };
 
 function Dl(a, b) {
-  b = void 0 === b ? !1 : b;
+  b = void 0 === b ? false : b;
   if ("maybe_click" !== a.eventType) return a;
   var c = {};
   for (d in a) c[d] = a[d];
@@ -6295,10 +6167,10 @@ function Dl(a, b) {
     var f = a.event;
     a = f.which || f.keyCode;
     !a && f.key && (a = ll[f.key]);
-    fl && 3 == a && (a = 13);
-    if (13 != a && 32 != a) e = !1;
+    isWebkit && 3 == a && (a = 13);
+    if (13 != a && 32 != a) e = false;
     else if (e = dl(f), (f = "keydown" != f.type || !!(!("getAttribute" in e) || (e.getAttribute("type") || e.tagName).toUpperCase() in ol || "BUTTON" == e.tagName.toUpperCase() || e.type && "FILE" == e.type.toUpperCase() || e.isContentEditable) || f.ctrlKey || f.shiftKey || f.altKey || f.metaKey ||
-        (e.getAttribute("type") || e.tagName).toUpperCase() in nl && 32 == a) || ((f = e.tagName in il) || (f = e.getAttributeNode("tabindex"), f = null != f && f.specified), f = !(f && !e.disabled)), f) e = !1;
+        (e.getAttribute("type") || e.tagName).toUpperCase() in nl && 32 == a) || ((f = e.tagName in tagNames) || (f = e.getAttributeNode("tabindex"), f = null != f && f.specified), f = !(f && !e.disabled)), f) e = false;
     else {
       f = (e.getAttribute("role") || e.type || e.tagName).toUpperCase();
       var g = !(f in ml) && 13 == a;
@@ -6307,7 +6179,7 @@ function Dl(a, b) {
     }
   }
   e ? (c.actionElement ? (b = c.event, a = dl(b), a = (a.type || a.tagName).toUpperCase(), (a = 32 == (b.which || b.keyCode) && "CHECKBOX" != a) || (b = dl(b), a = b.tagName.toUpperCase(), e = (b.getAttribute("role") ||
-    "").toUpperCase(), a = "BUTTON" === a || "BUTTON" === e ? !0 : !(b.tagName.toUpperCase() in pl) || "A" === a || "SELECT" === a || (b.getAttribute("type") || b.tagName).toUpperCase() in nl || (b.getAttribute("type") || b.tagName).toUpperCase() in ol ? !1 : !0), b = a || "A" == c.actionElement.tagName ? !0 : !1) : b = !1, b && cl(d), c.eventType = "click") : (c.eventType = "keydown", b || (d = kl(d), d.a11ysc = !0, d.a11ysgd = !0, c.event = d, c.needsRetrigger = !0));
+    "").toUpperCase(), a = "BUTTON" === a || "BUTTON" === e ? true : !(b.tagName.toUpperCase() in pl) || "A" === a || "SELECT" === a || (b.getAttribute("type") || b.tagName).toUpperCase() in nl || (b.getAttribute("type") || b.tagName).toUpperCase() in ol ? false : true), b = a || "A" == c.actionElement.tagName ? true : false) : b = false, b && cl(d), c.eventType = "click") : (c.eventType = "keydown", b || (d = kl(d), d.a11ysc = true, d.a11ysgd = true, c.event = d, c.needsRetrigger = true));
   return c
 }
 
@@ -6332,9 +6204,9 @@ function Gl(a) {
 
 function Hl(a, b) {
   return function f(d, e) {
-    e = void 0 === e ? !0 : e;
+    e = void 0 === e ? true : e;
     var g = b;
-    "click" == g && (el && d.metaKey || !el && d.ctrlKey || 2 == d.which || null == d.which && 4 == d.button || d.shiftKey) && (g = "clickmod");
+    "click" == g && (isMacintosh && d.metaKey || !isMacintosh && d.ctrlKey || 2 == d.which || null == d.which && 4 == d.button || d.shiftKey) && (g = "clickmod");
     for (var h = d.srcElement || d.target, k = Il(g, d, h, "", null), l, n, p, q, w = h; w && w != this; w = w.__owner || ("#document-fragment" !== (null == (p = w.parentNode) ? void 0 : p.nodeName) ? w.parentNode : null == (q = w.parentNode) ? void 0 : q.host)) {
       n = w;
       var m = l = void 0,
@@ -6385,7 +6257,7 @@ function Hl(a, b) {
         eventType: F,
         action: m[F] || "",
         event: null,
-        ignore: !1
+        ignore: false
       };
       if (l.ignore || l.action) break
     }
@@ -6393,20 +6265,20 @@ function Hl(a, b) {
     k && "touchend" == k.eventType && (k.event._preventMouseEvents = jl);
     l && l.action || (k.action = "", k.actionElement = null);
     g = k;
-    a.j && !g.event.a11ysgd && (h = Il(g.eventType, g.event, g.targetElement, g.action, g.actionElement, g.timeStamp), "clickonly" == h.eventType && (h.eventType = "click"), a.j(h, !0));
+    a.j && !g.event.a11ysgd && (h = Il(g.eventType, g.event, g.targetElement, g.action, g.actionElement, g.timeStamp), "clickonly" == h.eventType && (h.eventType = "click"), a.j(h, true));
     if (g.actionElement) {
-      h = !1;
+      h = false;
       if ("maybe_click" !== g.eventType) {
-        if (!hl || "INPUT" != g.targetElement.tagName && "TEXTAREA" != g.targetElement.tagName ||
-          "focus" != g.eventType) d.stopPropagation ? d.stopPropagation() : d.cancelBubble = !0
-      } else "maybe_click" === g.eventType && (h = !0);
+        if (!isGecko || "INPUT" != g.targetElement.tagName && "TEXTAREA" != g.targetElement.tagName ||
+          "focus" != g.eventType) d.stopPropagation ? d.stopPropagation() : d.cancelBubble = true
+      } else "maybe_click" === g.eventType && (h = true);
       if (a.j) {
         g.actionElement && "A" == g.actionElement.tagName && ("click" == g.eventType || "clickmod" == g.eventType) && cl(d);
         if ((d = a.j(g)) && e) {
-          f.call(this, d, !1);
+          f.call(this, d, false);
           return
         }
-        h && (e = g.event, e.stopPropagation ? e.stopPropagation() : e.cancelBubble = !0)
+        h && (e = g.event, e.stopPropagation ? e.stopPropagation() : e.cancelBubble = true)
       } else e = kl(d), g.event = e, a.g.push(g);
       El._aeh && El._aeh(g)
     }
@@ -6434,10 +6306,10 @@ function Nl(a, b) {
   return function (c) {
     var d = a,
       e = b,
-      f = !1;
+      f = false;
     "mouseenter" == d ? d = "mouseover" : "mouseleave" == d ? d = "mouseout" : "pointerenter" == d ? d = "pointerover" : "pointerleave" == d && (d = "pointerout");
     if (c.addEventListener) {
-      if ("focus" == d || "blur" == d || "error" == d || "load" == d || "toggle" == d) f = !0;
+      if ("focus" == d || "blur" == d || "error" == d || "load" == d || "toggle" == d) f = true;
       c.addEventListener(d, e, f)
     } else c.attachEvent && ("focus" == d ? d = "focusin" : "blur" == d && (d = "focusout"), e = bl(c, e), c.attachEvent("on" + d, e));
     return {
@@ -6481,7 +6353,7 @@ function Sl(a, b) {
   return Rl(c)
 };
 
-function Tl() {
+function detectMobileBrowser() {
   return searchUAString("iPad") || searchUAString("Android") && !searchUAString("Mobile") || searchUAString("Silk")
 };
 
@@ -6511,15 +6383,15 @@ if ($l = detectIfChrome()) {
 const APP_CONFIG = {
     locale: Xl,
     ra: Yl,
-    Va: !1,
+    Va: false,
     xb: "hid" in navigator,
     wb: $l,
-    ob: !(!Tl() && (searchUAString("iPod") || searchUAString("iPhone") || searchUAString("Android") || searchUAString("IEMobile"))) && !Tl(),
-    Ca: !1,
+    ob: !(!detectMobileBrowser() && (searchUAString("iPod") || searchUAString("iPhone") || searchUAString("Android") || searchUAString("IEMobile"))) && !detectMobileBrowser(),
+    Ca: false,
     Ga: null,
-    ka: null
+    activeElement: null
   },
-  im = new IntersectionObserver(function (a) {
+  scrollObserver = new IntersectionObserver(function (a) {
     a = v(a).next().value;
     hm({
       Ka: !a.isIntersecting
@@ -6531,35 +6403,36 @@ const APP_CONFIG = {
 
 function hm(a) {
   Object.assign(APP_CONFIG, a);
-  var b = document.getElementById("app-container"),
-    c = b.contains(document.activeElement) || APP_CONFIG.Ua && document.activeElement === document.body,
-    d = null != b.querySelector("#active-dialog");
-  d || (APP_CONFIG.ka = document.activeElement);
-  Ul(b);
+  var root = document.getElementById("app-container");
+  var c = root.contains(document.activeElement) || APP_CONFIG.Ua && document.activeElement === document.body;
+  var d = null != root.querySelector("#active-dialog");
+  d || (APP_CONFIG.activeElement = document.activeElement);
+  Ul(root);
   var e = document.querySelector("#active-dialog"),
     f = e && !e.open;
   f && (e.showModal(), e.addEventListener("cancel", function (k) {
     k.preventDefault()
   }));
-  if (d && !e && APP_CONFIG.ka instanceof HTMLElement && document.contains(APP_CONFIG.ka)) {
+  if (d && !e && APP_CONFIG.activeElement instanceof HTMLElement && document.contains(APP_CONFIG.activeElement)) {
     var g;
-    null == (g = APP_CONFIG.ka) || g.focus()
-  } else if (f || c && !b.contains(document.activeElement)) {
+    null == (g = APP_CONFIG.activeElement) || g.focus()
+  } else if (f || c && !root.contains(document.activeElement)) {
     var h;
     null == (h = ["[role=dialog] [data-initial-focus]:not([disabled])", "[role=dialog] button:not([disabled]), [role=dialog] input[type=checkbox]", "[data-initial-focus]:not([disabled])", "button:not([disabled]), input[type=checkbox]"].map(function (k) {
-      return b.querySelector(k)
+      return root.querySelector(k)
     }).find(function (k) {
       return null != k
     })) || h.focus()
   }
-  void 0 === (null == a ? void 0 : a.Ka) && (im.disconnect(), (a = document.getElementById("panel-bottom-button-bar")) && im.observe(a))
+  void 0 === (null == a ? void 0 : a.Ka) && (scrollObserver.disconnect(), (a = document.getElementById("panel-bottom-button-bar")) && scrollObserver.observe(a))
 }
+
 const FIRMWARE_LIST = {
     bruce_dev: "bruce_dvt_a_dev_signed.bin",
     bruce_dvt: "bruce_dvt_a_stage_signed.bin",
     bruce_pvt: "bruce_pvt_a_prod_signed.bin",
-    gotham_dev: "gotham_dvt_a_dev_signed.bin",
-    gotham_dvt: "gotham_dvt_a_stage_signed.bin",
+    // gotham_dev: "gotham_dvt_a_dev_signed.bin", Unavailable
+    // gotham_dvt: "gotham_dvt_a_stage_signed.bin", Unavailable
     gotham_pvt: "ota.316382.stable-channel.gotham-pvt-b.da986392604309ea67eab5fa84f747e955f2875c.bin"
   };
 
@@ -6574,7 +6447,7 @@ function lm() {
   var b, c, d = null != (c = null != (b = APP_CONFIG.ra) ? b : APP_CONFIG.ba) ? c : "pvt";
   return getFirmwareURL(FIRMWARE_LIST[a + "_" + d])
 }
-var mm = [{
+const DEVICE_IDS = [{
     vendorId: 5538,
     productId: 115
   }, {
@@ -6586,8 +6459,8 @@ var mm = [{
   }, {
     vendorId: 8137,
     productId: 309
-  }],
-  nm = [ok, yk, Bk];
+  }];
+var nm = [ok, yk, Bk];
 
 function om(a) {
   a.returnValue = " "
@@ -6624,8 +6497,8 @@ function pm(a) {
   })
 }
 
-function qm() {
-  APP_CONFIG.Wa = !1;
+function InitFlasherApp() {
+  APP_CONFIG.Wa = false;
   Y(null);
   (new IntersectionObserver(function (a) {
     a = v(a).next().value;
@@ -6647,7 +6520,7 @@ function rm() {
 function sm() {
   return null != APP_CONFIG.U && 10 > APP_CONFIG.U ? (Z(Ii, {
     U: APP_CONFIG.U
-  }), !0) : !1
+  }), true) : false
 }
 
 function tm() {
@@ -6657,14 +6530,14 @@ function tm() {
 function um() {
   var a, b, c, d;
   return z(function (e) {
-    if (1 == e.g) return pm(!0), wa(e), a = Date.now(), x(e, navigator.hid.requestDevice({
-      filters: mm
+    if (1 == e.g) return pm(true), wa(e), a = Date.now(), x(e, navigator.hid.requestDevice({
+      filters: DEVICE_IDS
     }), 4);
     if (2 != e.g) return b = e.j, c = Date.now() - a, console.log("requestDevice returned after " + c + "ms"), 0 === b.length && 100 > c && hm({
-      ga: !0
+      ga: true
     }), e.return(null != (d = b[0]) ? d : null);
     za(e);
-    pm(!1);
+    pm(false);
     return Ba(e, 0)
   })
 }
@@ -6674,19 +6547,19 @@ function vm() {
   return z(function (d) {
     switch (d.g) {
       case 1:
-        return pm(!0), a = Date.now(), va(d, 2, 3), x(d, navigator.usb.requestDevice({
-          filters: mm
+        return pm(true), a = Date.now(), va(d, 2, 3), x(d, navigator.usb.requestDevice({
+          filters: DEVICE_IDS
         }), 5);
       case 5:
         return d.return(d.j);
       case 3:
         za(d);
-        pm(!1);
+        pm(false);
         Ba(d, 0);
         break;
       case 2:
         return b = ya(d), c = Date.now() - a, console.log("requestDevice returned after " + c + "ms"), 100 > c && hm({
-          ga: !0
+          ga: true
         }), console.log(b), d.return(null)
     }
   })
@@ -6699,7 +6572,7 @@ function getFlashloader(a) {
       case 1:
         return Y(ok, {
           C: APP_CONFIG.C,
-          progress: !0
+          progress: true
         }), va(d, 2), x(d, getFirmwareURL("restricted_ivt_flashloader.bin"), 4);
       case 4:
         return b = d.j, console.log("flashloader image is " + b.byteLength + " bytes"), x(d, Promise.all([bj(a, b), lm(), new Promise(function (e) {
@@ -6923,7 +6796,7 @@ Dm.g && (0 < Dm.g.length && Em(Dm.g), Dm.g = null);
     return void Y(Hj)
   },
   agreeToTerms: function () {
-    APP_CONFIG.Ca = !0;
+    APP_CONFIG.Ca = true;
     rm()
   },
   languageSelected: function () {
@@ -6951,7 +6824,7 @@ Dm.g && (0 < Dm.g.length && Em(Dm.g), Dm.g = null);
       C: APP_CONFIG.C
     })
   },
-  returnHome: qm,
+  returnHome: InitFlasherApp,
   cancelAndExit: function () {
     return void Z(ri, {
       tb: APP_CONFIG.Va
@@ -6988,5 +6861,7 @@ Dm.g && (0 < Dm.g.length && Em(Dm.g), Dm.g = null);
     })
   }
 });
+
+// Boot the app
 console.log("Currently serving Bruce build 337784");
-document.documentElement.hasAttribute("data-is-placeholder") || qm();
+document.documentElement.hasAttribute("data-is-placeholder") || InitFlasherApp();

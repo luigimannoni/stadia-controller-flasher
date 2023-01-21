@@ -30,14 +30,16 @@ By adding `?device_type=` on the url as query parameter a different firmware typ
 
 ## Binary Build
 
-Follow these steps to build for Windows, Max and Linux:
+Pre-build standalone executables can be found on the [Releases tab](https://github.com/luigimannoni/stadia-controller-flasher/releases)
+
+Follow these steps to build for Windows, Max and Linux if you wish to build executables yourself:
 - `npm run pkg`
 - then run the binary with ./dist/stadia-controller-flasher-linux
 
 ### Triggering a release
 
-1. `npm version <patch|minor|major>`
-2. `git push origin <version_branch>`
+1. `npm version --git-tag-version <patch|minor|major|version_number>`
+2. `git push origin <version_branch> --tags`
 
 ## Credits
 

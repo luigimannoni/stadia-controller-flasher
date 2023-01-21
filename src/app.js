@@ -4,7 +4,7 @@
  SPDX-License-Identifier: Apache-2.0
 */
 'use strict';
-var t;
+var closureTempHolder;
 
 function ba(a) {
   var b = 0;
@@ -1827,8 +1827,8 @@ function NetworkXhrIo(a, newURI) {
 function $c(a) {
   return isIELegacy && "number" === typeof a.timeout && void 0 !== a.ontimeout
 }
-t = Uc.prototype;
-t.Za = function () {
+closureTempHolder = Uc.prototype;
+closureTempHolder.Za = function () {
   "undefined" != typeof La && this.g && (this.v = "Timed out after " + this.M + "ms, aborting", C(this, "timeout"), this.abort(8))
 };
 
@@ -1843,17 +1843,17 @@ function Yc(a, b) {
 function ad(a) {
   a.R || (a.R = !0, C(a, "complete"), C(a, "error"))
 }
-t.abort = function () {
+closureTempHolder.abort = function () {
   this.g && this.j && (this.j = !1, this.u = !0, this.g.abort(), this.u = !1, C(this, "complete"), C(this, "abort"), bd(this))
 };
-t.ca = function () {
+closureTempHolder.ca = function () {
   this.g && (this.j && (this.j = !1, this.u = !0, this.g.abort(), this.u = !1), bd(this, !0));
   Uc.va.ca.call(this)
 };
-t.Ra = function () {
+closureTempHolder.Ra = function () {
   this.D || (this.S || this.F || this.u ? cd(this) : this.sb())
 };
-t.sb = function () {
+closureTempHolder.sb = function () {
   cd(this)
 };
 
@@ -1897,7 +1897,7 @@ function Zc(a) {
   a.g && a.Z && (a.g.ontimeout = null);
   a.K && (A.clearTimeout(a.K), a.K = null)
 }
-t.isActive = function () {
+closureTempHolder.isActive = function () {
   return !!this.g
 };
 
@@ -2491,19 +2491,19 @@ var Be = {
     }, a)
   }(Be);
 
-function Ee() {
+function DOMBuilder() {
   this.X = []
 }
-t = Ee.prototype;
-t.open = function (a, b) {
-  return qe(a, this.ua(b))
+closureTempHolder = DOMBuilder.prototype;
+closureTempHolder.open = function (tag, key) {
+  return qe(tag, this.ua(key))
 };
-t.m = function (a) {
+closureTempHolder.m = function (a) {
   var b = this.ta();
   this.X[this.X.length - 1] = this.ua(a);
   return b
 };
-t.ua = function (a) {
+closureTempHolder.ua = function (a) {
   var b = this.ta();
   if (void 0 === a) a = b;
   else {
@@ -2512,40 +2512,40 @@ t.ua = function (a) {
   }
   return a
 };
-t.l = function (a) {
+closureTempHolder.l = function (a) {
   this.X[this.X.length - 1] = a
 };
-t.ta = function () {
+closureTempHolder.ta = function () {
   return this.X[this.X.length - 1] || ""
 };
-t.close = function () {
+closureTempHolder.close = function () {
   return re()
 };
-t.G = function () {
+closureTempHolder.G = function () {
   var a = this.close();
   a && a.__soy_patch_handler && a.__soy_patch_handler()
 };
-t.text = function (a) {
+closureTempHolder.text = function (a) {
   if (a) return ye(a)
 };
-t.o = function (a, b) {
+closureTempHolder.o = function (a, b) {
   var c = me;
   c.push(a);
   c.push(b)
 };
-t.Ha = function () {
+closureTempHolder.Ha = function () {
   return oe()
 };
-t.Fa = function () {
+closureTempHolder.Fa = function () {
   return J
 };
-t.Xa = function () {
+closureTempHolder.Xa = function () {
   I = oe()
 };
-t.h = function () {
+closureTempHolder.h = function () {
   xe(ze)
 };
-t.i = function (a) {
+closureTempHolder.i = function (a) {
   var b = ze;
   b = void 0 === b ? ae : b;
   var c = J;
@@ -2571,44 +2571,44 @@ t.i = function (a) {
 function Fe() {
   this.g = !1
 }
-t = Fe.prototype;
-t.m = function () {
+closureTempHolder = Fe.prototype;
+closureTempHolder.m = function () {
   return ""
 };
-t.ua = function () {
+closureTempHolder.ua = function () {
   return ""
 };
-t.l = function () {};
-t.ta = function () {
+closureTempHolder.l = function () {};
+closureTempHolder.ta = function () {
   return ""
 };
-t.open = function () {
+closureTempHolder.open = function () {
   this.g = !0
 };
-t.close = function () {
+closureTempHolder.close = function () {
   this.g = !0
 };
-t.G = function () {
+closureTempHolder.G = function () {
   this.g = !0
 };
-t.text = function (a) {
+closureTempHolder.text = function (a) {
   a && (this.g = !0)
 };
-t.o = function () {
+closureTempHolder.o = function () {
   this.g = !0
 };
-t.Ha = function () {
+closureTempHolder.Ha = function () {
   return null
 };
-t.h = function () {
+closureTempHolder.h = function () {
   this.g = !0
 };
-t.i = function () {
+closureTempHolder.i = function () {
   this.g = !0
 };
-t.key = function () {};
-t.Fa = function () {};
-t.Xa = function () {
+closureTempHolder.key = function () {};
+closureTempHolder.Fa = function () {};
+closureTempHolder.Xa = function () {
   this.g = !0
 };
 const CURRENCIES = {
@@ -2919,8 +2919,8 @@ function Ne(a) {
  Copyright The Closure Library Authors.
  SPDX-License-Identifier: Apache-2.0
 */
-var Oe = new Ee,
-  Pe = new Ee;
+var Oe = new DOMBuilder,
+  Pe = new DOMBuilder;
 ze.checked = function (a, b, c) {
   null == c ? (a.removeAttribute("checked"), a.checked = !1) : (a.setAttribute("checked", String(c)), a.checked = !(!1 === c || "false" === c))
 };
@@ -3049,7 +3049,7 @@ function Ve(a, b) {
 }
 
 function We(a) {
-  var b = new Ee,
+  var html = new DOMBuilder,
     c = a.vb,
     d = a.Ja,
     e = a.Wa,
@@ -3067,212 +3067,228 @@ function We(a) {
   e = void 0 === e ? !1 : e;
   f = void 0 === f ? !1 : f;
   g = void 0 === g ? !1 : g;
-  b.open("div", "UP9hZb");
-  b.i(Xe || (Xe = ["id", "app-container"]));
-  b.o("class", "AppContainer" + (g ? " panelBottomBarDocked" : ""));
-  b.h();
-  p && (b.open("div", "GJmiBd"), b.i(Ye || (Ye = ["class", "Scrim"])), b.h(), b.close());
+  html.open("div", "UP9hZb");
+  html.i(Xe || (Xe = ["id", "app-container"]));
+  html.o("class", "AppContainer" + (g ? " panelBottomBarDocked" : ""));
+  html.h();
+  p && (html.open("div", "GJmiBd"), html.i(Ye || (Ye = ["class", "Scrim"])), html.h(), html.close());
+  checkIfGoogleStaff() && (
+    html.open("div", "rQUyAb"),
+    html.i(Ze || (Ze = ["class", "WarningBanner"])),
+    html.h(),
+    // Strong warning
+    html.open("strong", "warn1"),
+    html.text("WARNING: "),
+    html.close(),
+    // Inner text
+    html.text("This utility can brick your device, keep in mind everything is everything is work in progress and experimental, please use "),
+    // Link
+    html.open("a", "warnlink"),
+    html.i(["href", "https://stadia.google.com/controller"]),
+    html.text("the original flashing utility."),
+    html.close(),
+  html.close());
   if (k) {
-    b.open("div", "kddDV");
-    b.i($e || ($e = ["class", "WarningBanner"]));
-    b.h();
-    b.text("This page is currently configured to flash");
+    html.open("div", "kddDV");
+    html.i($e || ($e = ["class", "WarningBanner"]));
+    html.h();
+    html.text("This page is currently configured to flash");
     switch (Na(k) ? k.toString() : k) {
       case "dev":
-        b.text(" DVT devices with dev-signed firmware.");
+        html.text(" DVT devices with dev-signed firmware.");
         break;
       case "dvt":
-        b.text(" DVT devices with stage-signed firmware.");
+        html.text(" DVT devices with stage-signed firmware.");
         break;
       default:
-        b.text(" PVT devices with prod-signed firmware.")
+        html.text(" PVT devices with prod-signed firmware.")
     }
-    b.text(" To enable automatic firmware selection, remove the device_type url parameter.");
-    b.close()
+    html.text(" To enable automatic firmware selection, remove the device_type url parameter.");
+    html.close()
   }
-  if (k = !l && !Od()) g = b.m("UfInJc"), b.open("header",
-    "jRXaod"), b.i(af || (af = ["class", "TopNav"])), b.h(), b.open("div", "NBYCd"), b.i(bf || (bf = ["class", "LogoArea"])), b.h(), b.open("img", "yk7Tqc"), b.i(cf || (cf = ["class", "TopNavLogo", "src", "assets/logo-dark.svg"])), b.o("alt", "Stadia"), b.h(), b.close(), b.open("div", "ZRMrHe"), b.i(df || (df = ["class", "Divider"])), b.h(), b.close(), b.open("div", "rQ5pWc"), b.i(ef || (ef = ["class", "ProductName"])), b.h(), b.text(D("Bluetooth\u00ae mode")), b.close(), b.close(), e && (p = b.m("yIFP1b"), ff(b), b.l(p)), b.G(), b.l(g);
-  b.open("div", "Blfkpf");
-  b.i(gf || (gf = ["id", "main-scroll-container"]));
-  b.o("class", "PageContents " + (k ? " page-home" : ""));
-  b.h();
-  k && (b.open("div", "a8hO0d"), b.i(hf || (hf = ["class", "BTRing BTRing__Small"])), b.h(), b.close(), b.open("div", "Z51mtf"), b.i(jf || (jf = ["class", "BTRing BTRing__Medium"])), b.h(), b.close(), b.open("div", "xcV2b"), b.i(kf || (kf = ["class", "BTRing BTRing__Large"])), b.h(), b.close());
-  b.open("main", "o1GZpe");
-  b.i(lf || (lf = ["aria-live", "polite"]));
-  b.h();
-  Od() ? (l = b.m("oFFLke"), mf(b), b.l(l)) : l ? wd(c) && !q ? (c = b.m("Wn3c8c"), l(b, {
+  if (k = !l && !Od()) g = html.m("UfInJc"), html.open("header",
+    "jRXaod"), html.i(af || (af = ["class", "TopNav"])), html.h(), html.open("div", "NBYCd"), html.i(bf || (bf = ["class", "LogoArea"])), html.h(), html.open("img", "yk7Tqc"), html.i(cf || (cf = ["class", "TopNavLogo", "src", "assets/logo-dark.svg"])), html.o("alt", "Stadia"), html.h(), html.close(), html.open("div", "ZRMrHe"), html.i(df || (df = ["class", "Divider"])), html.h(), html.close(), html.open("div", "rQ5pWc"), html.i(ef || (ef = ["class", "ProductName"])), html.h(), html.text(D("Unofficial flashing utility")), html.close(), html.close(), e && (p = html.m("yIFP1b"), ff(html), html.l(p)), html.G(), html.l(g);
+  html.open("div", "Blfkpf");
+  html.i(gf || (gf = ["id", "main-scroll-container"]));
+  html.o("class", "PageContents " + (k ? " page-home" : ""));
+  html.h();
+  k && (html.open("div", "a8hO0d"), html.i(hf || (hf = ["class", "BTRing BTRing__Small"])), html.h(), html.close(), html.open("div", "Z51mtf"), html.i(jf || (jf = ["class", "BTRing BTRing__Medium"])), html.h(), html.close(), html.open("div", "xcV2b"), html.i(kf || (kf = ["class", "BTRing BTRing__Large"])), html.h(), html.close());
+  html.open("main", "o1GZpe");
+  html.i(lf || (lf = ["aria-live", "polite"]));
+  html.h();
+  Od() ? (l = html.m("oFFLke"), mf(html), html.l(l)) : l ? wd(c) && !q ? (c = html.m("Wn3c8c"), l(html, {
     locale: h,
     ga: f
-  }, void 0), b.l(c)) : a ? q ? (l = b.m("SsHKhd"), nf(b), b.l(l)) : (l = b.m("TZl2df"), of (b), b.l(l)) : (l = b.m("QTNRqe"), pf(b), b.l(l)) : (l = b.m("qmdSJc"), qf(b), b.l(l));
-  b.close();
-  l = b.m("UkUCbf");
-  b.open("footer", "AzCefc");
-  b.i(rf || (rf = ["class", "Footer"]));
-  b.h();
-  b.open("div", "Ud4sec");
-  b.i(sf || (sf = ["class", "FooterContent"]));
-  b.h();
-  b.open("div", "uFqgxe");
-  b.i(tf || (tf = ["class", "FooterLeft"]));
-  b.h();
-  b.open("img", "TP4smb");
-  b.i(uf || (uf = ["class", "FooterLogo", "src", "assets/logo-dark.svg"]));
-  b.o("alt", "Stadia");
-  b.h();
-  b.close();
-  b.open("div", "WshlE");
-  b.i(vf || (vf = ["class", "FooterLinks"]));
-  b.h();
-  b.open("div", "IYF5Pc");
-  b.i(wf || (wf = ["class", "FooterLink"]));
-  b.h();
-  b.open("a", "oeiPz");
-  b.i(xf || (xf = ["target", "_blank"]));
-  c = b.o;
+  }, void 0), html.l(c)) : a ? q ? (l = html.m("SsHKhd"), nf(html), html.l(l)) : (l = html.m("TZl2df"), of (html), html.l(l)) : (l = html.m("QTNRqe"), pf(html), html.l(l)) : (l = html.m("qmdSJc"), qf(html), html.l(l));
+  html.close();
+  l = html.m("UkUCbf");
+  html.open("footer", "AzCefc");
+  html.i(rf || (rf = ["class", "Footer"]));
+  html.h();
+  html.open("div", "Ud4sec");
+  html.i(sf || (sf = ["class", "FooterContent"]));
+  html.h();
+  html.open("div", "uFqgxe");
+  html.i(tf || (tf = ["class", "FooterLeft"]));
+  html.h();
+  html.open("img", "TP4smb");
+  html.i(uf || (uf = ["class", "FooterLogo", "src", "assets/logo-dark.svg"]));
+  html.o("alt", "Stadia");
+  html.h();
+  html.close();
+  html.open("div", "WshlE");
+  html.i(vf || (vf = ["class", "FooterLinks"]));
+  html.h();
+  html.open("div", "IYF5Pc");
+  html.i(wf || (wf = ["class", "FooterLink"]));
+  html.h();
+  html.open("a", "oeiPz");
+  html.i(xf || (xf = ["target", "_blank"]));
+  c = html.o;
   q = vd("https://policies.google.com/privacy");
-  c.call(b, "href", H(q));
-  b.h();
-  b.text(D("Privacy"));
-  b.close();
-  b.close();
-  b.open("div", "RneHN");
-  b.i(yf || (yf = ["class", "FooterLink"]));
-  b.h();
-  b.open("a", "wzSlue");
-  b.i(zf || (zf = ["target", "_blank"]));
-  b.o("href", H(Pd()));
-  b.h();
-  b.text(D("Terms"));
-  b.close();
-  b.close();
-  b.close();
-  b.close();
-  b.open("div", "D8fNIe");
-  b.i(Af || (Af = ["class", "FooterLanguage"]));
-  b.h();
-  c = b.m("vzHlje");
-  b.open("select", "Z5AGAb");
-  b.i(Bf || (Bf = "id language-selector class LanguageSelect jsaction change:languageSelected".split(" ")));
-  b.o("aria-label", "Select language");
-  b.h();
-  b.open("option", "oNJ9yf");
-  changeLanguage(b, "ca", h);
-  b.h();
-  b.text("Catal\u00e0");
-  b.close();
-  b.open("option", "jkkPib");
-  changeLanguage(b, "cs", h);
-  b.h();
-  b.text("\u010ce\u0161tina");
-  b.close();
-  b.open("option", "Q3EJNe");
-  changeLanguage(b, "da", h);
-  b.h();
-  b.text("Dansk");
-  b.close();
-  b.open("option", "Honiff");
-  changeLanguage(b, "nl", h);
-  b.h();
-  b.text("Nederlands");
-  b.close();
-  b.open("option", "ly9YNb");
-  changeLanguage(b, "en-GB", h);
-  b.h();
-  b.text("English (United Kingdom)");
-  b.close();
-  b.open("option", "OU7j2b");
-  changeLanguage(b, "en-US", h);
-  b.h();
-  b.text("English (United States)");
-  b.close();
-  b.open("option", "mzPAnf");
-  changeLanguage(b, "fi", h);
-  b.h();
-  b.text("Suomi");
-  b.close();
-  b.open("option", "M22Unf");
-  changeLanguage(b, "fr", h);
-  b.h();
-  b.text("Fran\u00e7ais");
-  b.close();
-  b.open("option", "LxNFab");
-  changeLanguage(b, "fr-CA", h);
-  b.h();
-  b.text("Fran\u00e7ais (Canada)");
-  b.close();
-  b.open("option", "WJUupc");
-  changeLanguage(b, "de",
+  c.call(html, "href", H(q));
+  html.h();
+  html.text(D("Privacy"));
+  html.close();
+  html.close();
+  html.open("div", "RneHN");
+  html.i(yf || (yf = ["class", "FooterLink"]));
+  html.h();
+  html.open("a", "wzSlue");
+  html.i(zf || (zf = ["target", "_blank"]));
+  html.o("href", H(Pd()));
+  html.h();
+  html.text(D("Terms"));
+  html.close();
+  html.close();
+  html.close();
+  html.close();
+  html.open("div", "D8fNIe");
+  html.i(Af || (Af = ["class", "FooterLanguage"]));
+  html.h();
+  c = html.m("vzHlje");
+  html.open("select", "Z5AGAb");
+  html.i(Bf || (Bf = "id language-selector class LanguageSelect jsaction change:languageSelected".split(" ")));
+  html.o("aria-label", "Select language");
+  html.h();
+  html.open("option", "oNJ9yf");
+  changeLanguage(html, "ca", h);
+  html.h();
+  html.text("Catal\u00e0");
+  html.close();
+  html.open("option", "jkkPib");
+  changeLanguage(html, "cs", h);
+  html.h();
+  html.text("\u010ce\u0161tina");
+  html.close();
+  html.open("option", "Q3EJNe");
+  changeLanguage(html, "da", h);
+  html.h();
+  html.text("Dansk");
+  html.close();
+  html.open("option", "Honiff");
+  changeLanguage(html, "nl", h);
+  html.h();
+  html.text("Nederlands");
+  html.close();
+  html.open("option", "ly9YNb");
+  changeLanguage(html, "en-GB", h);
+  html.h();
+  html.text("English (United Kingdom)");
+  html.close();
+  html.open("option", "OU7j2b");
+  changeLanguage(html, "en-US", h);
+  html.h();
+  html.text("English (United States)");
+  html.close();
+  html.open("option", "mzPAnf");
+  changeLanguage(html, "fi", h);
+  html.h();
+  html.text("Suomi");
+  html.close();
+  html.open("option", "M22Unf");
+  changeLanguage(html, "fr", h);
+  html.h();
+  html.text("Fran\u00e7ais");
+  html.close();
+  html.open("option", "LxNFab");
+  changeLanguage(html, "fr-CA", h);
+  html.h();
+  html.text("Fran\u00e7ais (Canada)");
+  html.close();
+  html.open("option", "WJUupc");
+  changeLanguage(html, "de",
     h);
-  b.h();
-  b.text("Deutsch");
-  b.close();
-  b.open("option", "kUyFye");
-  changeLanguage(b, "hu", h);
-  b.h();
-  b.text("Magyar");
-  b.close();
-  b.open("option", "q9MJ7d");
-  changeLanguage(b, "it", h);
-  b.h();
-  b.text("Italiano");
-  b.close();
-  b.open("option", "hbu1vd");
-  changeLanguage(b, "no", h);
-  b.h();
-  b.text("Norsk");
-  b.close();
-  b.open("option", "c9pBbb");
-  changeLanguage(b, "pl", h);
-  b.h();
-  b.text("Polski");
-  b.close();
-  b.open("option", "Zne7lc");
-  changeLanguage(b, "pt-PT", h);
-  b.h();
-  b.text("Portugu\u00eas (Portugal)");
-  b.close();
-  b.open("option", "liMFJd");
-  changeLanguage(b, "ro", h);
-  b.h();
-  b.text("Rom\u00e2n\u0103");
-  b.close();
-  b.open("option",
+  html.h();
+  html.text("Deutsch");
+  html.close();
+  html.open("option", "kUyFye");
+  changeLanguage(html, "hu", h);
+  html.h();
+  html.text("Magyar");
+  html.close();
+  html.open("option", "q9MJ7d");
+  changeLanguage(html, "it", h);
+  html.h();
+  html.text("Italiano");
+  html.close();
+  html.open("option", "hbu1vd");
+  changeLanguage(html, "no", h);
+  html.h();
+  html.text("Norsk");
+  html.close();
+  html.open("option", "c9pBbb");
+  changeLanguage(html, "pl", h);
+  html.h();
+  html.text("Polski");
+  html.close();
+  html.open("option", "Zne7lc");
+  changeLanguage(html, "pt-PT", h);
+  html.h();
+  html.text("Portugu\u00eas (Portugal)");
+  html.close();
+  html.open("option", "liMFJd");
+  changeLanguage(html, "ro", h);
+  html.h();
+  html.text("Rom\u00e2n\u0103");
+  html.close();
+  html.open("option",
     "MOmFkd");
-  changeLanguage(b, "sk", h);
-  b.h();
-  b.text("Sloven\u010dina");
-  b.close();
-  b.open("option", "fRHVVe");
-  changeLanguage(b, "es", h);
-  b.h();
-  b.text("Espa\u00f1ol");
-  b.close();
-  b.open("option", "L4mgDb");
-  changeLanguage(b, "es-419", h);
-  b.h();
-  b.text("Espa\u00f1ol (Latinoam\u00e9rica)");
-  b.close();
-  b.open("option", "XY1Nhf");
-  changeLanguage(b, "sv", h);
-  b.h();
-  b.text("Svenska");
-  b.close();
-  b.open("option", "xC9HGd");
-  changeLanguage(b, "tr", h);
-  b.h();
-  b.text("T\u00fcrk\u00e7e");
-  b.close();
-  b.G();
-  b.l(c);
-  b.close();
-  b.close();
-  b.G();
-  b.l(l);
-  b.close();
-  n && (h = b.m("h8yHfc"), n(b, {
+  changeLanguage(html, "sk", h);
+  html.h();
+  html.text("Sloven\u010dina");
+  html.close();
+  html.open("option", "fRHVVe");
+  changeLanguage(html, "es", h);
+  html.h();
+  html.text("Espa\u00f1ol");
+  html.close();
+  html.open("option", "L4mgDb");
+  changeLanguage(html, "es-419", h);
+  html.h();
+  html.text("Espa\u00f1ol (Latinoam\u00e9rica)");
+  html.close();
+  html.open("option", "XY1Nhf");
+  changeLanguage(html, "sv", h);
+  html.h();
+  html.text("Svenska");
+  html.close();
+  html.open("option", "xC9HGd");
+  changeLanguage(html, "tr", h);
+  html.h();
+  html.text("T\u00fcrk\u00e7e");
+  html.close();
+  html.G();
+  html.l(c);
+  html.close();
+  html.close();
+  html.G();
+  html.l(l);
+  html.close();
+  n && (h = html.m("h8yHfc"), n(html, {
     qa: d
-  }, void 0), b.l(h));
-  b.G()
+  }, void 0), html.l(h));
+  html.G()
 }
 We.B = E;
 var Xe, Ye, Ze, $e, gf, hf, jf, kf, lf, af, bf, cf, df, ef, rf, sf, tf, uf, vf, wf, xf, yf, zf, Af, Bf;
@@ -5234,14 +5250,14 @@ function Lj(a, b) {
 }
 
 function Mj(a, b) {
-  var c = P(function (e) {
-      e.open("div", "iqjG8c");
-      e.i(Nj || (Nj = ["class", "PanelContent GridSpan6Center GridSmSpan4Center GridXsSpanFull"]));
-      e.h();
-      var f = e.m("lmjj8d");
-      Yh(e, "Verify_Plug_in_controller.svg", "A Stadia Controller with an arrow indicating that you plug the USB cable into the USB port on the top of the controller.", 1.3333333333333333);
-      e.l(f);
-      e.close()
+  var c = P(function (innerHtml) {
+      innerHtml.open("div", "iqjG8c");
+      innerHtml.i(Nj || (Nj = ["class", "PanelContent GridSpan6Center GridSmSpan4Center GridXsSpanFull"]));
+      innerHtml.h();
+      var f = innerHtml.m("lmjj8d");
+      Yh(innerHtml, "Verify_Plug_in_controller.svg", "A Stadia Controller with an arrow indicating that you plug the USB cable into the USB port on the top of the controller.", 1.3333333333333333);
+      innerHtml.l(f);
+      innerHtml.close()
     }),
     d = a.m("nidk8e");
   W(a, 1, "First, plug your Stadia Controller into your computer", c, b ? "flasher" : "empty", void 0, "Make sure your controller has been charged for 30 minutes, and you\u2019re using a USB data cable.",
@@ -5256,32 +5272,32 @@ function Oj(a, b) {
 }
 
 function Pj(a, b, c, d) {
-  var e = P(function (g) {
-      g.open("div", "raBDRc");
-      g.i(Qj || (Qj = ["class", "PanelContent GridSpan6Center GridSmSpan4Center GridXsSpanFull"]));
-      g.h();
-      g.open("div", "NyP9mf");
-      g.i(Rj || (Rj = ["class", "PanelTopButtonRow"]));
-      g.h();
-      var h = g.m("bdTlx");
-      V(g, "Allow Chrome to verify", void 0, "secondary", void 0, void 0, void 0, void 0, !0, void 0, void 0, "click:selectControllerUsbDevice");
-      g.l(h);
+  var e = P(function (innerHtml) {
+      innerHtml.open("div", "raBDRc");
+      innerHtml.i(Qj || (Qj = ["class", "PanelContent GridSpan6Center GridSmSpan4Center GridXsSpanFull"]));
+      innerHtml.h();
+      innerHtml.open("div", "NyP9mf");
+      innerHtml.i(Rj || (Rj = ["class", "PanelTopButtonRow"]));
+      innerHtml.h();
+      var h = innerHtml.m("bdTlx");
+      V(innerHtml, "Allow Chrome to verify", void 0, "secondary", void 0, void 0, void 0, void 0, !0, void 0, void 0, "click:selectControllerUsbDevice");
+      innerHtml.l(h);
       if (c) {
-        g.open("div", "HgC96e");
-        g.i(Sj || (Sj = ["class", "TopButtonHelpText"]));
-        g.h();
-        var k = g.m("xUhbVc");
-        Tj(g);
-        g.l(k);
-        g.close()
+        innerHtml.open("div", "HgC96e");
+        innerHtml.i(Sj || (Sj = ["class", "TopButtonHelpText"]));
+        innerHtml.h();
+        var k = innerHtml.m("xUhbVc");
+        Tj(innerHtml);
+        innerHtml.l(k);
+        innerHtml.close()
       }
-      g.close();
+      innerHtml.close();
       var l = "A two-part image illustrating what to do during this step after selecting the \u201cAllow Chrome to verify\u201d button. The first part shows the Chrome device list dialog with the text \u201c" + Gj() + " wants to connect\u201d. The device list has one entry titled \u201cStadia Controller rev. A\u201d as an example. A mouse is clicking the device to select it. In the second part of the image, a mouse is clicking the \u201cConnect\u201d button in that same dialog.",
-        n = g.m("HT9JPc");
-      Uj(g, "" + Ve("Chrome_dialog_Verify.svg",
+        n = innerHtml.m("HT9JPc");
+      Uj(innerHtml, "" + Ve("Chrome_dialog_Verify.svg",
         b), Vj("Stadia Controller", "SP Blank RT Family", "USB COMPOSITE DEVICE", "Bootloader"), l, void 0, "No compatible devices found? Make sure your controller has been charged for 30 minutes and you\u2019re using a USB data cable, then try again.", 1.9722650231124808);
-      g.l(n);
-      g.close()
+      innerHtml.l(n);
+      innerHtml.close()
     }),
     f = a.m("dVOwy");
   W(a, 1, "Allow Chrome to verify your controller", e, d ? "flasher" : "empty", void 0, "This opens a device list by your URL bar. Select your controller in the list, then click \u201cConnect\u201d.", void 0, null != d);
@@ -5293,7 +5309,7 @@ var Qj, Rj, Sj;
 function Wj(a) {
   var b = Xj(),
     c = stringHome(),
-    d = P(function (g) {
+    d = P(function (innerHtml) {
       if (!Yj["Your controller has the latest version of Bluetooth mode. It can connect to devices using\u00a0Bluetooth.\n\u00010\u0001List of supported devices\u00011\u0001"]) {
         Yj["Your controller has the latest version of Bluetooth mode. It can connect to devices using\u00a0Bluetooth.\n\u00010\u0001List of supported devices\u00011\u0001"] = [];
         var h = /\x01\d+\x01/g,
@@ -5307,38 +5323,38 @@ function Wj(a) {
         } while (n)
       }
       h = v(Yj["Your controller has the latest version of Bluetooth mode. It can connect to devices using\u00a0Bluetooth.\n\u00010\u0001List of supported devices\u00011\u0001"]);
-      for (k = h.next(); !k.done; k = h.next()) switch (k = k.value, k[0] && g.text(k[0]), k[1]) {
+      for (k = h.next(); !k.done; k = h.next()) switch (k = k.value, k[0] && innerHtml.text(k[0]), k[1]) {
         case "\u00010\u0001":
-          g.open("a", "i7Dbsc");
-          g.i(Zj || (Zj = ["target", "_blank"]));
-          g.o("href", H(Sd()));
-          g.h();
+          innerHtml.open("a", "i7Dbsc");
+          innerHtml.i(Zj || (Zj = ["target", "_blank"]));
+          innerHtml.o("href", H(Sd()));
+          innerHtml.h();
           break;
         case "\u00011\u0001":
-          g.close()
+          innerHtml.close()
       }
     }),
-    e = P(function (g) {
-      g.open("div", "cEqhUc");
-      g.i(ak || (ak = ["class", "PanelContent GridSpan6Center GridSmSpan4Center GridXsSpanFull"]));
-      g.h();
-      var h = g.m("WrVLNb");
-      Yh(g, "Check_Bluetooth_mode.svg", void 0, 1.3333333333333333);
-      g.l(h);
-      g.close();
-      g.open("div", "lN3q3e");
-      g.i(bk || (bk = ["class", "ButtonStack GridSpan4Center GridSmSpan4Center GridXsSpanFull"]));
-      g.h();
-      var k = g.m("o58d6c");
-      V(g, b, void 0, "secondary", void 0, void 0, void 0, void 0, !0, void 0, void 0, "click:gettingStartedModal1");
-      g.l(k);
-      var l = g.m("z9JXwb");
-      V(g, "Reinstall Bluetooth mode", void 0, "stadiasecondary", void 0, void 0, void 0, void 0, void 0, void 0, void 0, "click:applyBruce");
-      g.l(l);
-      var n = g.m("Tan5mc");
-      V(g, c, void 0, "stadiatext", void 0, void 0, void 0, void 0, void 0, void 0, void 0, "click:returnHome");
-      g.l(n);
-      g.close()
+    e = P(function (innerHtml) {
+      innerHtml.open("div", "cEqhUc");
+      innerHtml.i(ak || (ak = ["class", "PanelContent GridSpan6Center GridSmSpan4Center GridXsSpanFull"]));
+      innerHtml.h();
+      var h = innerHtml.m("WrVLNb");
+      Yh(innerHtml, "Check_Bluetooth_mode.svg", void 0, 1.3333333333333333);
+      innerHtml.l(h);
+      innerHtml.close();
+      innerHtml.open("div", "lN3q3e");
+      innerHtml.i(bk || (bk = ["class", "ButtonStack GridSpan4Center GridSmSpan4Center GridXsSpanFull"]));
+      innerHtml.h();
+      var k = innerHtml.m("o58d6c");
+      V(innerHtml, b, void 0, "secondary", void 0, void 0, void 0, void 0, !0, void 0, void 0, "click:gettingStartedModal1");
+      innerHtml.l(k);
+      var l = innerHtml.m("z9JXwb");
+      V(innerHtml, "Reinstall Bluetooth mode", void 0, "stadiasecondary", void 0, void 0, void 0, void 0, void 0, void 0, void 0, "click:applyBruce");
+      innerHtml.l(l);
+      var n = innerHtml.m("Tan5mc");
+      V(innerHtml, c, void 0, "stadiatext", void 0, void 0, void 0, void 0, void 0, void 0, void 0, "click:returnHome");
+      innerHtml.l(n);
+      innerHtml.close()
     }),
     f = a.m("B80zwb");
   W(a, 1, "Your controller is up to date in Bluetooth mode", e, "empty",
@@ -5352,30 +5368,30 @@ var Yj = {},
 function ck(a) {
   var b = Xj(),
     c = stringHome(),
-    d = P(function (g) {
-      g.text(D("Your controller is on an older version of Bluetooth mode. Update to the latest version \u2014 this should only take a few minutes."))
+    d = P(function (innerHtml) {
+      innerHtml.text(D("Your controller is on an older version of Bluetooth mode. Update to the latest version \u2014 this should only take a few minutes."))
     }),
-    e = P(function (g) {
-      g.open("div", "atE8G");
-      g.i(dk || (dk = ["class", "PanelContent GridSpan6Center GridSmSpan4Center GridXsSpanFull"]));
-      g.h();
-      var h = g.m("HqXteb");
-      Yh(g, "Check_Bluetooth_mode.svg", void 0, 1.3333333333333333);
-      g.l(h);
-      g.close();
-      g.open("div", "PSQ0Vc");
-      g.i(ek || (ek = ["class", "ButtonStack GridSpan4Center GridSmSpan4Center GridXsSpanFull"]));
-      g.h();
-      var k = g.m("dz5ldb");
-      V(g, "Update to latest version", void 0, "secondary", !0, void 0, void 0, void 0, !0, void 0, void 0, "click:applyBruce");
-      g.l(k);
-      var l = g.m("YZpCSc");
-      V(g, b, void 0, "stadiasecondary", void 0, void 0, void 0, void 0, void 0, void 0, void 0, "click:gettingStartedModal1");
-      g.l(l);
-      var n = g.m("pyt4Ze");
-      V(g, c, void 0, "stadiatext", void 0, void 0, void 0, void 0, void 0, void 0, void 0, "click:returnHome");
-      g.l(n);
-      g.close()
+    e = P(function (innerHtml) {
+      innerHtml.open("div", "atE8G");
+      innerHtml.i(dk || (dk = ["class", "PanelContent GridSpan6Center GridSmSpan4Center GridXsSpanFull"]));
+      innerHtml.h();
+      var h = innerHtml.m("HqXteb");
+      Yh(innerHtml, "Check_Bluetooth_mode.svg", void 0, 1.3333333333333333);
+      innerHtml.l(h);
+      innerHtml.close();
+      innerHtml.open("div", "PSQ0Vc");
+      innerHtml.i(ek || (ek = ["class", "ButtonStack GridSpan4Center GridSmSpan4Center GridXsSpanFull"]));
+      innerHtml.h();
+      var k = innerHtml.m("dz5ldb");
+      V(innerHtml, "Update to latest version", void 0, "secondary", !0, void 0, void 0, void 0, !0, void 0, void 0, "click:applyBruce");
+      innerHtml.l(k);
+      var l = innerHtml.m("YZpCSc");
+      V(innerHtml, b, void 0, "stadiasecondary", void 0, void 0, void 0, void 0, void 0, void 0, void 0, "click:gettingStartedModal1");
+      innerHtml.l(l);
+      var n = innerHtml.m("pyt4Ze");
+      V(innerHtml, c, void 0, "stadiatext", void 0, void 0, void 0, void 0, void 0, void 0, void 0, "click:returnHome");
+      innerHtml.l(n);
+      innerHtml.close()
     }),
     f = a.m("wL8ggd");
   W(a, 1, "A new version of Bluetooth mode is available", e, void 0, !0, d, !1);
@@ -5421,14 +5437,14 @@ fk.B = E;
 var gk, hk;
 
 function ik(a) {
-  var b = P(function (d) {
-      d.open("div", "x5B42d");
-      d.i(jk || (jk = ["class", "PanelContent GridSpan6Center GridSmSpan4Center GridXsSpanFull"]));
-      d.h();
-      var e = d.m("RYg7mf");
-      Yh(d, "Verify_Chrome_verified_your_controller.svg", void 0, 1.3333333333333333);
-      d.l(e);
-      d.close()
+  var b = P(function (innerHtml) {
+      innerHtml.open("div", "x5B42d");
+      innerHtml.i(jk || (jk = ["class", "PanelContent GridSpan6Center GridSmSpan4Center GridXsSpanFull"]));
+      innerHtml.h();
+      var e = innerHtml.m("RYg7mf");
+      Yh(innerHtml, "Verify_Chrome_verified_your_controller.svg", void 0, 1.3333333333333333);
+      innerHtml.l(e);
+      innerHtml.close()
     }),
     c = a.m("OTcTHc");
   W(a, 1, "Chrome verified your Stadia Controller", b, void 0, !0, "Go to the next step to unlock your controller", void 0, void 0, void 0, void 0, "click:enterSdpMode");
@@ -6060,11 +6076,11 @@ function ql(a, b, c, d, e, f) {
   null != vl && C(vl, b)
 }
 ra(ql, Db);
-t = ql.prototype;
-t.id = function () {
+closureTempHolder = ql.prototype;
+closureTempHolder.id = function () {
   return this.Y
 };
-t.done = function (a, b, c) {
+closureTempHolder.done = function (a, b, c) {
   if (this.u || !this.j[a]) wl(this, "done", a, b);
   else {
     if (b) {
@@ -6119,7 +6135,7 @@ function xl(a) {
   });
   return b.join(",")
 }
-t.action = function (a) {
+closureTempHolder.action = function (a) {
   this.u && wl(this, "action");
   var b = [],
     c = null,
@@ -6147,16 +6163,16 @@ function zl(a, b) {
 function yl(a, b) {
   for (; a && 1 == a.nodeType; a = a.parentNode) b(a)
 }
-t.event = function () {
+closureTempHolder.event = function () {
   return this.M
 };
-t.eventType = function () {
+closureTempHolder.eventType = function () {
   return this.Z
 };
-t.target = function () {
+closureTempHolder.target = function () {
   return this.H
 };
-t.value = function (a) {
+closureTempHolder.value = function (a) {
   var b = this.N;
   return b ? a in b ? b[a] : b.getAttribute ? b.getAttribute(a) : void 0 : void 0
 };
@@ -6558,8 +6574,8 @@ const FIRMWARE_LIST = {
     bruce_dev: "bruce_dvt_a_dev_signed.bin",
     bruce_dvt: "bruce_dvt_a_stage_signed.bin",
     bruce_pvt: "bruce_pvt_a_prod_signed.bin",
-    gotham_dev: "gotham_dvt_a_dev_signed.bin",
-    gotham_dvt: "gotham_dvt_a_stage_signed.bin",
+    // gotham_dev: "gotham_dvt_a_dev_signed.bin", Unavailable
+    // gotham_dvt: "gotham_dvt_a_stage_signed.bin", Unavailable
     gotham_pvt: "ota.316382.stable-channel.gotham-pvt-b.da986392604309ea67eab5fa84f747e955f2875c.bin"
   };
 

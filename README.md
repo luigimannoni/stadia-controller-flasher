@@ -20,3 +20,9 @@ For fetching hidden Firmware files.
 - /u/parkerlreed
 
 For the reference packet capture file.
+
+## Binary Build
+
+Follow these steps to build for Windows, Max and Linux:
+- `npm run pkg`
+- then run the binary with ./dist/stadia-controller-flasher-linux

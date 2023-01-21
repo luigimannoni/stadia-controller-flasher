@@ -37,7 +37,7 @@ Follow these steps to build for Windows, Max and Linux:
 ### Triggering a release
 
 1. `npm version <patch|minor|major>`
-2. `git push
+2. `git push origin <version_branch>`
 
 ## Credits
 

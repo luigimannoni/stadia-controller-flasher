@@ -10,6 +10,8 @@
     "serve": "ssl-serve --ssl ./src"
   },
   "devDependencies": {
+    "eslint": "^8.32.0",
+    "eslint-config-google": "^0.14.0",
     "ssl-serve": "^6.5.8"
   }
 }

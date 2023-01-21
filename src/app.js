@@ -1,3 +1,4 @@
+/* eslint-disable */
 /*
 
  Copyright The Closure Library Authors.
@@ -3119,7 +3120,7 @@ function We(a) {
   Od() ? (l = html.m("oFFLke"), mf(html), html.l(l)) : l ? wd(c) && !q ? (c = html.m("Wn3c8c"), l(html, {
     locale: h,
     ga: f
-  }, void 0), html.l(c)) : a ? q ? (l = html.m("SsHKhd"), nf(html), html.l(l)) : (l = html.m("TZl2df"), of (html), html.l(l)) : (l = html.m("QTNRqe"), pf(html), html.l(l)) : (l = html.m("qmdSJc"), qf(html), html.l(l));
+  }, void 0), html.l(c)) : a ? q ? (l = html.m("SsHKhd"), nf(html), html.l(l)) : (l = html.m("TZl2df"), of (html), html.l(l)) : (l = html.m("QTNRqe"), pf(html), html.l(l)) : (l = html.m("qmdSJc"), createMainPage(html), html.l(l));
   html.close();
   l = html.m("UkUCbf");
   html.open("footer", "AzCefc");
@@ -3301,98 +3302,98 @@ function changeLanguage(a, b, c) {
   c == b && a.o("selected", "")
 }
 
-function qf(a) {
-  a.open("div", "Bhvrjb");
-  a.i(Cf || (Cf = ["class", "Grid MainContentContainer"]));
-  a.h();
-  a.open("div", "c45mdb");
-  a.i(Df || (Df = ["class", "HeroContentContainer GridSpanFull"]));
-  a.h();
-  a.open("div", "DcB2Ic");
-  a.i(Ef || (Ef = ["class", "HeroContent"]));
-  a.h();
-  a.open("img", "uP3uDd");
-  a.i(Ff || (Ff = "class LogoMark width 48 height 32 type image/svg src assets/logo-mark.svg".split(" ")));
-  a.o("alt", "Stadia");
-  a.h();
-  a.close();
-  a.open("h1", "PdIASd");
-  a.h();
-  a.text(D("Play wirelessly with\u00a0Bluetooth"));
-  a.close();
-  a.open("p",
+function createMainPage(innerHtml) {
+  innerHtml.open("div", "Bhvrjb");
+  innerHtml.i(Cf || (Cf = ["class", "Grid MainContentContainer"]));
+  innerHtml.h();
+  innerHtml.open("div", "c45mdb");
+  innerHtml.i(Df || (Df = ["class", "HeroContentContainer GridSpanFull"]));
+  innerHtml.h();
+  innerHtml.open("div", "DcB2Ic");
+  innerHtml.i(Ef || (Ef = ["class", "HeroContent"]));
+  innerHtml.h();
+  innerHtml.open("img", "uP3uDd");
+  innerHtml.i(Ff || (Ff = "class LogoMark width 48 height 32 type image/svg src assets/logo-mark.svg".split(" ")));
+  innerHtml.o("alt", "Stadia");
+  innerHtml.h();
+  innerHtml.close();
+  innerHtml.open("h1", "PdIASd");
+  innerHtml.h();
+  innerHtml.text(D("Flash your Stadia\u00ae Controller"));
+  innerHtml.close();
+  innerHtml.open("p",
     "zt76Lc");
-  a.i(Gf || (Gf = ["role", "doc-subtitle"]));
-  a.h();
-  var b = a.m("A7rC4e");
-  R(a, stringBluetooth, null);
-  a.l(b);
-  a.close();
-  a.open("div", "KNDsmb");
-  a.i(If || (If = ["class", "ButtonAndMetatext"]));
-  a.h();
-  var c = a.m("KxbODe");
-  ff(a, "main-call-to-action");
-  a.l(c);
-  a.open("div", "xHVu8c");
-  a.i(Jf || (Jf = ["class", "Metatext"]));
-  a.h();
-  a.text(D("Switching to Bluetooth mode downloads a software update"));
-  a.open("br", "RENzXc");
-  a.h();
-  a.close();
-  a.text(D("System requirements: Chrome 108 or newer"));
-  a.close();
-  a.close();
-  a.close();
-  a.open("img", "ykhp7c");
-  a.i(Kf || (Kf = "class;HeroImage GridSpanFull;srcset;assets/controller-1x.webp 1x, assets/controller-2x.webp 1.5x;type;image/webp;src;assets/controller-1x.webp".split(";")));
-  a.o("alt", "A Stadia Controller with a hand-drawn rocket flying out of the top alongside pulsing Bluetooth radio waves.");
-  a.h();
-  a.close();
-  a.close();
-  a.open("div", "Mhamdd");
-  a.i(Lf || (Lf = ["class", "KeyThingsArea GridSpan10Center GridSmSpanFull GridXsSpanFull"]));
-  a.h();
-  a.open("h2", "Y940Ec");
-  a.i(Mf || (Mf = ["class", "KeyThingsTitle"]));
-  a.h();
-  a.text(D("Important things to know"));
-  a.close();
-  a.open("div", "PiNcUc");
-  a.i(Nf || (Nf = ["class", "KeyThingsCardContainer"]));
-  a.h();
+  innerHtml.i(Gf || (Gf = ["role", "doc-subtitle"]));
+  innerHtml.h();
+  var b = innerHtml.m("A7rC4e");
+  R(innerHtml, stringBluetooth, null);
+  innerHtml.l(b);
+  innerHtml.close();
+  innerHtml.open("div", "KNDsmb");
+  innerHtml.i(If || (If = ["class", "ButtonAndMetatext"]));
+  innerHtml.h();
+  var c = innerHtml.m("KxbODe");
+  ff(innerHtml, "main-call-to-action");
+  innerHtml.l(c);
+  innerHtml.open("div", "xHVu8c");
+  innerHtml.i(Jf || (Jf = ["class", "Metatext"]));
+  innerHtml.h();
+  innerHtml.text(D("Switching to Bluetooth mode downloads a software update"));
+  innerHtml.open("br", "RENzXc");
+  innerHtml.h();
+  innerHtml.close();
+  innerHtml.text(D("System requirements: Chrome 108 or newer"));
+  innerHtml.close();
+  innerHtml.close();
+  innerHtml.close();
+  innerHtml.open("img", "ykhp7c");
+  innerHtml.i(Kf || (Kf = "class;HeroImage GridSpanFull;srcset;assets/controller-1x.webp 1x, assets/controller-2x.webp 1.5x;type;image/webp;src;assets/controller-1x.webp".split(";")));
+  innerHtml.o("alt", "A Stadia Controller with a hand-drawn rocket flying out of the top alongside pulsing Bluetooth radio waves.");
+  innerHtml.h();
+  innerHtml.close();
+  innerHtml.close();
+  innerHtml.open("div", "Mhamdd");
+  innerHtml.i(Lf || (Lf = ["class", "KeyThingsArea GridSpan10Center GridSmSpanFull GridXsSpanFull"]));
+  innerHtml.h();
+  innerHtml.open("h2", "Y940Ec");
+  innerHtml.i(Mf || (Mf = ["class", "KeyThingsTitle"]));
+  innerHtml.h();
+  innerHtml.text(D("Important things to know"));
+  innerHtml.close();
+  innerHtml.open("div", "PiNcUc");
+  innerHtml.i(Nf || (Nf = ["class", "KeyThingsCardContainer"]));
+  innerHtml.h();
   var d = P(function (m) {
       var r = m.m("mv233e");
       V(m, "Switch to Bluetooth mode", void 0, "text", !0, void 0, void 0, void 0, void 0, void 0, void 0, "click:selectBruce");
       m.l(r)
     }),
-    e = a.m("Q6lWyb");
-  Of(a, "toggle_on", "Switching is permanent", "Once you switch your controller to Bluetooth mode, you can\u2019t change it back to use Wi-Fi on Stadia. You can still play wired with USB in Bluetooth mode.",
+    e = innerHtml.m("Q6lWyb");
+  Of(innerHtml, "toggle_on", "Switching is permanent", "Once you switch your controller to Bluetooth mode, you can\u2019t change it back to use Wi-Fi on Stadia. You can still play wired with USB in Bluetooth mode.",
     d);
-  a.l(e);
+  innerHtml.l(e);
   d = P(function (m) {
     var r = m.m("NxMG7");
     V(m, "Go to mode selection page", void 0, "text", !0, void 0, void 0, void 0, void 0, void 0, void 0, "click:selectAction");
     m.l(r)
   });
-  var f = a.m("DiKXlc");
-  Of(a, "calendar_today", "Available until December 31, 2023", "You can switch to Bluetooth mode, check the controller mode, and check for Bluetooth updates until Dec 31, 2023.", d);
-  a.l(f);
-  a.close();
-  a.close();
-  a.open("div", "zdBG3e");
-  a.i(Pf || (Pf = ["class", "FaqArea GridSpan8Center GridSmSpanFull GridXsSpanFull"]));
-  a.h();
-  a.open("h2",
+  var f = innerHtml.m("DiKXlc");
+  Of(innerHtml, "calendar_today", "Available until December 31, 2023", "You can switch to Bluetooth mode, check the controller mode, and check for Bluetooth updates until Dec 31, 2023.", d);
+  innerHtml.l(f);
+  innerHtml.close();
+  innerHtml.close();
+  innerHtml.open("div", "zdBG3e");
+  innerHtml.i(Pf || (Pf = ["class", "FaqArea GridSpan8Center GridSmSpanFull GridXsSpanFull"]));
+  innerHtml.h();
+  innerHtml.open("h2",
     "RzOZUe");
-  a.i(Qf || (Qf = ["class", "FaqAreaTitle"]));
-  a.h();
-  a.text(D("Find the answers you need"));
-  a.close();
-  a.open("div", "oi6B9d");
-  a.i(Rf || (Rf = ["class", "FaqItemList"]));
-  a.h();
+  innerHtml.i(Qf || (Qf = ["class", "FaqAreaTitle"]));
+  innerHtml.h();
+  innerHtml.text(D("Find the answers you need"));
+  innerHtml.close();
+  innerHtml.open("div", "oi6B9d");
+  innerHtml.i(Rf || (Rf = ["class", "FaqItemList"]));
+  innerHtml.h();
   d = P(function (m) {
     m.text(D("After switching your controller into Bluetooth mode, press and hold the \u201cY + Stadia\u201d buttons for 2 seconds to enter pairing mode. The status light will flash orange.\n\nThen, go to the device you want to play on and pair your controller in the settings. Once paired and connected, the status light on the controller will turn solid white.\n\nCongrats! You\u2019re ready to start playing. The next time you turn on the controller, it should automatically connect to the last paired device."));
     m.open("p", "LB1TMc");
@@ -3404,9 +3405,9 @@ function qf(a) {
     m.close();
     m.close()
   });
-  var g = a.m("giFsq");
-  Tf(a, "How do I pair my controller using Bluetooth?", d);
-  a.l(g);
+  var g = innerHtml.m("giFsq");
+  Tf(innerHtml, "How do I pair my controller using Bluetooth?", d);
+  innerHtml.l(g);
   d = P(function (m) {
     m.text(D("Not all Bluetooth devices are the same, so compatibility will vary. The Stadia Controller uses Bluetooth Low Energy connections, so some features, such as pass-through audio, aren\u2019t possible wirelessly.\n\nWe\u2019ve verified that the Stadia Controller works for gameplay with the list of supported devices. It hasn\u2019t been tested with all Bluetooth device types, so it might not work with others."));
     m.open("p", "JQKsSb");
@@ -3421,21 +3422,21 @@ function qf(a) {
     m.close();
     m.close()
   });
-  var h = a.m("AhWz8b");
-  Tf(a, "What devices are supported?", d);
-  a.l(h);
+  var h = innerHtml.m("AhWz8b");
+  Tf(innerHtml, "What devices are supported?", d);
+  innerHtml.l(h);
   d = P(function (m) {
     m.text(D("When using the controller wirelessly in Bluetooth mode, the 3.5mm port and USB port won\u2019t be able to be used for headphones.\n\nWhen using the controller wired with USB, you\u2019ll be able to plug headphones into the controller\u2019s 3.5mm port."))
   });
-  var k = a.m("pxfWOc");
-  Tf(a, "Is audio supported in Bluetooth mode?", d);
-  a.l(k);
+  var k = innerHtml.m("pxfWOc");
+  Tf(innerHtml, "Is audio supported in Bluetooth mode?", d);
+  innerHtml.l(k);
   d = P(function (m) {
     m.text(D("Yes. By default, the Google Assistant and Capture buttons won\u2019t do anything in Bluetooth mode until remapped. You can remap the buttons using button mapping services."))
   });
-  var l = a.m("JOu0Ne");
-  Tf(a, "Can I remap the Assistant and Capture buttons?", d);
-  a.l(l);
+  var l = innerHtml.m("JOu0Ne");
+  Tf(innerHtml, "Can I remap the Assistant and Capture buttons?", d);
+  innerHtml.l(l);
   d = P(function (m) {
     m.text(D("You can verify whether your controller is in Bluetooth mode by checking the controller mode. Doing this also checks for any updates to Bluetooth mode."));
     m.open("p", "ChKJXd");
@@ -3447,9 +3448,9 @@ function qf(a) {
     m.close();
     m.close()
   });
-  var n = a.m("depSEb");
-  Tf(a, "How do I verify my controller\u2019s mode?", d);
-  a.l(n);
+  var n = innerHtml.m("depSEb");
+  Tf(innerHtml, "How do I verify my controller\u2019s mode?", d);
+  innerHtml.l(n);
   d = P(function (m) {
     m.text(D("Make sure your controller is charged for at least 30 minutes, and that you\u2019re using a USB data cable that can transfer data. The cable that came with your controller will work."));
     m.open("p", "qfymOb");
@@ -3464,9 +3465,9 @@ function qf(a) {
     m.close();
     m.close()
   });
-  var p = a.m("MEMsTe");
-  Tf(a, "I can\u2019t complete a step. What should I do?", d);
-  a.l(p);
+  var p = innerHtml.m("MEMsTe");
+  Tf(innerHtml, "I can\u2019t complete a step. What should I do?", d);
+  innerHtml.l(p);
   d = P(function (m) {
     m.text(D("Make sure your controller is charged for at least 30 minutes. Unplug your controller and hold the Stadia button for 10 seconds \u2014 this should reset the device to be playable again.\n\nIf this still doesn\u2019t work, factory reset the controller by holding the Google Assistant and Capture buttons for 6 seconds \u2014 the controller should vibrate and the status light should flash."));
     m.open("p", "Jg5gkc");
@@ -3481,9 +3482,9 @@ function qf(a) {
     m.close();
     m.close()
   });
-  var q = a.m("FclGQd");
-  Tf(a, "My controller isn\u2019t working. What should I do?", d);
-  a.l(q);
+  var q = innerHtml.m("FclGQd");
+  Tf(innerHtml, "My controller isn\u2019t working. What should I do?", d);
+  innerHtml.l(q);
   d = P(function (m) {
     m.text(D("Unfortunately, customer support is not available for Bluetooth mode. If you have any questions, please go to the help center article."));
     m.open("p", "nuWLz");
@@ -3498,17 +3499,17 @@ function qf(a) {
     m.close();
     m.close()
   });
-  var w = a.m("Co3rac");
-  Tf(a, "Something else is wrong. Who do I contact?", d);
-  a.l(w);
-  a.close();
-  a.close();
-  a.open("div", "Z5aXRe");
-  a.i(ag || (ag = ["class", "LegalArea GridSpan10Center GridSmSpanFull GridXsSpanFull"]));
-  a.h();
-  a.text(D("The Bluetooth\u00ae word mark and logos are registered trademarks owned by Bluetooth SIG, Inc. and any use of such marks by Google is under license. Other trademarks and trade names are those of their respective owners."));
-  a.close();
-  a.G()
+  var w = innerHtml.m("Co3rac");
+  Tf(innerHtml, "Something else is wrong. Who do I contact?", d);
+  innerHtml.l(w);
+  innerHtml.close();
+  innerHtml.close();
+  innerHtml.open("div", "Z5aXRe");
+  innerHtml.i(ag || (ag = ["class", "LegalArea GridSpan10Center GridSmSpanFull GridXsSpanFull"]));
+  innerHtml.h();
+  innerHtml.text(D("The Bluetooth\u00ae word mark and logos are registered trademarks owned by Bluetooth SIG, Inc. and any use of such marks by Google is under license. Other trademarks and trade names are those of their respective owners."));
+  innerHtml.close();
+  innerHtml.G()
 }
 var Cf, Df, Ef, Ff, Gf, If, Jf, Kf, Lf, Mf, Nf, Pf, Qf, Rf, Sf, Uf, Wf, Xf, Zf, $f, ag;
 

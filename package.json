@@ -1,6 +1,6 @@
 {
   "name": "stadia-controller-flasher",
-  "version": "0.0.0",
+  "version": "0.1.0",
   "description": "Google Stadia Controller flasher utility",
   "main": "index.js",
   "author": "Luigi Mannoni <hello@luigimannoni.com>",

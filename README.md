@@ -26,3 +26,8 @@ For the reference packet capture file.
 Follow these steps to build for Windows, Max and Linux:
 - `npm run pkg`
 - then run the binary with ./dist/stadia-controller-flasher-linux
+
+Triggering a release:
+
+1. git tag v0.0.0
+2. git push origin v0.0.0

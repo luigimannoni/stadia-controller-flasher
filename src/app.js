@@ -4365,7 +4365,7 @@ function Oi(a) {
 };
 var Pi = [209, 0, 32, 65];
 
-function Qi(a) {
+function getPartitionType(a) {
   if (1610874880 <= a && 1619001344 >= a) return {
     name: "Application A",
     offset: 1610874880,
@@ -4427,24 +4427,24 @@ function Ri(a) {
   } catch (k) {
     throw Error("Failed to read reset handler address at 0x" + d.toString(16));
   }
-  a = Qi(h);
+  const partitionOptions = getPartitionType(h);
   return {
     mb: b,
     pb: 0,
     qb: 4096,
     Cb: g,
     Fb: c,
-    da: a,
+    da: partitionOptions,
     Hb: h
   }
 }
 
-function Si(a, b, c) {
-  return a.slice(b, b + c)
+function sliceString(str, start, length) {
+  return str.slice(start, start + length);
 };
 
-function Ti(a) {
-  return Number(a).toString(16).padStart(8, "0")
+function convertToHex(num) {
+  return Number(num).toString(16).padStart(8, "0");
 }
 var Ui = new Map([
     [7077888, "106XA0"],
@@ -4461,12 +4461,12 @@ function Wi(a, b, c) {
   }
 }
 
-function Xi() {
-  var a = Error.call(this, "HID device disconnected");
-  this.message = a.message;
-  "stack" in a && (this.stack = a.stack)
+function handleHIDDeviceDisconnection() {
+  var errorMessage = Error.call(this, "HID device disconnected");
+  this.message = errorMessage.message;
+  "stack" in errorMessage && (this.stack = errorMessage.stack);
 }
-ra(Xi, Error);
+ra(handleHIDDeviceDisconnection, Error);
 
 function Yi(a) {
   return Promise.race([a, Sc().then(function () {
@@ -4505,7 +4505,7 @@ function bj(a, b) {
     switch (h.g) {
       case 1:
         return c = function (k) {
-          k.device === a.device && Ni(a.j, new Xi)
+          k.device === a.device && Ni(a.j, new handleHIDDeviceDisconnection)
         }, navigator.hid.addEventListener("disconnect", c), wa(h), x(h, cj(a, {
           P: 1028,
           address: 536870912,
@@ -4527,7 +4527,7 @@ function bj(a, b) {
         break;
       case 8:
         return g = h.j, console.log("SDP load result: 0x" +
-          Ti(g.ub)), x(h, cj(a, {
+          convertToHex(g.ub)), x(h, cj(a, {
           P: 2827,
           address: 536871936,
           Aa: 0,
@@ -4546,7 +4546,7 @@ function fj(a, b, c) {
     switch (l.g) {
       case 1:
         return d = function (n) {
-          n.device === a.device && Ni(a.g, new Xi)
+          n.device === a.device && Ni(a.g, new handleHIDDeviceDisconnection)
         }, navigator.hid.addEventListener("disconnect", d), wa(l), console.log("Detecting MCU type..."), x(l, gj(a), 4);
       case 4:
         return e = l.j, console.log("MCU: " + e), c(1), console.log("Detecting Flash type..."), x(l, hj(a), 5);
@@ -4568,7 +4568,7 @@ function fj(a, b, c) {
           break
         }
         console.log("Extracting IVT and flashing");
-        h = Si(b, g.pb, g.qb);
+        h = sliceString(b, g.pb, g.qb);
         return x(l, kj(a, h, Wi(c, 5, 10)), 10);
       case 10:
         return console.log("Flashing to " + g.da.name + " at 0x" + g.da.offset), x(l, lj(a, b, g.da.offset, Wi(c, 10, 99)), 12);
@@ -4587,7 +4587,7 @@ function fj(a, b, c) {
         xa(l, 2);
         break;
       case 18:
-        k = ya(l), k instanceof Xi ? console.log("Device disconnected, assuming reset to be complete") : console.log(k);
+        k = ya(l), k instanceof handleHIDDeviceDisconnection ? console.log("Device disconnected, assuming reset to be complete") : console.log(k);
       case 2:
         za(l), navigator.hid.removeEventListener("disconnect", d), Ba(l, 0)
     }
@@ -4607,12 +4607,12 @@ function lj(a, b, c, d) {
 }
 
 function gj(a) {
-  var b, c;
+  var address, c;
   return z(function (d) {
     if (1 == d.g) return x(d, oj(a, 1074627168), 2);
-    b = d.j;
-    c = Ui.get(b);
-    if (!c) throw Error("Unknown MCU type for 0x" + Ti(b));
+    address = d.j;
+    c = Ui.get(address);
+    if (!c) throw Error("Unknown MCU type for 0x" + convertToHex(address));
     return d.return(c)
   })
 }
@@ -4690,11 +4690,11 @@ function qj(a, b, c, d) {
 function mj(a, b, c, d) {
   var e, f, g;
   return z(function (h) {
-    1 == h.g && (console.log("Erasing " + c + " bytes from 0x" + Ti(b)), e = c);
+    1 == h.g && (console.log("Erasing " + c + " bytes from 0x" + convertToHex(b)), e = c);
     if (4 != h.g) {
       if (!(0 < e)) return h.J(0);
       f = 16384 < e ? 16384 : e;
-      console.trace("Step: erasing 0x" + Ti(f) + " bytes from 0x" + Ti(b));
+      console.trace("Step: erasing 0x" + convertToHex(f) + " bytes from 0x" + convertToHex(b));
       return x(h, sj(a, {
         P: 2,
         flags: 0,
@@ -4735,7 +4735,7 @@ function nj(a, b, c, d) {
   return z(function (k) {
     switch (k.g) {
       case 1:
-        return console.log("Writing " + c.byteLength + " bytes to 0x" + Ti(b)), x(k, sj(a, {
+        return console.log("Writing " + c.byteLength + " bytes to 0x" + convertToHex(b)), x(k, sj(a, {
           P: 4,
           flags: 1,
           parameters: [b, c.byteLength, 0]
@@ -4760,7 +4760,7 @@ function nj(a, b, c, d) {
 
 function jj(a, b, c) {
   return z(function (d) {
-    console.log("Setting *(0x" + Ti(b) + ") to 0x" + Ti(c));
+    console.log("Setting *(0x" + convertToHex(b) + ") to 0x" + convertToHex(c));
     return x(d, sj(a, {
       P: 5,
       flags: 0,
@@ -4769,20 +4769,20 @@ function jj(a, b, c) {
   })
 }
 
-function oj(a, b) {
+function oj(a, address) {
   var c, d, e;
   return z(function (f) {
-    if (1 == f.g) return console.log("Reading 32-bit value at 0x" + Ti(b)), x(f, sj(a, {
+    if (1 == f.g) return console.log("Reading 32-bit value at 0x" + convertToHex(address)), x(f, sj(a, {
       P: 3,
       flags: 0,
-      parameters: [b, 4, 0]
+      parameters: [address, 4, 0]
     }), 2);
     c = f.j;
     if (!c.la) throw Error("no data received in reply");
     if (4 !== c.la.byteLength) throw Error("invalid reply data size: " + c.la.byteLength);
     d = new DataView(c.la);
     e = d.getUint32(0, true);
-    console.log("    *(0x" + Ti(b) + ") == 0x" + Ti(e));
+    console.log("    *(0x" + convertToHex(address) + ") == 0x" + convertToHex(e));
     return f.return(e)
   })
 }
@@ -6462,13 +6462,13 @@ const DEVICE_IDS = [{
   }];
 var nm = [ok, yk, Bk];
 
-function om(a) {
-  a.returnValue = " "
+function returnValueEmpty(event) {
+  event.returnValue = " "
 }
 
 function Y(a, b) {
   var c = !!a && nm.includes(a);
-  c ? window.addEventListener("beforeunload", om) : window.removeEventListener("beforeunload", om);
+  c ? window.addEventListener("beforeunload", returnValueEmpty) : window.removeEventListener("beforeunload", returnValueEmpty);
   var d;
   a ? d = Sl(Rl(a), b) : d = null;
   hm({
@@ -6585,7 +6585,7 @@ function getFlashloader(a) {
         xa(d, 0);
         break;
       case 2:
-        c = ya(d), console.log(c), c instanceof Xi ? Z(wi, {
+        c = ya(d), console.log(c), c instanceof handleHIDDeviceDisconnection ? Z(wi, {
           action: "uploadFlashloader"
         }) : Z(zi, {
           V: c.toString()
@@ -6654,7 +6654,7 @@ function xm(a) {
         break;
       case 2:
         h = ya(k),
-          console.log(h), h instanceof Xi ? Z(wi, {
+          console.log(h), h instanceof handleHIDDeviceDisconnection ? Z(wi, {
             action: "uploadFirmware"
           }) : Z(zi, {
             V: h.toString()

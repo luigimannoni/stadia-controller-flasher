@@ -18,10 +18,10 @@ function ba(a) {
     }
   }
 }
-var da = "function" == typeof Object.defineProperties ? Object.defineProperty : function (a, b, c) {
-  if (a == Array.prototype || a == Object.prototype) return a;
-  a[b] = c.value;
-  return a
+var addPolyfill = "function" == typeof Object.defineProperties ? Object.defineProperty : function (prototype, method, callback) {
+  if (prototype == Array.prototype || prototype == Object.prototype) return prototype;
+  prototype[method] = callback.value;
+  return prototype
 };
 
 function ea(a) {
@@ -34,7 +34,7 @@ function ea(a) {
 }
 var fa = ea(this);
 
-function u(a, b) {
+function createPolyfill(a, b) {
   if (b) a: {
     var c = fa;a = a.split(".");
     for (var d = 0; d < a.length - 1; d++) {
@@ -42,14 +42,14 @@ function u(a, b) {
       if (!(e in c)) break a;
       c = c[e]
     }
-    a = a[a.length - 1];d = c[a];b = b(d);b != d && null != b && da(c, a, {
+    a = a[a.length - 1];d = c[a];b = b(d);b != d && null != b && addPolyfill(c, a, {
       configurable: true,
       writable: true,
       value: b
     })
   }
 }
-u("Symbol", function (a) {
+createPolyfill("Symbol", function (a) {
   function b(f) {
     if (this instanceof b) throw new TypeError("Symbol is not a constructor");
     return new c(d + (f || "") + "_" + e++, f)
@@ -57,7 +57,7 @@ u("Symbol", function (a) {
 
   function c(f, g) {
     this.g = f;
-    da(this, "description", {
+    addPolyfill(this, "description", {
       configurable: true,
       writable: true,
       value: g
@@ -71,12 +71,12 @@ u("Symbol", function (a) {
     e = 0;
   return b
 });
-u("Symbol.iterator", function (a) {
+createPolyfill("Symbol.iterator", function (a) {
   if (a) return a;
   a = Symbol("Symbol.iterator");
   for (var b = "Array Int8Array Uint8Array Uint8ClampedArray Int16Array Uint16Array Int32Array Uint32Array Float32Array Float64Array".split(" "), c = 0; c < b.length; c++) {
     var d = fa[b[c]];
-    "function" === typeof d && "function" != typeof d.prototype[a] && da(d.prototype, a, {
+    "function" === typeof d && "function" != typeof d.prototype[a] && addPolyfill(d.prototype, a, {
       configurable: true,
       writable: true,
       value: function () {
@@ -104,21 +104,18 @@ function v(a) {
   }
 }
 
-function ia(a, b) {
-  return Object.prototype.hasOwnProperty.call(a, b)
-}
-var ja = "function" == typeof Object.assign ? Object.assign : function (a, b) {
-  for (var c = 1; c < arguments.length; c++) {
-    var d = arguments[c];
-    if (d)
-      for (var e in d) ia(d, e) && (a[e] = d[e])
+var objectAssignPoly = "function" == typeof Object.assign ? Object.assign : function (first, second) {
+  for (var i = 1; i < arguments.length; i++) {
+    var values = arguments[i];
+    if (values)
+      for (var key in values) Object.prototype.hasOwnProperty.call(values, key) && (first[key] = values[key])
   }
-  return a
+  return first
 };
-u("Object.assign", function (a) {
-  return a || ja
+createPolyfill("Object.assign", function (a) {
+  return a || objectAssignPoly
 });
-var ka = "function" == typeof Object.create ? Object.create : function (a) {
+var objectCreatePoly = "function" == typeof Object.create ? Object.create : function (a) {
     function b() {}
     b.prototype = a;
     return new b
@@ -148,7 +145,7 @@ else {
 var qa = la;
 
 function ra(a, b) {
-  a.prototype = ka(b.prototype);
+  a.prototype = objectCreatePoly(b.prototype);
   a.prototype.constructor = a;
   if (qa) qa(a, b);
   else
@@ -161,7 +158,7 @@ function ra(a, b) {
   a.va = b.prototype
 }
 
-function sa() {
+function unknownBaseClass() {
   this.F = false;
   this.v = null;
   this.j = void 0;
@@ -170,11 +167,11 @@ function sa() {
   this.H = this.s = null
 }
 
-function ta(a) {
-  if (a.F) throw new TypeError("Generator is already running");
-  a.F = true
+function generatorInit(generator) {
+  if (generator.F) throw new TypeError("Generator is already running");
+  generator.F = true
 }
-sa.prototype.I = function (a) {
+unknownBaseClass.prototype.I = function (a) {
   this.j = a
 };
 
@@ -185,7 +182,7 @@ function ua(a, b) {
   };
   a.g = a.D || a.u
 }
-sa.prototype.return = function (a) {
+unknownBaseClass.prototype.return = function (a) {
   this.s = {
     return: a
   };
@@ -198,7 +195,7 @@ function x(a, b, c) {
     value: b
   }
 }
-sa.prototype.J = function (a) {
+unknownBaseClass.prototype.J = function (a) {
   this.g = a
 };
 
@@ -236,12 +233,12 @@ function Ba(a, b) {
 }
 
 function Ca(a) {
-  this.g = new sa;
+  this.g = new unknownBaseClass;
   this.j = a
 }
 
 function Da(a, b) {
-  ta(a.g);
+  generatorInit(a.g);
   var c = a.g.v;
   if (c) return Fa(a, "return" in c ? c["return"] : function (d) {
     return {
@@ -295,12 +292,12 @@ function Ga(a) {
 
 function Ha(a) {
   this.next = function (b) {
-    ta(a.g);
+    generatorInit(a.g);
     a.g.v ? b = Fa(a, a.g.v.next, b, a.g.I) : (a.g.I(b), b = Ga(a));
     return b
   };
   this.throw = function (b) {
-    ta(a.g);
+    generatorInit(a.g);
     a.g.v ? b = Fa(a, a.g.v["throw"], b, a.g.I) : (ua(a.g, b), b = Ga(a));
     return b
   };
@@ -320,9 +317,9 @@ function Ia(a) {
   function c(d) {
     return a.throw(d)
   }
-  return new Promise(function (d, e) {
+  return new Promise(function (resolve, reject) {
     function f(g) {
-      g.done ? d(g.value) : Promise.resolve(g.value).then(b, c).then(f, e)
+      g.done ? resolve(g.value) : Promise.resolve(g.value).then(b, c).then(f, reject)
     }
     f(a.next())
   })
@@ -331,7 +328,7 @@ function Ia(a) {
 function z(a) {
   return Ia(new Ha(new Ca(a)))
 }
-u("Promise", function (a) {
+createPolyfill("Promise", function (a) {
   function b(g) {
     this.g = 0;
     this.s = void 0;
@@ -555,7 +552,7 @@ u("Promise", function (a) {
   };
   return b
 });
-u("Array.prototype.find", function (a) {
+createPolyfill("Array.prototype.find", function (a) {
   return a ? a : function (b, c) {
     a: {
       var d = this;d instanceof String && (d = String(d));
@@ -571,7 +568,7 @@ u("Array.prototype.find", function (a) {
     return b
   }
 });
-u("WeakMap", function (a) {
+createPolyfill("WeakMap", function (a) {
   function b(k) {
     this.g = (h += Math.random() + 1).toString();
     if (k) {
@@ -588,9 +585,9 @@ u("WeakMap", function (a) {
   }
 
   function e(k) {
-    if (!ia(k, g)) {
+    if (!Object.prototype.hasOwnProperty.call(k, g)) {
       var l = new c;
-      da(k, g, {
+      addPolyfill(k, g, {
         value: l
       })
     }
@@ -629,23 +626,23 @@ u("WeakMap", function (a) {
   b.prototype.set = function (k, l) {
     if (!d(k)) throw Error("Invalid WeakMap key");
     e(k);
-    if (!ia(k, g)) throw Error("WeakMap key fail: " + k);
+    if (!Object.prototype.hasOwnProperty.call(k, g)) throw Error("WeakMap key fail: " + k);
     k[g][this.g] = l;
     return this
   };
   b.prototype.get = function (k) {
-    return d(k) && ia(k, g) ? k[g][this.g] : void 0
+    return d(k) && Object.prototype.hasOwnProperty.call(k, g) ? k[g][this.g] : void 0
   };
   b.prototype.has = function (k) {
-    return d(k) && ia(k,
-      g) && ia(k[g], this.g)
+    return d(k) && Object.prototype.hasOwnProperty.call(k,
+      g) && Object.prototype.hasOwnProperty.call(k[g], this.g)
   };
   b.prototype.delete = function (k) {
-    return d(k) && ia(k, g) && ia(k[g], this.g) ? delete k[g][this.g] : false
+    return d(k) && Object.prototype.hasOwnProperty.call(k, g) && Object.prototype.hasOwnProperty.call(k[g], this.g) ? delete k[g][this.g] : false
   };
   return b
 });
-u("Map", function (a) {
+createPolyfill("Map", function (a) {
   function b() {
     var h = {};
     return h.T = h.next = h.head = h
@@ -673,7 +670,7 @@ u("Map", function (a) {
     var l = k && typeof k;
     "object" == l || "function" == l ? f.has(k) ? l = f.get(k) : (l = "" + ++g, f.set(k, l)) : l = "p_" + k;
     var n = h.j[l];
-    if (n && ia(h.j, l))
+    if (n && Object.prototype.hasOwnProperty.call(h.j, l))
       for (h = 0; h < n.length; h++) {
         var p = n[h];
         if (k !== k && p.key !== p.key || k === p.key) return {
@@ -803,7 +800,7 @@ function Ja(a, b) {
   };
   return e
 }
-u("Array.from", function (a) {
+createPolyfill("Array.from", function (a) {
   return a ? a : function (b, c, d) {
     c = null != c ? c : function (h) {
       return h
@@ -818,7 +815,7 @@ u("Array.from", function (a) {
     return e
   }
 });
-u("Array.prototype.keys", function (a) {
+createPolyfill("Array.prototype.keys", function (a) {
   return a ? a : function () {
     return Ja(this, function (b) {
       return b
@@ -831,7 +828,7 @@ function Ka(a, b, c) {
   if (b instanceof RegExp) throw new TypeError("First argument to String.prototype." + c + " must not be a regular expression");
   return a + ""
 }
-u("String.prototype.startsWith", function (a) {
+createPolyfill("String.prototype.startsWith", function (a) {
   return a ? a : function (b, c) {
     var d = Ka(this, b, "startsWith"),
       e = d.length,
@@ -842,7 +839,7 @@ u("String.prototype.startsWith", function (a) {
     return g >= f
   }
 });
-u("String.prototype.repeat", function (a) {
+createPolyfill("String.prototype.repeat", function (a) {
   return a ? a : function (b) {
     var c = Ka(this, null, "repeat");
     if (0 > b || 1342177279 < b) throw new RangeError("Invalid count value");
@@ -852,7 +849,7 @@ u("String.prototype.repeat", function (a) {
     return d
   }
 });
-u("String.prototype.padStart", function (a) {
+createPolyfill("String.prototype.padStart", function (a) {
   return a ? a : function (b, c) {
     var d = Ka(this, null, "padStart");
     b -= d.length;
@@ -860,12 +857,12 @@ u("String.prototype.padStart", function (a) {
     return (0 < b && c ? c.repeat(Math.ceil(b / c.length)).substring(0, b) : "") + d
   }
 });
-u("Object.is", function (a) {
+createPolyfill("Object.is", function (a) {
   return a ? a : function (b, c) {
     return b === c ? 0 !== b || 1 / b === 1 / c : b !== b && c !== c
   }
 });
-u("Array.prototype.includes", function (a) {
+createPolyfill("Array.prototype.includes", function (a) {
   return a ? a : function (b, c) {
     var d = this;
     d instanceof String && (d = String(d));
@@ -878,7 +875,7 @@ u("Array.prototype.includes", function (a) {
     return false
   }
 });
-u("String.prototype.includes", function (a) {
+createPolyfill("String.prototype.includes", function (a) {
   return a ? a : function (b, c) {
     return -1 !== Ka(this, b, "includes").indexOf(b, c || 0)
   }
@@ -1108,14 +1105,14 @@ function Bb(a) {
   a = a[wb];
   return a instanceof tb ? a : null
 }
-var Cb = "__closure_events_fn_" + (1E9 * Math.random() >>> 0);
+var eventStringGen = "__closure_events_fn_" + (1E9 * Math.random() >>> 0);
 
 function Ab(a) {
   if ("function" === typeof a) return a;
-  a[Cb] || (a[Cb] = function (b) {
+  a[eventStringGen] || (a[eventStringGen] = function (b) {
     return a.handleEvent(b)
   });
-  return a[Cb]
+  return a[eventStringGen]
 };
 
 function Db() {
@@ -2323,10 +2320,10 @@ var ie = null,
   me = [];
 
 function ne(a) {
-  console.trace('calling ne():', a);
+  // console.trace('calling ne():', a);
 
   for (var b = J, c = oe(); c !== a;) {
-    console.trace('next:', c);
+    // console.trace('next:', c);
     var d = c.nextSibling;
     b.removeChild(c);
     ie.j.push(c);
@@ -2492,7 +2489,7 @@ var Be = {
       };
       I = e;
       c(d);
-      console.trace('passing ne to:', b, J, c, d);
+      // console.trace('passing ne to:', b, J, c, d);
       J && ne(b.nextSibling);
       return e === I ? null : I
     }, a)
@@ -4393,27 +4390,29 @@ function getPartitionType(a) {
   throw Error("Cannot determine partition for reset handler " + a.toString(16));
 }
 
-function Ri(a) {
+function Ri(buffer) {
   try {
-    var b = new Uint8Array(a, 0, 4)
-  } catch (k) {
+    var b = new Uint8Array(buffer, 0, 4)
+  } catch (err) {
+    console.error(err);
     throw Error("Failed to read 4 bytes to determine bootable/nonbootable state");
   }
   b = b.every(function (k, l) {
     return k === Pi[l]
   });
-  var c = 1024;
-  b && (c += 4096);
+  var startingByte = 1024;
+  b && (startingByte += 4096);
   try {
-    var d = new DataView(a, c, 256)
-  } catch (k) {
+    var d = new DataView(buffer, startingByte, 256)
+  } catch (err) {
+    console.error(err);
     throw Error("Failed to read build info");
   }
   var e = d.getUint32(0, true);
   d.getUint32(4, true);
   var f = d.getUint32(8, true);
   d.getUint32(12, true);
-  c = d.getUint32(16, true);
+  startingByte = d.getUint32(16, true);
   var g = d.getUint32(20, true);
   d = d.getUint32(252, true);
   if (1953699234 !== e) throw Error("Invalid build info. Expected header of 0x" +
@@ -4423,8 +4422,9 @@ function Ri(a) {
   d = 4;
   b && (d += 4096);
   try {
-    var h = (new DataView(a)).getUint32(d, true)
-  } catch (k) {
+    var h = (new DataView(buffer)).getUint32(d, true)
+  } catch (err) {
+    console.error(err);
     throw Error("Failed to read reset handler address at 0x" + d.toString(16));
   }
   const partitionOptions = getPartitionType(h);
@@ -4433,7 +4433,7 @@ function Ri(a) {
     pb: 0,
     qb: 4096,
     Cb: g,
-    Fb: c,
+    Fb: startingByte,
     da: partitionOptions,
     Hb: h
   }
@@ -4596,13 +4596,13 @@ function fj(a, b, c) {
 
 function kj(a, b, c) {
   return z(function (d) {
-    return 1 == d.g ? x(d, mj(a, 1610616832, b.byteLength, Wi(c, 0, 50)), 2) : x(d, nj(a, 1610616832, b, Wi(c, 50, 100)), 0)
+    return 1 == d.g ? x(d, mj(a, 1610616832, b.byteLength, Wi(c, 0, 50)), 2) : x(d, writeToMemory(a, 1610616832, b, Wi(c, 50, 100)), 0)
   })
 }
 
 function lj(a, b, c, d) {
   return z(function (e) {
-    return 1 == e.g ? x(e, mj(a, c, b.byteLength, Wi(d, 0, 50)), 2) : x(e, nj(a, c, b, Wi(d, 50, 100)), 0)
+    return 1 == e.g ? x(e, mj(a, c, b.byteLength, Wi(d, 0, 50)), 2) : x(e, writeToMemory(a, c, b, Wi(d, 50, 100)), 0)
   })
 }
 
@@ -4624,7 +4624,7 @@ function hj(a) {
       case 1:
         return x(e, getFirmwareURL("flashloader_fcb_get_vendor_id.bin"), 2);
       case 2:
-        return b = e.j, x(e, nj(a, 8192, b), 3);
+        return b = e.j, x(e, writeToMemory(a, 8192, b), 3);
       case 3:
         return x(e, pj(a), 4);
       case 4:
@@ -4670,7 +4670,7 @@ function ij(a, b) {
       if ("Winbond-16m" !== b) throw Error("unknown flash type " + b);
       return x(d, getFirmwareURL("flashloader_fcb_w25q128jw.bin"), 5)
     }
-    return 3 != d.g ? (c = d.j, x(d, nj(a, 8192, c), 3)) : x(d, pj(a), 0)
+    return 3 != d.g ? (c = d.j, x(d, writeToMemory(a, 8192, c), 3)) : x(d, pj(a), 0)
   })
 }
 
@@ -4730,26 +4730,26 @@ function pj(a) {
   })
 }
 
-function nj(a, b, c, d) {
+function writeToMemory(a, address, buffer, d) {
   var e, f, g, h;
   return z(function (k) {
     switch (k.g) {
       case 1:
-        return console.log("Writing " + c.byteLength + " bytes to 0x" + convertToHex(b)), x(k, sj(a, {
+        return console.log("Writing " + buffer.byteLength + " bytes to 0x" + convertToHex(address)), x(k, sj(a, {
           P: 4,
           flags: 1,
-          parameters: [b, c.byteLength, 0]
+          parameters: [address, buffer.byteLength, 0]
         }), 2);
       case 2:
         e = 512, f = 0;
       case 3:
-        if (!(f < c.byteLength)) return x(k, tj(a), 6);
-        g = Math.min(f + e, c.byteLength);
-        return x(k, uj(a, c.slice(f, g)), 5);
+        if (!(f < buffer.byteLength)) return x(k, tj(a), 6);
+        g = Math.min(f + e, buffer.byteLength);
+        return x(k, uj(a, buffer.slice(f, g)), 5);
       case 5:
         f = g;
         h = void 0;
-        null == (h = d) || h(f / c.byteLength * 100);
+        null == (h = d) || h(f / buffer.byteLength * 100);
         k.J(3);
         break;
       case 6:
@@ -4758,13 +4758,13 @@ function nj(a, b, c, d) {
   })
 }
 
-function jj(a, b, c) {
+function jj(a, address, offset) {
   return z(function (d) {
-    console.log("Setting *(0x" + convertToHex(b) + ") to 0x" + convertToHex(c));
+    console.log("Setting *(0x" + convertToHex(address) + ") to 0x" + convertToHex(offset));
     return x(d, sj(a, {
       P: 5,
       flags: 0,
-      parameters: [b, 4, c]
+      parameters: [address, 4, offset]
     }), 0)
   })
 }
@@ -4787,14 +4787,14 @@ function oj(a, address) {
   })
 }
 
-function dj(a, b) {
+function dj(a, reportId) {
   var c;
   a = v(null != (c = a.device.collections) ? c : []);
   for (c = a.next(); !c.done; c = a.next()) {
     var d = void 0;
     c = v(null != (d = c.value.outputReports) ? d : []);
     for (d = c.next(); !d.done; d = c.next())
-      if (d = d.value, d.reportId === b) {
+      if (d = d.value, d.reportId === reportId) {
         a = 0;
         var e = void 0;
         c = v(null != (e = d.items) ? e : []);
@@ -4804,24 +4804,24 @@ function dj(a, b) {
           a += (null != (e = d.reportSize) ? e : 0) * (null != (f = d.reportCount) ? f : 0)
         }
         a >>>= 3;
-        console.trace("Report length for reportId " + b + " is " + a + " bytes");
+        console.trace("Report length for reportId " + reportId + " is " + a + " bytes");
         return new ArrayBuffer(a)
       }
   }
   throw Error("Report descriptor for reportId " +
-    b + " not found");
+    reportId + " not found");
 }
 
 function cj(a, b) {
-  var c = dj(a, 1),
-    d = new DataView(c);
-  d.setUint16(0, b.P, false);
-  d.setUint32(2, b.address, false);
-  d.setUint8(6, b.Aa);
-  d.setUint32(7, b.Ia, false);
-  d.setUint32(11, b.data, false);
-  d.setUint8(15, 0);
-  return a.device.sendReport(1, c)
+  var buffer = dj(a, 1),
+    dataView = new DataView(buffer);
+  dataView.setUint16(0, b.P, false);
+  dataView.setUint32(2, b.address, false);
+  dataView.setUint8(6, b.Aa);
+  dataView.setUint32(7, b.Ia, false);
+  dataView.setUint32(11, b.data, false);
+  dataView.setUint8(15, 0);
+  return a.device.sendReport(1, buffer)
 }
 
 function sj(a, b) {
@@ -4829,12 +4829,12 @@ function sj(a, b) {
   return z(function (e) {
     if (1 == e.g) {
       var f = new ArrayBuffer(4 + 4 * b.parameters.length),
-        g = new DataView(f);
-      g.setUint8(0, b.P);
-      g.setUint8(1, b.flags);
-      g.setUint8(2, 0);
-      g.setUint8(3, b.parameters.length);
-      for (var h = 0; h < b.parameters.length; h++) g.setUint32(4 * h + 4, b.parameters[h], true);
+        dataView = new DataView(f);
+      dataView.setUint8(0, b.P);
+      dataView.setUint8(1, b.flags);
+      dataView.setUint8(2, 0);
+      dataView.setUint8(3, b.parameters.length);
+      for (var h = 0; h < b.parameters.length; h++) dataView.setUint32(4 * h + 4, b.parameters[h], true);
       c = f;
       d = dj(a, 1);
       vj(d, c);
@@ -4887,24 +4887,24 @@ function aj(a, b) {
   }))
 }
 
-function ej(a, b) {
-  if (a.byteLength > b.byteLength) throw Error("Source length of " + a.byteLength + " exceeds target length of " + b.byteLength);
-  var c = new DataView(a);
+function ej(buffer, b) {
+  if (buffer.byteLength > b.byteLength) throw Error("Source length of " + buffer.byteLength + " exceeds target length of " + b.byteLength);
+  var dataView = new DataView(buffer);
   b = new DataView(b);
-  for (var d = 0; d < a.byteLength; d++) b.setUint8(d, c.getUint8(d))
+  for (var d = 0; d < buffer.byteLength; d++) b.setUint8(d, dataView.getUint8(d))
 }
 
-function vj(a, b) {
+function vj(a, buffer) {
   a = new DataView(a);
-  var c = new DataView(b);
+  var dataView = new DataView(buffer);
   a.setUint8(0, 0);
-  a.setUint16(1, b.byteLength, true);
-  for (var d = 0; d < b.byteLength; d++) a.setUint8(3 + d, c.getUint8(d))
+  a.setUint16(1, buffer.byteLength, true);
+  for (var d = 0; d < buffer.byteLength; d++) a.setUint8(3 + d, dataView.getUint8(d))
 }
 
 function wj(a) {
-  for (var b = a.getUint16(1, true), c = new ArrayBuffer(b), d = new DataView(c), e = 0; e < b; e++) d.setUint8(e, a.getUint8(e + 3));
-  return c
+  for (var b = a.getUint16(1, true), buffer = new ArrayBuffer(b), dataView = new DataView(buffer), e = 0; e < b; e++) dataView.setUint8(e, a.getUint8(e + 3));
+  return buffer
 }
 
 function xj(a) {
@@ -6705,7 +6705,7 @@ Dm.g && (0 < Dm.g.length && Em(Dm.g), Dm.g = null);
     rm()
   },
   selectControllerUsbDevice: function () {
-    var a, b, c, d, e, f, g, h;
+    var a, b, c, d, e, firmwareBuild, g, h;
     return z(function (k) {
       switch (k.g) {
         case 1:
@@ -6732,12 +6732,12 @@ Dm.g && (0 < Dm.g.length && Em(Dm.g), Dm.g = null);
         case 6:
           return x(k, Dj(a), 7);
         case 7:
-          return e = k.j, f = 320480 >= e ? "gotham" : "bruce", console.log("Current firmware is " + f + " build " + e), g = APP_CONFIG, x(k, Ej(a), 8);
+          return e = k.j, firmwareBuild = 320480 >= e ? "gotham" : "bruce", console.log("Current firmware is " + firmwareBuild + " build " + e), g = APP_CONFIG, x(k, Ej(a), 8);
         case 8:
-          if (g.U = k.j, console.log("Current battery level: " + APP_CONFIG.U + "%"), APP_CONFIG.C && f !== APP_CONFIG.C) {
+          if (g.U = k.j, console.log("Current battery level: " + APP_CONFIG.U + "%"), APP_CONFIG.C && firmwareBuild !== APP_CONFIG.C) {
             if (sm()) return k.return();
             Y(ik)
-          } else "bruce" === f && e >= BUILD_NUMBERS[f] ? Y(Wj) : "bruce" === f && e < BUILD_NUMBERS[f] ? Y(ck) : Y(fk);
+          } else "bruce" === firmwareBuild && e >= BUILD_NUMBERS[firmwareBuild] ? Y(Wj) : "bruce" === firmwareBuild && e < BUILD_NUMBERS[firmwareBuild] ? Y(ck) : Y(fk);
         case 4:
           return za(k), x(k, a.close(), 9);
         case 9:
@@ -6752,7 +6752,7 @@ Dm.g && (0 < Dm.g.length && Em(Dm.g), Dm.g = null);
     })
   },
   selectController: function () {
-    var a, b, c;
+    var a, usbConnection, c;
     return z(function (d) {
       switch (d.g) {
         case 1:
@@ -6760,10 +6760,10 @@ Dm.g && (0 < Dm.g.length && Em(Dm.g), Dm.g = null);
         case 2:
           a = d.j;
           if (!a) return d.return();
-          b = new Zi(a);
-          if (6353 === b.device.vendorId && (37888 === b.device.productId || 37995 === b.device.productId)) return Z(yi), d.return();
+          usbConnection = new Zi(a);
+          if (6353 === usbConnection.device.vendorId && (37888 === usbConnection.device.productId || 37995 === usbConnection.device.productId)) return Z(yi), d.return();
           va(d, 3);
-          return x(d, b.open(), 5);
+          return x(d, usbConnection.open(), 5);
         case 5:
           xa(d, 4);
           break;
@@ -6774,9 +6774,9 @@ Dm.g && (0 < Dm.g.length && Em(Dm.g), Dm.g = null);
             V: c.toString()
           }), d.return();
         case 4:
-          if (8137 === b.device.vendorId && 309 === b.device.productId) return x(d,
-            getFlashloader(b), 0);
-          if (5538 === b.device.vendorId && 115 === b.device.productId) return x(d, xm(b), 0);
+          if (8137 === usbConnection.device.vendorId && 309 === usbConnection.device.productId) return x(d,
+            getFlashloader(usbConnection), 0);
+          if (5538 === usbConnection.device.vendorId && 115 === usbConnection.device.productId) return x(d, xm(usbConnection), 0);
           d.J(0)
       }
     })

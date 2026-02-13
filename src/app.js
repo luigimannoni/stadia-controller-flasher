@@ -117,43 +117,6 @@ function createPolyfill(a, b) {
     })
   }
 }
-createPolyfill("Symbol", function (a) {
-  function b(f) {
-    if (this instanceof b) throw new TypeError("Symbol is not a constructor");
-    return new c(d + (f || "") + "_" + e++, f)
-  }
-
-  function c(f, g) {
-    this.g = f;
-    addPolyfill(this, "description", {
-      configurable: true,
-      writable: true,
-      value: g
-    })
-  }
-  if (a) return a;
-  c.prototype.toString = function () {
-    return this.g
-  };
-  var d = "jscomp_symbol_" + (1E9 * Math.random() >>> 0) + "_",
-    e = 0;
-  return b
-});
-createPolyfill("Symbol.iterator", function (a) {
-  if (a) return a;
-  a = Symbol("Symbol.iterator");
-  for (var b = "Array Int8Array Uint8Array Uint8ClampedArray Int16Array Uint16Array Int32Array Uint32Array Float32Array Float64Array".split(" "), c = 0; c < b.length; c++) {
-    var d = fa[b[c]];
-    "function" === typeof d && "function" != typeof d.prototype[a] && addPolyfill(d.prototype, a, {
-      configurable: true,
-      writable: true,
-      value: function () {
-        return ha(ba(this))
-      }
-    })
-  }
-  return a
-});
 
 function ha(a) {
   a = {
@@ -172,17 +135,6 @@ function getIterator(a) {
   }
 }
 
-var objectAssignPoly = "function" == typeof Object.assign ? Object.assign : function (first, second) {
-  for (var i = 1; i < arguments.length; i++) {
-    var values = arguments[i];
-    if (values)
-      for (var key in values) Object.prototype.hasOwnProperty.call(values, key) && (first[key] = values[key])
-  }
-  return first
-};
-createPolyfill("Object.assign", function (a) {
-  return a || objectAssignPoly
-});
 var objectCreatePoly = "function" == typeof Object.create ? Object.create : function (a) {
     function b() {}
     b.prototype = a;
@@ -396,452 +348,6 @@ function Ia(a) {
 function asyncRun(a) {
   return Ia(new Ha(new Ca(a)))
 }
-createPolyfill("Promise", function (a) {
-  function b(g) {
-    this.g = 0;
-    this.s = void 0;
-    this.j = [];
-    this.F = false;
-    var h = this.u();
-    try {
-      g(h.resolve, h.reject)
-    } catch (k) {
-      h.reject(k)
-    }
-  }
-
-  function c() {
-    this.g = null
-  }
-
-  function d(g) {
-    return g instanceof b ? g : new b(function (h) {
-      h(g)
-    })
-  }
-  if (a) return a;
-  c.prototype.j = function (g) {
-    if (null == this.g) {
-      this.g = [];
-      var h = this;
-      this.s(function () {
-        h.getIterator()
-      })
-    }
-    this.g.push(g)
-  };
-  var e = fa.setTimeout;
-  c.prototype.s = function (g) {
-    e(g, 0)
-  };
-  c.prototype.v = function () {
-    for (; this.g && this.g.length;) {
-      var g = this.g;
-      this.g = [];
-      for (var h = 0; h < g.length; ++h) {
-        var k =
-          g[h];
-        g[h] = null;
-        try {
-          k()
-        } catch (l) {
-          this.u(l)
-        }
-      }
-    }
-    this.g = null
-  };
-  c.prototype.u = function (g) {
-    this.s(function () {
-      throw g;
-    })
-  };
-  b.prototype.u = function () {
-    function g(l) {
-      return function (n) {
-        k || (k = true, l.call(h, n))
-      }
-    }
-    var h = this,
-      k = false;
-    return {
-      resolve: g(this.N),
-      reject: g(this.v)
-    }
-  };
-  b.prototype.N = function (g) {
-    if (g === this) this.getIterator(new TypeError("A Promise cannot resolve to itself"));
-    else if (g instanceof b) this.renderSoyContent(g);
-    else {
-      a: switch (typeof g) {
-        case "object":
-          var h = null != g;
-          break a;
-        case "function":
-          h = true;
-          break a;
-        default:
-          h = false
-      }
-      h ? this.M(g) : this.unescapeHtml(g)
-    }
-  };
-  b.prototype.M = function (g) {
-    var h = void 0;
-    try {
-      h = g.then
-    } catch (k) {
-      this.getIterator(k);
-      return
-    }
-    "function" == typeof h ? this.renderToDOM(h, g) : this.unescapeHtml(g)
-  };
-  b.prototype.v = function (g) {
-    this.I(2, g)
-  };
-  b.prototype.D = function (g) {
-    this.I(1, g)
-  };
-  b.prototype.I = function (g, h) {
-    if (0 != this.g) throw Error("Cannot settle(" + g + ", " + h + "): Promise already settled in state" + this.g);
-    this.g = g;
-    this.s = h;
-    2 === this.g && this.safeMultiplyPow10();
-    this.sanitizeUri()
-  };
-  b.prototype.O = function () {
-    var g = this;
-    e(function () {
-      if (g.K()) {
-        var h = fa.console;
-        "undefined" !== typeof h && h.error(g.s)
-      }
-    }, 1)
-  };
-  b.prototype.K =
-    function () {
-      if (this.F) return false;
-      var g = fa.CustomEvent,
-        h = fa.Event,
-        k = fa.dispatchEvent;
-      if ("undefined" === typeof k) return true;
-      "function" === typeof g ? g = new g("unhandledrejection", {
-        cancelable: true
-      }) : "function" === typeof h ? g = new h("unhandledrejection", {
-        cancelable: true
-      }) : (g = fa.document.createEvent("CustomEvent"), g.initCustomEvent("unhandledrejection", false, true, g));
-      g.promise = this;
-      g.reason = this.s;
-      return k(g)
-    };
-  b.prototype.H = function () {
-    if (null != this.j) {
-      for (var g = 0; g < this.j.length; ++g) f.j(this.j[g]);
-      this.j = null
-    }
-  };
-  var f = new c;
-  b.prototype.R = function (g) {
-    var h = this.u();
-    g.ia(h.resolve, h.reject)
-  };
-  b.prototype.S = function (g, h) {
-    var k = this.u();
-    try {
-      g.call(h, k.resolve, k.reject)
-    } catch (l) {
-      k.reject(l)
-    }
-  };
-  b.prototype.then = function (g, h) {
-    function k(q, w) {
-      return "function" == typeof q ? function (m) {
-        try {
-          l(q(m))
-        } catch (r) {
-          n(r)
-        }
-      } : w
-    }
-    var l, n, p = new b(function (q, w) {
-      l = q;
-      n = w
-    });
-    this.ia(k(g, l), k(h, n));
-    return p
-  };
-  b.prototype.catch = function (g) {
-    return this.then(void 0, g)
-  };
-  b.prototype.ia = function (g, h) {
-    function k() {
-      switch (l.g) {
-        case 1:
-          g(l.s);
-          break;
-        case 2:
-          h(l.s);
-          break;
-        default:
-          throw Error("Unexpected state: " + l.g);
-      }
-    }
-    var l = this;
-    null == this.j ? f.j(k) : this.j.push(k);
-    this.F = true
-  };
-  b.resolve = d;
-  b.reject = function (g) {
-    return new b(function (h, k) {
-      k(g)
-    })
-  };
-  b.race = function (g) {
-    return new b(function (h, k) {
-      for (var l = getIterator(g), n = l.next(); !n.done; n = l.next()) d(n.value).ia(h, k)
-    })
-  };
-  b.all = function (g) {
-    var h = getIterator(g),
-      k = h.next();
-    return k.done ? d([]) : new b(function (l, n) {
-      function p(m) {
-        return function (r) {
-          q[m] = r;
-          w--;
-          0 == w && l(q)
-        }
-      }
-      var q = [],
-        w = 0;
-      do q.push(void 0), w++, d(k.value).ia(p(q.length - 1), n), k = h.next();
-      while (!k.done)
-    })
-  };
-  return b
-});
-createPolyfill("Array.prototype.find", function (a) {
-  return a ? a : function (b, c) {
-    a: {
-      var d = this;d instanceof String && (d = String(d));
-      for (var e = d.length, f = 0; f < e; f++) {
-        var g = d[f];
-        if (b.call(c, g, f, d)) {
-          b = g;
-          break a
-        }
-      }
-      b = void 0
-    }
-    return b
-  }
-});
-createPolyfill("WeakMap", function (a) {
-  function b(k) {
-    this.g = (h += Math.random() + 1).toString();
-    if (k) {
-      k = getIterator(k);
-      for (var l; !(l = k.next()).done;) l = l.value, this.set(l[0], l[1])
-    }
-  }
-
-  function c() {}
-
-  function d(k) {
-    var l = typeof k;
-    return "object" === l && null !== k || "function" === l
-  }
-
-  function e(k) {
-    if (!Object.prototype.hasOwnProperty.call(k, g)) {
-      var l = new c;
-      addPolyfill(k, g, {
-        value: l
-      })
-    }
-  }
-
-  function f(k) {
-    var l = Object[k];
-    l && (Object[k] = function (n) {
-      if (n instanceof c) return n;
-      Object.isExtensible(n) && e(n);
-      return l(n)
-    })
-  }
-  if (function () {
-      if (!a || !Object.seal) return false;
-      try {
-        var k = Object.seal({}),
-          l = Object.seal({}),
-          n = new a([
-            [k, 2],
-            [l, 3]
-          ]);
-        if (2 != n.get(k) || 3 != n.get(l)) return false;
-        n.delete(k);
-        n.set(l, 4);
-        return !n.has(k) && 4 == n.get(l)
-      } catch (p) {
-        return false
-      }
-    }()) return a;
-  var g = "$jscomp_hidden_" + Math.random();
-  f("freeze");
-  f("preventExtensions");
-  f("seal");
-  var h = 0;
-  b.prototype.set = function (k, l) {
-    if (!d(k)) throw Error("Invalid WeakMap key");
-    e(k);
-    if (!Object.prototype.hasOwnProperty.call(k, g)) throw Error("WeakMap key fail: " + k);
-    k[g][this.g] = l;
-    return this
-  };
-  b.prototype.get = function (k) {
-    return d(k) && Object.prototype.hasOwnProperty.call(k, g) ? k[g][this.g] : void 0
-  };
-  b.prototype.has = function (k) {
-    return d(k) && Object.prototype.hasOwnProperty.call(k,
-      g) && Object.prototype.hasOwnProperty.call(k[g], this.g)
-  };
-  b.prototype.delete = function (k) {
-    return d(k) && Object.prototype.hasOwnProperty.call(k, g) && Object.prototype.hasOwnProperty.call(k[g], this.g) ? delete k[g][this.g] : false
-  };
-  return b
-});
-createPolyfill("Map", function (a) {
-  function b() {
-    var h = {};
-    return h.T = h.next = h.head = h
-  }
-
-  function c(h, k) {
-    var l = h.g;
-    return ha(function () {
-      if (l) {
-        for (; l.head != h.g;) l = l.T;
-        for (; l.next != l.head;) return l = l.next, {
-          done: false,
-          value: k(l)
-        };
-        l = null
-      }
-      return {
-        done: true,
-        value: void 0
-      }
-    })
-  }
-
-  function d(h, k) {
-    var l = k && typeof k;
-    "object" == l || "function" == l ? f.has(k) ? l = f.get(k) : (l = "" + ++g, f.set(k, l)) : l = "p_" + k;
-    var n = h.j[l];
-    if (n && Object.prototype.hasOwnProperty.call(h.j, l))
-      for (h = 0; h < n.length; h++) {
-        var p = n[h];
-        if (k !== k && p.key !== p.key || k === p.key) return {
-          id: l,
-          list: n,
-          index: h,
-          L: p
-        }
-      }
-    return {
-      id: l,
-      list: n,
-      index: -1,
-      L: void 0
-    }
-  }
-
-  function e(h) {
-    this.j = {};
-    this.g = b();
-    this.size = 0;
-    if (h) {
-      h = getIterator(h);
-      for (var k; !(k = h.next()).done;) k = k.value, this.set(k[0], k[1])
-    }
-  }
-  if (function () {
-      if (!a || "function" != typeof a || !a.prototype.entries || "function" != typeof Object.seal) return false;
-      try {
-        var h = Object.seal({
-            x: 4
-          }),
-          k = new a(getIterator([
-            [h, "s"]
-          ]));
-        if ("s" != k.get(h) || 1 != k.size || k.get({
-            x: 4
-          }) || k.set({
-            x: 4
-          }, "t") != k || 2 != k.size) return false;
-        var l = k.entries(),
-          n = l.next();
-        if (n.done || n.value[0] != h || "s" != n.value[1]) return false;
-        n = l.next();
-        return n.done || 4 != n.value[0].x ||
-          "t" != n.value[1] || !l.next().done ? false : true
-      } catch (p) {
-        return false
-      }
-    }()) return a;
-  var f = new WeakMap;
-  e.prototype.set = function (h, k) {
-    h = 0 === h ? 0 : h;
-    var l = d(this, h);
-    l.list || (l.list = this.j[l.id] = []);
-    l.L ? l.L.value = k : (l.L = {
-      next: this.g,
-      T: this.g.T,
-      head: this.g,
-      key: h,
-      value: k
-    }, l.list.push(l.L), this.g.T.next = l.L, this.g.T = l.L, this.size++);
-    return this
-  };
-  e.prototype.delete = function (h) {
-    h = d(this, h);
-    return h.L && h.list ? (h.list.splice(h.index, 1), h.list.length || delete this.j[h.id], h.L.T.next = h.L.next, h.L.next.T = h.L.T, h.L.head = null, this.size--,
-      true) : false
-  };
-  e.prototype.clear = function () {
-    this.j = {};
-    this.g = this.g.T = b();
-    this.size = 0
-  };
-  e.prototype.has = function (h) {
-    return !!d(this, h).L
-  };
-  e.prototype.get = function (h) {
-    return (h = d(this, h).L) && h.value
-  };
-  e.prototype.entries = function () {
-    return c(this, function (h) {
-      return [h.key, h.value]
-    })
-  };
-  e.prototype.keys = function () {
-    return c(this, function (h) {
-      return h.key
-    })
-  };
-  e.prototype.values = function () {
-    return c(this, function (h) {
-      return h.value
-    })
-  };
-  e.prototype.forEach = function (h, k) {
-    for (var l = this.entries(), n; !(n = l.next()).done;) n = n.value,
-      h.call(k, n[1], n[0], this)
-  };
-  e.prototype[Symbol.iterator] = e.prototype.entries;
-  var g = 0;
-  return e
-});
 
 function Ja(a, b) {
   a instanceof String && (a += "");
@@ -868,86 +374,13 @@ function Ja(a, b) {
   };
   return e
 }
-createPolyfill("Array.from", function (a) {
-  return a ? a : function (b, c, d) {
-    c = null != c ? c : function (h) {
-      return h
-    };
-    var e = [],
-      f = "undefined" != typeof Symbol && Symbol.iterator && b[Symbol.iterator];
-    if ("function" == typeof f) {
-      b = f.call(b);
-      for (var g = 0; !(f = b.next()).done;) e.push(c.call(d, f.value, g++))
-    } else
-      for (f = b.length, g = 0; g < f; g++) e.push(c.call(d, b[g], g));
-    return e
-  }
-});
-createPolyfill("Array.prototype.keys", function (a) {
-  return a ? a : function () {
-    return Ja(this, function (b) {
-      return b
-    })
-  }
-});
 
 function Ka(a, b, c) {
   if (null == a) throw new TypeError("The 'this' value for String.prototype." + c + " must not be null or undefined");
   if (b instanceof RegExp) throw new TypeError("First argument to String.prototype." + c + " must not be a regular expression");
   return a + ""
 }
-createPolyfill("String.prototype.startsWith", function (a) {
-  return a ? a : function (b, c) {
-    var d = Ka(this, b, "startsWith"),
-      e = d.length,
-      f = b.length;
-    c = Math.max(0, Math.min(c | 0, d.length));
-    for (var g = 0; g < f && c < e;)
-      if (d[c++] != b[g++]) return false;
-    return g >= f
-  }
-});
-createPolyfill("String.prototype.repeat", function (a) {
-  return a ? a : function (b) {
-    var c = Ka(this, null, "repeat");
-    if (0 > b || 1342177279 < b) throw new RangeError("Invalid count value");
-    b |= 0;
-    for (var d = ""; b;)
-      if (b & 1 && (d += c), b >>>= 1) c += c;
-    return d
-  }
-});
-createPolyfill("String.prototype.padStart", function (a) {
-  return a ? a : function (b, c) {
-    var d = Ka(this, null, "padStart");
-    b -= d.length;
-    c = void 0 !== c ? String(c) : " ";
-    return (0 < b && c ? c.repeat(Math.ceil(b / c.length)).substring(0, b) : "") + d
-  }
-});
-createPolyfill("Object.is", function (a) {
-  return a ? a : function (b, c) {
-    return b === c ? 0 !== b || 1 / b === 1 / c : b !== b && c !== c
-  }
-});
-createPolyfill("Array.prototype.includes", function (a) {
-  return a ? a : function (b, c) {
-    var d = this;
-    d instanceof String && (d = String(d));
-    var e = d.length;
-    c = c || 0;
-    for (0 > c && (c = Math.max(c + e, 0)); c < e; c++) {
-      var f = d[c];
-      if (f === b || Object.is(f, b)) return true
-    }
-    return false
-  }
-});
-createPolyfill("String.prototype.includes", function (a) {
-  return a ? a : function (b, c) {
-    return -1 !== Ka(this, b, "includes").indexOf(b, c || 0)
-  }
-});
+
 var La = La || {},
   A = this || self;
 
@@ -1013,7 +446,7 @@ Ra(Ta, Error);
 Ta.prototype.name = "CustomError";
 
 function throwAsync(a) {
-  globalScope.setTimeout(function () {
+  window.setTimeout(function () {
     throw a;
   }, 0)
 };
@@ -1026,17 +459,13 @@ var Va = /&/g,
   ab = /[\x00&<>"']/;
 
 function getUAString() {
-  var a = globalScope.navigator;
-  return a && (a = a.userAgent) ? a : ""
+  var navigator = window.navigator;
+  return navigator && (navigator = navigator.userAgent) ? navigator : ""
 }
 
 function searchUAString(a) {
   return -1 != getUAString().indexOf(a)
 };
-
-function detectIfChrome() {
-  return (searchUAString("Chrome") || searchUAString("CriOS")) && !searchUAString("Edge") || searchUAString("Silk")
-}
 
 function db() {
   var a = {};
@@ -1073,9 +502,9 @@ function arraySlice(a, b, c) {
   return 2 >= arguments.length ? Array.prototype.slice.call(a, b) : Array.prototype.slice.call(a, b, c)
 };
 var isIELegacy = searchUAString("Trident") || searchUAString("MSIE");
-!searchUAString("Android") || detectIfChrome();
-detectIfChrome();
-!searchUAString("Safari") || detectIfChrome();
+!searchUAString("Android") || isChromeBrowser();
+isChromeBrowser();
+!searchUAString("Safari") || isChromeBrowser();
 
 function Disposable() {
   this.D = this.D;
@@ -1195,7 +624,7 @@ Db.prototype.removeEventListener = function (a, b, c, d) {
   zb(this, a, b, c, d)
 };
 
-function dispatchEvent(a, b) {
+function dispatchGoogEvent(a, b) {
   var c, d = a.oa;
   if (d)
     for (c = []; d; d = d.oa) c.push(d);
@@ -1386,7 +815,7 @@ function htmlEscapeToSafeHtml(a) {
 function dc(a) {
   if (void 0 === Nb) {
     var b = null;
-    var c = globalScope.trustedTypes;
+    var c = window.trustedTypes;
     if (c && c.createPolicy) {
       try {
         b = c.createPolicy("goog#html", {
@@ -1395,7 +824,7 @@ function dc(a) {
           createScriptURL: Sa
         })
       } catch (d) {
-        globalScope.console && globalScope.console.error(d.message)
+        window.console && window.console.error(d.message)
       }
       Nb = b
     } else Nb = b
@@ -1403,7 +832,7 @@ function dc(a) {
   a = (b = Nb) ? b.createHTML(a) : a;
   return new ac(a, $b)
 }
-var ec = new ac(globalScope.trustedTypes && globalScope.trustedTypes.emptyHTML || "", $b);
+var ec = new ac(window.trustedTypes && window.trustedTypes.emptyHTML || "", $b);
 var fc = function (a) {
   var b = false,
     c;
@@ -1438,7 +867,7 @@ function hc(a) {
     "&gt;": ">",
     "&quot;": '"'
   };
-  var c = globalScope.document.createElement("div");
+  var c = window.document.createElement("div");
   return a.replace(jc, function (d, e) {
     var f = b[d];
     if (f) return f;
@@ -1501,7 +930,7 @@ function nc() {
 var oc;
 
 function pc() {
-  var a = globalScope.MessageChannel;
+  var a = window.MessageChannel;
   "undefined" === typeof a && "undefined" !== typeof window && window.postMessage && window.addEventListener && !searchUAString("Presto") && (a = function () {
     var e = nc();
     e.style.display = "none";
@@ -1545,7 +974,7 @@ function pc() {
     }
   }
   return function (e) {
-    globalScope.setTimeout(e, 0)
+    window.setTimeout(e, 0)
   }
 };
 
@@ -1592,14 +1021,14 @@ function xc(a, b) {
 }
 
 function yc() {
-  if (globalScope.Promise && globalScope.Promise.resolve) {
-    var a = globalScope.Promise.resolve(void 0);
+  if (window.Promise && window.Promise.resolve) {
+    var a = window.Promise.resolve(void 0);
     vc = function () {
       a.then(zc)
     }
   } else vc = function () {
     var b = zc;
-    "function" !== typeof globalScope.setImmediate || globalScope.Window && globalScope.Window.prototype && !searchUAString("Edge") && globalScope.Window.prototype.setImmediate == globalScope.setImmediate ? (oc || (oc = pc()), oc(b)) : globalScope.setImmediate(b)
+    "function" !== typeof window.setImmediate || window.Window && window.Window.prototype && !searchUAString("Edge") && window.Window.prototype.setImmediate == window.setImmediate ? (oc || (oc = pc()), oc(b)) : window.setImmediate(b)
   }
 }
 
@@ -1825,7 +1254,7 @@ function Rc(a, b, c) {
   if ("function" === typeof a) c && (a = closureBind(a, c));
   else if (a && "function" == typeof a.handleEvent) a = closureBind(a.handleEvent, a);
   else throw Error("Invalid listener argument");
-  return 2147483647 < Number(b) ? -1 : globalScope.setTimeout(a, b || 0)
+  return 2147483647 < Number(b) ? -1 : window.setTimeout(a, b || 0)
 }
 
 function Sc() {
@@ -1835,7 +1264,7 @@ function Sc() {
       b(void 0)
     }, 1E4); - 1 == a && c(Error("Failed to schedule timer."))
   }), function (b) {
-    globalScope.clearTimeout(a);
+    window.clearTimeout(a);
     throw b;
   })
 };
@@ -1877,7 +1306,7 @@ function NetworkXhrIo(a, newURI) {
   var c = Array.from(newURI.keys()).find(function (e) {
       return "content-type" == e.toLowerCase()
     }),
-    d = globalScope.FormData && false;
+    d = window.FormData && false;
   !(0 <= arrayIndexOf(Wc, "GET")) || c || d || newURI.set("Content-Type", "application/x-www-form-urlencoded;charset=utf-8");
   newURI = getIterator(newURI);
   for (c = newURI.next(); !c.done; c = newURI.next()) d = getIterator(c.value), c = d.next().value, d = d.next().value, a.g.setRequestHeader(c, d);
@@ -1895,7 +1324,7 @@ function $c(a) {
 }
 closureTempHolder = Uc.prototype;
 closureTempHolder.Za = function () {
-  "undefined" != typeof La && this.g && (this.v = "Timed out after " + this.M + "ms, aborting", dispatchEvent(this, "timeout"), this.abort(8))
+  "undefined" != typeof La && this.g && (this.v = "Timed out after " + this.M + "ms, aborting", dispatchGoogEvent(this, "timeout"), this.abort(8))
 };
 
 function Yc(a, b) {
@@ -1907,10 +1336,10 @@ function Yc(a, b) {
 }
 
 function ad(a) {
-  a.R || (a.R = true, dispatchEvent(a, "complete"), dispatchEvent(a, "error"))
+  a.R || (a.R = true, dispatchGoogEvent(a, "complete"), dispatchGoogEvent(a, "error"))
 }
 closureTempHolder.abort = function () {
-  this.g && this.j && (this.j = false, this.u = true, this.g.abort(), this.u = false, dispatchEvent(this, "complete"), dispatchEvent(this, "abort"), bd(this))
+  this.g && this.j && (this.j = false, this.u = true, this.g.abort(), this.u = false, dispatchGoogEvent(this, "complete"), dispatchGoogEvent(this, "abort"), bd(this))
 };
 closureTempHolder.ca = function () {
   this.g && (this.j && (this.j = false, this.u = true, this.g.abort(), this.u = false), bd(this, true));
@@ -1926,10 +1355,10 @@ closureTempHolder.sb = function () {
 function cd(a) {
   if (a.j && "undefined" != typeof La && (!a.N[1] || 4 != dd(a) || 2 != ed(a)))
     if (a.F && 4 == dd(a)) Rc(a.Ra, 0, a);
-    else if (dispatchEvent(a, "readystatechange"), 4 == dd(a)) {
+    else if (dispatchGoogEvent(a, "readystatechange"), 4 == dd(a)) {
     a.j = false;
     try {
-      if (fd(a)) dispatchEvent(a, "complete"), dispatchEvent(a, "success");
+      if (fd(a)) dispatchGoogEvent(a, "complete"), dispatchGoogEvent(a, "success");
       else {
         try {
           var b = 2 < dd(a) ? a.g.statusText : ""
@@ -1952,7 +1381,7 @@ function bd(a, b) {
       d = a.N[0] ? function () {} : null;
     a.g = null;
     a.N = null;
-    b || dispatchEvent(a, "ready");
+    b || dispatchGoogEvent(a, "ready");
     try {
       c.onreadystatechange = d
     } catch (e) {}
@@ -1961,7 +1390,7 @@ function bd(a, b) {
 
 function Zc(a) {
   a.g && a.Z && (a.g.ontimeout = null);
-  a.K && (globalScope.clearTimeout(a.K), a.K = null)
+  a.K && (window.clearTimeout(a.K), a.K = null)
 }
 closureTempHolder.isActive = function () {
   return !!this.g
@@ -1983,7 +1412,7 @@ function fd(a) {
       c = false
   }
   if (!c) {
-    if (b = 0 === b) a = String(a.Y).match(Tc)[1] || null, !a && globalScope.self && globalScope.self.location && (a = globalScope.self.location.protocol.slice(0, -1)), b = !Vc.test(a ? a.toLowerCase() : "");
+    if (b = 0 === b) a = String(a.Y).match(Tc)[1] || null, !a && window.self && window.self.location && (a = window.self.location.protocol.slice(0, -1)), b = !Vc.test(a ? a.toLowerCase() : "");
     c = b
   }
   return c
@@ -2052,23 +1481,23 @@ function ld(a) {
   else {
     b: if (kd) {
       try {
-        var b = new URL(a)
+        var linkEl = new URL(a)
       } catch (c) {
-        b = "https:";
+        linkEl = "https:";
         break b
       }
-      b = b.protocol
+      linkEl = linkEl.protocol
     } else c: {
-      b = document.createElement("a");
+      linkEl = document.createElement("a");
       try {
-        b.href = a
+        linkEl.href = a
       } catch (c) {
-        b = void 0;
+        linkEl = void 0;
         break c
       }
-      b = b.protocol;b = ":" === b || "" === b ? "https:" : b
+      linkEl = linkEl.protocol;linkEl = ":" === linkEl || "" === linkEl ? "https:" : linkEl
     }
-    a = "javascript:" !== b ? a : void 0
+    a = "javascript:" !== linkEl ? a : void 0
   }
   return a
 };
@@ -2261,9 +1690,7 @@ function yd(a) {
 }
 var Jd = /<(?:!|\/?([a-zA-Z][a-zA-Z0-9:\-]*))(?:[^>'"]|"[^"]*"|'[^']*')*>/g,
   Kd = /</g;
-function checkIfGoogleStaff() {
-  return GOOGLE_STAFF
-}
+
 var Nd = void 0;
 
 function Od() {
@@ -3138,7 +2565,7 @@ function renderAppShell(a) {
   html.o("class", "AppContainer" + (g ? " panelBottomBarDocked" : ""));
   html.h();
   p && (html.open("div", "GJmiBd"), html.i(Ye || (Ye = ["class", "Scrim"])), html.h(), html.close());
-  checkIfGoogleStaff() && (
+  GOOGLE_STAFF && (
     html.open("div", "rQUyAb"),
     html.i(Ze || (Ze = ["class", "WarningBanner"])),
     html.h(),
@@ -3751,7 +3178,7 @@ function renderDialogBox(a, b, c, d, e, f, g, h, k, l, n) {
   h && (a.open("div", "Rzml3b"), a.i(Qg || (Qg = ["class", "Checkbox"])), a.h(), a.open("input", "XNNETd"), a.i(Rg || (Rg = "type checkbox id dialog-checkbox jsaction change:dialogCheckboxChange".split(" "))), setAutoFocusAttr(a), a.h(), a.close(), a.open("label", "zFat8b"), a.i(Tg || (Tg = ["for", "dialog-checkbox"])),
     a.h(), renderToDOM(a, h), a.close(), a.close());
   a.close();
-  isTruthyContent(n) && checkIfGoogleStaff() && (a.open("div", "zqjYof"), a.i(Ug || (Ug = ["class", "ErrorDetailsContainer"])), a.h(), a.open("div", "TJHiue"), a.i(Vg || (Vg = ["class", "DogfoodOnlyLabel"])), a.h(), a.text("Dogfood only:"), a.close(), a.open("code", "Ymtedf"), a.i(Wg || (Wg = ["class", "ErrorDetails"])), a.h(), renderToDOM(a, n), a.close(), a.close());
+  isTruthyContent(n) && GOOGLE_STAFF && (a.open("div", "zqjYof"), a.i(Ug || (Ug = ["class", "ErrorDetailsContainer"])), a.h(), a.open("div", "TJHiue"), a.i(Vg || (Vg = ["class", "DogfoodOnlyLabel"])), a.h(), a.text("Dogfood only:"), a.close(), a.open("code", "Ymtedf"), a.i(Wg || (Wg = ["class", "ErrorDetails"])), a.h(), renderToDOM(a, n), a.close(), a.close());
   a.open("div", "vgpOfd");
   a.i(Xg || (Xg = ["class", "ButtonRow"]));
   a.h();
@@ -4479,7 +3906,7 @@ function renderModeSelectPage(a, b, c) {
       var n = f.m("DPxxsb");
       renderActionCard(f, g, h, "update", "1 min", "Estimated time of 1 minute", k);
       f.l(n);
-      if (checkIfGoogleStaff()) {
+      if (GOOGLE_STAFF) {
         var p = f.m("gdP1Gd");
         renderButton(f, "Revert to Wi-Fi mode (Dogfood only)", void 0, "text", void 0, void 0, void 0, void 0, void 0, void 0, void 0, "click:selectGotham");
         f.l(p)
@@ -5222,7 +4649,7 @@ function jl() {
 }
 
 function kl(a) {
-  var b = globalScope.document;
+  var b = window.document;
   if (b && !b.createEvent && b.createEventObject) try {
     return b.createEventObject(a)
   } catch (c) {
@@ -5323,7 +4750,7 @@ function ActionFlow(a, b, c, d, e, f) {
   sl.push(this);
   this.Y = ++tl;
   b = new ul("created", this);
-  null != vl && dispatchEvent(vl, b)
+  null != vl && dispatchGoogEvent(vl, b)
 }
 inherits(ql, Db);
 closureTempHolder = ql.prototype;
@@ -5359,7 +4786,7 @@ closureTempHolder.done = function (a, b, c) {
         b && (this.F.dup = b);
         h = new ul("beforedone",
           this);
-        dispatchEvent(this, h) && dispatchEvent(vl, h) ? ((a = xl(this.F)) && (this.g.cad = a), h.type = "done", a = dispatchEvent(vl, h)) : a = false
+        dispatchGoogEvent(this, h) && dispatchGoogEvent(vl, h) ? ((a = xl(this.F)) && (this.g.cad = a), h.type = "done", a = dispatchGoogEvent(vl, h)) : a = false
       } else a = true;
     a && (this.u = true, arrayRemove(sl, this), this.M = this.N = null, this.D || (this.D = true, this.ca()))
   }
@@ -5372,7 +4799,7 @@ function wl(a, b, c, d) {
     e.j = c;
     e.u = d;
     e.s = a.u;
-    dispatchEvent(vl, e)
+    dispatchGoogEvent(vl, e)
   }
 }
 
@@ -5580,7 +5007,7 @@ function Dl(a, b) {
 function Cl(a) {
   return new ActionFlow(a.action, a.actionElement, a.event, a.timeStamp, a.eventType, a.targetElement)
 };
-var El = globalScope._jsa || {};
+var El = window._jsa || {};
 El._cfc = void 0;
 El._aeh = void 0;
 
@@ -5761,21 +5188,21 @@ ze.jsaction = function (a, b, c) {
   c ? a.setAttribute("jsaction", c) : a.removeAttribute("jsaction");
   "__jsaction" in a && delete a.__jsaction
 };
-var Vl = new URLSearchParams(window.location.search),
-  Wl, Xl = document.documentElement.lang || "en-US",
-  Yl, Zl = null != (Wl = Vl.get("device_type")) ? Wl : "";
+var searchParams = new URLSearchParams(window.location.search),
+  selectedDeviceType, pageLocale = document.documentElement.lang || "en-US",
+  Yl, Zl = null != (selectedDeviceType = searchParams.get("device_type")) ? selectedDeviceType : "";
 Yl = ["pvt", "dvt", "dev"].includes(Zl) ? Zl : void 0;
 var $l;
-if ($l = detectIfChrome()) {
+if ($l = isChromeBrowser()) {
   var am;
   for (var bm, cm, dm = getUAString(), em = RegExp("([A-Z][\\w ]+)/([^\\s]+)\\s*(?:\\((.*?)\\))?", "g"), eb = [], fm; fm = em.exec(dm);) eb.push([fm[1], fm[2], fm[3] || void 0]);
   var gm = db();
-  cm = detectIfChrome() ? gm(["Chrome", "CriOS", "HeadlessChrome"]) : "";
+  cm = isChromeBrowser() ? gm(["Chrome", "CriOS", "HeadlessChrome"]) : "";
   "" === cm ? am = NaN : (bm = cm.split("."), am = 0 === bm.length ? NaN : Number(bm[0]));
   $l = !(108 <= am)
 }
 const APP_CONFIG = {
-    locale: Xl,
+    locale: pageLocale,
     ra: Yl,
     Va: false,
     xb: "hid" in navigator,

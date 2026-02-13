@@ -73,19 +73,6 @@ import {
   URL_UDEV_INSTRUCTIONS,
 } from './lib/strings.js';
 
-// ─── Compatibility aliases ──────────────────────────────────────────────
-// Maps old obfuscated names to new module exports so that call sites
-// in the rest of this file continue to work without modification.
-// These will be removed when all call sites are renamed (step 5).
-var handleHIDDeviceDisconnection = HIDDisconnectionError;
-var Zi = StadiaHIDController;
-function bj(a, b) { return a.uploadSdpPayload(b); }
-function fj(a, b, c) { return a.flashFirmware(b, c, getFirmwareURL); }
-var yj = isStadiaController;
-function zj() { return findConnectedController(APP_CONFIG.serialNumber); }
-var Dj = readFirmwareVersion;
-var Ej = readBatteryLevel;
-
 var closureTempHolder;
 
 function ba(a) {
@@ -178,7 +165,7 @@ function ha(a) {
   return a
 }
 
-function v(a) {
+function getIterator(a) {
   var b = "undefined" != typeof Symbol && Symbol.iterator && a[Symbol.iterator];
   return b ? b.call(a) : {
     next: ba(a)
@@ -225,7 +212,7 @@ else {
 }
 var qa = la;
 
-function ra(a, b) {
+function inherits(a, b) {
   a.prototype = objectCreatePoly(b.prototype);
   a.prototype.constructor = a;
   if (qa) qa(a, b);
@@ -270,7 +257,7 @@ unknownBaseClass.prototype.return = function (a) {
   this.g = this.u
 };
 
-function x(a, b, c) {
+function yieldValue(a, b, c) {
   a.g = c;
   return {
     value: b
@@ -280,35 +267,35 @@ unknownBaseClass.prototype.J = function (a) {
   this.g = a
 };
 
-function va(a, b, c) {
+function setTryCatchTargets(a, b, c) {
   a.D = b;
   void 0 != c && (a.u = c)
 }
 
-function wa(a) {
+function resetTryCatch(a) {
   a.D = 0;
   a.u = 2
 }
 
-function xa(a, b) {
+function jumpAndResetTry(a, b) {
   a.g = b;
   a.D = 0
 }
 
-function ya(a) {
+function consumeThrow(a) {
   a.D = 0;
   var b = a.s.La;
   a.s = null;
   return b
 }
 
-function za(a, b) {
+function enterFinally(a, b) {
   a.H = [a.s];
   a.D = b || 0;
   a.u = 0
 }
 
-function Ba(a, b) {
+function leaveFinally(a, b) {
   var c = a.H.splice(0)[0];
   (c = a.s = a.s || c) ? c.Na ? a.g = a.D || a.u : void 0 != c.J && a.u < c.J ? (a.g = c.J, a.s = null) : a.g = a.u: a.g = b
 }
@@ -406,7 +393,7 @@ function Ia(a) {
   })
 }
 
-function z(a) {
+function asyncRun(a) {
   return Ia(new Ha(new Ca(a)))
 }
 createPolyfill("Promise", function (a) {
@@ -438,7 +425,7 @@ createPolyfill("Promise", function (a) {
       this.g = [];
       var h = this;
       this.s(function () {
-        h.v()
+        h.getIterator()
       })
     }
     this.g.push(g)
@@ -483,8 +470,8 @@ createPolyfill("Promise", function (a) {
     }
   };
   b.prototype.N = function (g) {
-    if (g === this) this.v(new TypeError("A Promise cannot resolve to itself"));
-    else if (g instanceof b) this.R(g);
+    if (g === this) this.getIterator(new TypeError("A Promise cannot resolve to itself"));
+    else if (g instanceof b) this.renderSoyContent(g);
     else {
       a: switch (typeof g) {
         case "object":
@@ -496,7 +483,7 @@ createPolyfill("Promise", function (a) {
         default:
           h = false
       }
-      h ? this.M(g) : this.D(g)
+      h ? this.M(g) : this.unescapeHtml(g)
     }
   };
   b.prototype.M = function (g) {
@@ -504,10 +491,10 @@ createPolyfill("Promise", function (a) {
     try {
       h = g.then
     } catch (k) {
-      this.v(k);
+      this.getIterator(k);
       return
     }
-    "function" == typeof h ? this.S(h, g) : this.D(g)
+    "function" == typeof h ? this.renderToDOM(h, g) : this.unescapeHtml(g)
   };
   b.prototype.v = function (g) {
     this.I(2, g)
@@ -519,8 +506,8 @@ createPolyfill("Promise", function (a) {
     if (0 != this.g) throw Error("Cannot settle(" + g + ", " + h + "): Promise already settled in state" + this.g);
     this.g = g;
     this.s = h;
-    2 === this.g && this.O();
-    this.H()
+    2 === this.g && this.safeMultiplyPow10();
+    this.sanitizeUri()
   };
   b.prototype.O = function () {
     var g = this;
@@ -611,11 +598,11 @@ createPolyfill("Promise", function (a) {
   };
   b.race = function (g) {
     return new b(function (h, k) {
-      for (var l = v(g), n = l.next(); !n.done; n = l.next()) d(n.value).ia(h, k)
+      for (var l = getIterator(g), n = l.next(); !n.done; n = l.next()) d(n.value).ia(h, k)
     })
   };
   b.all = function (g) {
-    var h = v(g),
+    var h = getIterator(g),
       k = h.next();
     return k.done ? d([]) : new b(function (l, n) {
       function p(m) {
@@ -653,7 +640,7 @@ createPolyfill("WeakMap", function (a) {
   function b(k) {
     this.g = (h += Math.random() + 1).toString();
     if (k) {
-      k = v(k);
+      k = getIterator(k);
       for (var l; !(l = k.next()).done;) l = l.value, this.set(l[0], l[1])
     }
   }
@@ -774,7 +761,7 @@ createPolyfill("Map", function (a) {
     this.g = b();
     this.size = 0;
     if (h) {
-      h = v(h);
+      h = getIterator(h);
       for (var k; !(k = h.next()).done;) k = k.value, this.set(k[0], k[1])
     }
   }
@@ -784,7 +771,7 @@ createPolyfill("Map", function (a) {
         var h = Object.seal({
             x: 4
           }),
-          k = new a(v([
+          k = new a(getIterator([
             [h, "s"]
           ]));
         if ("s" != k.get(h) || 1 != k.size || k.get({
@@ -968,7 +955,7 @@ function Ma(a) {
   "object" != typeof a || a && Array.isArray(a)
 }
 
-function Na(a) {
+function isObject(a) {
   var b = typeof a;
   return "object" == b && null != a || "function" == b
 }
@@ -992,7 +979,7 @@ function Pa(a, b, c) {
   }
 }
 
-function Qa(a, b, c) {
+function closureBind(a, b, c) {
   Function.prototype.bind && -1 != Function.prototype.bind.toString().indexOf("native code") ? Qa = Oa : Qa = Pa;
   return Qa.apply(null, arguments)
 }
@@ -1009,11 +996,11 @@ function Ra(a, b) {
   }
 }
 
-function Sa(a) {
+function identityFn(a) {
   return a
 };
 
-function Ta(a, b) {
+function ClosureCustomError(a, b) {
   if (Error.captureStackTrace) Error.captureStackTrace(this, Ta);
   else {
     var c = Error().stack;
@@ -1025,8 +1012,8 @@ function Ta(a, b) {
 Ra(Ta, Error);
 Ta.prototype.name = "CustomError";
 
-function Ua(a) {
-  A.setTimeout(function () {
+function throwAsync(a) {
+  globalScope.setTimeout(function () {
     throw a;
   }, 0)
 };
@@ -1039,7 +1026,7 @@ var Va = /&/g,
   ab = /[\x00&<>"']/;
 
 function getUAString() {
-  var a = A.navigator;
+  var a = globalScope.navigator;
   return a && (a = a.userAgent) ? a : ""
 }
 
@@ -1071,18 +1058,18 @@ var fb = Array.prototype.indexOf ? function (a, b) {
   return -1
 };
 
-function gb(a, b) {
-  b = fb(a, b);
+function arrayRemove(a, b) {
+  b = arrayIndexOf(a, b);
   var c;
   (c = 0 <= b) && Array.prototype.splice.call(a, b, 1);
   return c
 }
 
-function hb(a, b, c, d) {
-  Array.prototype.splice.apply(a, ib(arguments, 1))
+function arraySpliceInsert(a, b, c, d) {
+  Array.prototype.splice.apply(a, arraySlice(arguments, 1))
 }
 
-function ib(a, b, c) {
+function arraySlice(a, b, c) {
   return 2 >= arguments.length ? Array.prototype.slice.call(a, b) : Array.prototype.slice.call(a, b, c)
 };
 var isIELegacy = searchUAString("Trident") || searchUAString("MSIE");
@@ -1090,7 +1077,7 @@ var isIELegacy = searchUAString("Trident") || searchUAString("MSIE");
 detectIfChrome();
 !searchUAString("Safari") || detectIfChrome();
 
-function kb() {
+function Disposable() {
   this.D = this.D;
   this.I = this.I
 }
@@ -1100,7 +1087,7 @@ kb.prototype.ca = function () {
     for (; this.I.length;) this.I.shift()()
 };
 
-function lb(a, b) {
+function GoogEvent(a, b) {
   this.type = a;
   this.currentTarget = this.target = b;
   this.defaultPrevented = this.g = false
@@ -1114,7 +1101,7 @@ lb.prototype.preventDefault = function () {
 var mb = "closure_listenable_" + (1E6 * Math.random() | 0);
 var nb = 0;
 
-function ob(a, b, c, d, e) {
+function ListenerEntry(a, b, c, d, e) {
   this.listener = a;
   this.proxy = null;
   this.src = b;
@@ -1133,12 +1120,12 @@ function pb(a) {
   a.ea = null
 };
 
-function qb(a, b) {
+function forEachProperty(a, b) {
   for (var c in a) b.call(void 0, a[c], c, a)
 }
 var rb = "constructor hasOwnProperty isPrototypeOf propertyIsEnumerable toLocaleString toString valueOf".split(" ");
 
-function sb(a, b) {
+function objectExtend(a, b) {
   for (var c, d, e = 1; e < arguments.length; e++) {
     d = arguments[e];
     for (c in d) a[c] = d[c];
@@ -1146,7 +1133,7 @@ function sb(a, b) {
   }
 };
 
-function tb(a) {
+function ListenerMap(a) {
   this.src = a;
   this.g = {};
   this.j = 0
@@ -1155,13 +1142,13 @@ tb.prototype.add = function (a, b, c, d, e) {
   var f = a.toString();
   a = this.g[f];
   a || (a = this.g[f] = [], this.j++);
-  var g = ub(a, b, d, e); - 1 < g ? (b = a[g], c || (b.pa = false)) : (b = new ob(b, this.src, f, !!d, e), b.pa = c, a.push(b));
+  var g = ub(a, b, d, e); - 1 < g ? (b = a[g], c || (b.pa = false)) : (b = new ListenerEntry(b, this.src, f, !!d, e), b.pa = c, a.push(b));
   return b
 };
 
 function vb(a, b) {
   var c = b.type;
-  c in a.g && gb(a.g[c], b) && (pb(b), 0 == a.g[c].length && (delete a.g[c], a.j--))
+  c in a.g && arrayRemove(a.g[c], b) && (pb(b), 0 == a.g[c].length && (delete a.g[c], a.j--))
 }
 
 function ub(a, b, c, d) {
@@ -1178,7 +1165,7 @@ var wb = "closure_lm_" + (1E6 * Math.random() | 0),
 function zb(a, b, c, d, e) {
   if (Array.isArray(b))
     for (var f = 0; f < b.length; f++) zb(a, b[f], c, d, e);
-  else(d = Na(d) ? !!d.capture : !!d, c = Ab(c), a && a[mb]) ? (a = a.s, b = String(b).toString(), b in a.g && (f = a.g[b], c = ub(f, c, d, e), -1 < c && (pb(f[c]), Array.prototype.splice.call(f, c, 1), 0 == f.length && (delete a.g[b], a.j--)))) : a && (a = Bb(a)) && (b = a.g[b.toString()], a = -1, b && (a = ub(b, c, d, e)), (c = -1 < a ? b[a] : null) && "number" !== typeof c && c && !c.ma && ((e = c.src) && e[mb] ? vb(e.s, c) : (d = c.type, b = c.proxy, e.removeEventListener ? e.removeEventListener(d, b, c.capture) :
+  else(d = isObject(d) ? !!d.capture : !!d, c = Ab(c), a && a[mb]) ? (a = a.s, b = String(b).toString(), b in a.g && (f = a.g[b], c = ub(f, c, d, e), -1 < c && (pb(f[c]), Array.prototype.splice.call(f, c, 1), 0 == f.length && (delete a.g[b], a.j--)))) : a && (a = Bb(a)) && (b = a.g[b.toString()], a = -1, b && (a = ub(b, c, d, e)), (c = -1 < a ? b[a] : null) && "number" !== typeof c && c && !c.ma && ((e = c.src) && e[mb] ? vb(e.s, c) : (d = c.type, b = c.proxy, e.removeEventListener ? e.removeEventListener(d, b, c.capture) :
     e.detachEvent ? e.detachEvent(d in xb ? xb[d] : xb[d] = "on" + d, b) : e.addListener && e.removeListener && e.removeListener(b), yb--, (d = Bb(e)) ? (vb(d, c), 0 == d.j && (d.src = null, e[wb] = null)) : pb(c))))
 }
 
@@ -1196,9 +1183,9 @@ function Ab(a) {
   return a[eventStringGen]
 };
 
-function Db() {
+function EventTarget() {
   kb.call(this);
-  this.s = new tb(this);
+  this.s = new ListenerMap(this);
   this.fb = this;
   this.oa = null
 }
@@ -1208,18 +1195,18 @@ Db.prototype.removeEventListener = function (a, b, c, d) {
   zb(this, a, b, c, d)
 };
 
-function C(a, b) {
+function dispatchEvent(a, b) {
   var c, d = a.oa;
   if (d)
     for (c = []; d; d = d.oa) c.push(d);
   a = a.fb;
   d = b.type || b;
-  if ("string" === typeof b) b = new lb(b, a);
+  if ("string" === typeof b) b = new GoogEvent(b, a);
   else if (b instanceof lb) b.target = b.target || a;
   else {
     var e = b;
-    b = new lb(d, a);
-    sb(b, e)
+    b = new GoogEvent(d, a);
+    objectExtend(b, e)
   }
   e = true;
   if (c)
@@ -1391,7 +1378,7 @@ function bc(a) {
   return "type_error:SafeHtml"
 }
 
-function cc(a) {
+function htmlEscapeToSafeHtml(a) {
   a instanceof ac || (a = "object" == typeof a && a.fa ? a.g() : String(a), ab.test(a) && (-1 != a.indexOf("&") && (a = a.replace(Va, "&amp;")), -1 != a.indexOf("<") && (a = a.replace(Wa, "&lt;")), -1 != a.indexOf(">") && (a = a.replace(Xa, "&gt;")), -1 != a.indexOf('"') && (a = a.replace(Ya, "&quot;")), -1 != a.indexOf("'") && (a = a.replace(Za, "&#39;")), -1 != a.indexOf("\x00") && (a = a.replace($a, "&#0;"))), a = dc(a));
   return a
 }
@@ -1399,7 +1386,7 @@ function cc(a) {
 function dc(a) {
   if (void 0 === Nb) {
     var b = null;
-    var c = A.trustedTypes;
+    var c = globalScope.trustedTypes;
     if (c && c.createPolicy) {
       try {
         b = c.createPolicy("goog#html", {
@@ -1408,7 +1395,7 @@ function dc(a) {
           createScriptURL: Sa
         })
       } catch (d) {
-        A.console && A.console.error(d.message)
+        globalScope.console && globalScope.console.error(d.message)
       }
       Nb = b
     } else Nb = b
@@ -1416,7 +1403,7 @@ function dc(a) {
   a = (b = Nb) ? b.createHTML(a) : a;
   return new ac(a, $b)
 }
-var ec = new ac(A.trustedTypes && A.trustedTypes.emptyHTML || "", $b);
+var ec = new ac(globalScope.trustedTypes && globalScope.trustedTypes.emptyHTML || "", $b);
 var fc = function (a) {
   var b = false,
     c;
@@ -1434,13 +1421,13 @@ var fc = function (a) {
   return !b.parentElement
 });
 
-function gc(a, b) {
+function safeSetInnerHtml(a, b) {
   if (fc())
     for (; a.lastChild;) a.removeChild(a.lastChild);
   a.innerHTML = bc(b)
 };
 
-function D(a) {
+function unescapeHtml(a) {
   return -1 != a.indexOf("&") ? "document" in A ? hc(a) : ic(a) : a
 }
 
@@ -1451,12 +1438,12 @@ function hc(a) {
     "&gt;": ">",
     "&quot;": '"'
   };
-  var c = A.document.createElement("div");
+  var c = globalScope.document.createElement("div");
   return a.replace(jc, function (d, e) {
     var f = b[d];
     if (f) return f;
     "#" == e.charAt(0) && (e = Number("0" + e.slice(1)), isNaN(e) || (f = String.fromCharCode(e)));
-    f || (f = dc(d + " "), gc(c, f), f = c.firstChild.nodeValue.slice(0, -1));
+    f || (f = dc(d + " "), safeSetInnerHtml(c, f), f = c.firstChild.nodeValue.slice(0, -1));
     return b[d] = f
   })
 }
@@ -1514,7 +1501,7 @@ function nc() {
 var oc;
 
 function pc() {
-  var a = A.MessageChannel;
+  var a = globalScope.MessageChannel;
   "undefined" === typeof a && "undefined" !== typeof window && window.postMessage && window.addEventListener && !searchUAString("Presto") && (a = function () {
     var e = nc();
     e.style.display = "none";
@@ -1525,7 +1512,7 @@ function pc() {
     e.close();
     var g = "callImmediate" + Math.random(),
       h = "file:" == f.location.protocol ? "*" : f.location.protocol + "//" + f.location.host;
-    e = Qa(function (k) {
+    e = closureBind(function (k) {
       if (("*" == h || k.origin == h) && k.data == g) this.port1.onmessage()
     }, this);
     f.addEventListener("message", e,
@@ -1558,7 +1545,7 @@ function pc() {
     }
   }
   return function (e) {
-    A.setTimeout(e, 0)
+    globalScope.setTimeout(e, 0)
   }
 };
 
@@ -1605,14 +1592,14 @@ function xc(a, b) {
 }
 
 function yc() {
-  if (A.Promise && A.Promise.resolve) {
-    var a = A.Promise.resolve(void 0);
+  if (globalScope.Promise && globalScope.Promise.resolve) {
+    var a = globalScope.Promise.resolve(void 0);
     vc = function () {
       a.then(zc)
     }
   } else vc = function () {
     var b = zc;
-    "function" !== typeof A.setImmediate || A.Window && A.Window.prototype && !searchUAString("Edge") && A.Window.prototype.setImmediate == A.setImmediate ? (oc || (oc = pc()), oc(b)) : A.setImmediate(b)
+    "function" !== typeof globalScope.setImmediate || globalScope.Window && globalScope.Window.prototype && !searchUAString("Edge") && globalScope.Window.prototype.setImmediate == globalScope.setImmediate ? (oc || (oc = pc()), oc(b)) : globalScope.setImmediate(b)
   }
 }
 
@@ -1621,7 +1608,7 @@ function zc() {
     try {
       a.j.call(a.g)
     } catch (b) {
-      Ua(b)
+      throwAsync(b)
     }
     mc(rc, a)
   }
@@ -1753,7 +1740,7 @@ function Bc(a, b, c) {
         } else h = false;
         if (h) d.then(e, f, a), g = true;
         else {
-          if (Na(d)) try {
+          if (isObject(d)) try {
             var k = d.then;
             if ("function" === typeof k) {
               Nc(d, k, e, f, a);
@@ -1835,10 +1822,10 @@ Ra(Hc, Ta);
 Hc.prototype.name = "cancel";
 
 function Rc(a, b, c) {
-  if ("function" === typeof a) c && (a = Qa(a, c));
-  else if (a && "function" == typeof a.handleEvent) a = Qa(a.handleEvent, a);
+  if ("function" === typeof a) c && (a = closureBind(a, c));
+  else if (a && "function" == typeof a.handleEvent) a = closureBind(a.handleEvent, a);
   else throw Error("Invalid listener argument");
-  return 2147483647 < Number(b) ? -1 : A.setTimeout(a, b || 0)
+  return 2147483647 < Number(b) ? -1 : globalScope.setTimeout(a, b || 0)
 }
 
 function Sc() {
@@ -1848,7 +1835,7 @@ function Sc() {
       b(void 0)
     }, 1E4); - 1 == a && c(Error("Failed to schedule timer."))
   }), function (b) {
-    A.clearTimeout(a);
+    globalScope.clearTimeout(a);
     throw b;
   })
 };
@@ -1879,7 +1866,7 @@ function NetworkXhrIo(a, newURI) {
   a.j = true;
   a.g = a.O ? Lb(a.O) : Lb(Jb);
   a.N = a.O ? Hb(a.O) : Hb(Jb);
-  a.g.onreadystatechange = Qa(a.Ra, a);
+  a.g.onreadystatechange = closureBind(a.Ra, a);
   try {
     a.S = true, a.g.open("GET", String(newURI), true), a.S = false
   } catch (e) {
@@ -1890,14 +1877,14 @@ function NetworkXhrIo(a, newURI) {
   var c = Array.from(newURI.keys()).find(function (e) {
       return "content-type" == e.toLowerCase()
     }),
-    d = A.FormData && false;
-  !(0 <= fb(Wc, "GET")) || c || d || newURI.set("Content-Type", "application/x-www-form-urlencoded;charset=utf-8");
-  newURI = v(newURI);
-  for (c = newURI.next(); !c.done; c = newURI.next()) d = v(c.value), c = d.next().value, d = d.next().value, a.g.setRequestHeader(c, d);
+    d = globalScope.FormData && false;
+  !(0 <= arrayIndexOf(Wc, "GET")) || c || d || newURI.set("Content-Type", "application/x-www-form-urlencoded;charset=utf-8");
+  newURI = getIterator(newURI);
+  for (c = newURI.next(); !c.done; c = newURI.next()) d = getIterator(c.value), c = d.next().value, d = d.next().value, a.g.setRequestHeader(c, d);
   a.H && (a.g.responseType = a.H);
   "withCredentials" in a.g && a.g.withCredentials !== a.ha && (a.g.withCredentials = a.ha);
   try {
-    Zc(a), 0 < a.M && (a.Z = $c(a.g), a.Z ? (a.g.timeout = a.M, a.g.ontimeout = Qa(a.Za, a)) : a.K = Rc(a.Za, a.M, a)), a.F = true, a.g.send(""), a.F = false
+    Zc(a), 0 < a.M && (a.Z = $c(a.g), a.Z ? (a.g.timeout = a.M, a.g.ontimeout = closureBind(a.Za, a)) : a.K = Rc(a.Za, a.M, a)), a.F = true, a.g.send(""), a.F = false
   } catch (e) {
     Yc(a, e)
   }
@@ -1908,7 +1895,7 @@ function $c(a) {
 }
 closureTempHolder = Uc.prototype;
 closureTempHolder.Za = function () {
-  "undefined" != typeof La && this.g && (this.v = "Timed out after " + this.M + "ms, aborting", C(this, "timeout"), this.abort(8))
+  "undefined" != typeof La && this.g && (this.v = "Timed out after " + this.M + "ms, aborting", dispatchEvent(this, "timeout"), this.abort(8))
 };
 
 function Yc(a, b) {
@@ -1920,17 +1907,17 @@ function Yc(a, b) {
 }
 
 function ad(a) {
-  a.R || (a.R = true, C(a, "complete"), C(a, "error"))
+  a.R || (a.R = true, dispatchEvent(a, "complete"), dispatchEvent(a, "error"))
 }
 closureTempHolder.abort = function () {
-  this.g && this.j && (this.j = false, this.u = true, this.g.abort(), this.u = false, C(this, "complete"), C(this, "abort"), bd(this))
+  this.g && this.j && (this.j = false, this.u = true, this.g.abort(), this.u = false, dispatchEvent(this, "complete"), dispatchEvent(this, "abort"), bd(this))
 };
 closureTempHolder.ca = function () {
   this.g && (this.j && (this.j = false, this.u = true, this.g.abort(), this.u = false), bd(this, true));
   Uc.va.ca.call(this)
 };
 closureTempHolder.Ra = function () {
-  this.D || (this.S || this.F || this.u ? cd(this) : this.sb())
+  this.D || (this.S || this.F || this.u ? cd(this) : this.objectExtend())
 };
 closureTempHolder.sb = function () {
   cd(this)
@@ -1939,10 +1926,10 @@ closureTempHolder.sb = function () {
 function cd(a) {
   if (a.j && "undefined" != typeof La && (!a.N[1] || 4 != dd(a) || 2 != ed(a)))
     if (a.F && 4 == dd(a)) Rc(a.Ra, 0, a);
-    else if (C(a, "readystatechange"), 4 == dd(a)) {
+    else if (dispatchEvent(a, "readystatechange"), 4 == dd(a)) {
     a.j = false;
     try {
-      if (fd(a)) C(a, "complete"), C(a, "success");
+      if (fd(a)) dispatchEvent(a, "complete"), dispatchEvent(a, "success");
       else {
         try {
           var b = 2 < dd(a) ? a.g.statusText : ""
@@ -1965,7 +1952,7 @@ function bd(a, b) {
       d = a.N[0] ? function () {} : null;
     a.g = null;
     a.N = null;
-    b || C(a, "ready");
+    b || dispatchEvent(a, "ready");
     try {
       c.onreadystatechange = d
     } catch (e) {}
@@ -1974,7 +1961,7 @@ function bd(a, b) {
 
 function Zc(a) {
   a.g && a.Z && (a.g.ontimeout = null);
-  a.K && (A.clearTimeout(a.K), a.K = null)
+  a.K && (globalScope.clearTimeout(a.K), a.K = null)
 }
 closureTempHolder.isActive = function () {
   return !!this.g
@@ -1996,7 +1983,7 @@ function fd(a) {
       c = false
   }
   if (!c) {
-    if (b = 0 === b) a = String(a.Y).match(Tc)[1] || null, !a && A.self && A.self.location && (a = A.self.location.protocol.slice(0, -1)), b = !Vc.test(a ? a.toLowerCase() : "");
+    if (b = 0 === b) a = String(a.Y).match(Tc)[1] || null, !a && globalScope.self && globalScope.self.location && (a = globalScope.self.location.protocol.slice(0, -1)), b = !Vc.test(a ? a.toLowerCase() : "");
     c = b
   }
   return c
@@ -2032,9 +2019,9 @@ function gd(a) {
 };
 var hd = new Map;
 
-function getFirmwareURL(a) {
+function fetchFirmwareBinary(a) {
   var b;
-  return z(function (c) {
+  return asyncRun(function (c) {
     if (hd.has(a)) return c.return(hd.get(a));
     b = new Promise(function (d, e) {
       var f = new Uc;
@@ -2085,7 +2072,7 @@ function ld(a) {
   }
   return a
 };
-var E = {},
+var SOY_KIND_HTML = {},
   md = {},
   nd = {},
   od = {},
@@ -2102,11 +2089,11 @@ sanitizer.prototype.toString = function () {
   return this.g
 };
 sanitizer.prototype.na = function () {
-  if (this.B !== E) throw Error("Sanitized content was not of kind HTML.");
+  if (this.B !== SOY_KIND_HTML) throw Error("Sanitized content was not of kind HTML.");
   return dc(this.toString())
 };
 
-function rd(a) {
+function unwrapSafeUrl(a) {
   if (a.B !== md) throw Error("Sanitized content was not of kind URI.");
   return new Rb(a.toString(), Sb)
 }
@@ -2115,7 +2102,7 @@ function sd() {
   sanitizer.call(this)
 }
 Ra(sd, sanitizer);
-sd.prototype.B = E;
+sd.prototype.B = SOY_KIND_HTML;
 
 function td() {
   sanitizer.call(this)
@@ -2149,21 +2136,21 @@ function checkForNull(a) {
   return a
 }
 
-function wd(a) {
-  return a instanceof sanitizer ? !!a.W() : !!a
+function isTruthyContent(a) {
+  return a instanceof sanitizer ? !!a.renderStepLayout() : !!a
 }
 
 function xd(a) {
   return a.replace(/<\//g, "<\\/").replace(/\]\]>/g, "]]\\>")
 }
 
-function H(a) {
+function sanitizeUri(a) {
   null != a && a.B === md || null != a && a.B === nd ? a = yd(a) : a instanceof Rb ? a = yd(Tb(a)) : a instanceof Rb ? a = yd(Tb(a)) : a instanceof Ob ? a = yd(Qb(a).toString()) : a instanceof Ob ? a = yd(Qb(a).toString()) : (a = String(a), a = zd.test(a) ? a.replace(Ad, Bd) : "about:invalid#zSoyz");
   return a
 }
 
-function Cd(a) {
-  null != a && a.B === pd ? a = xd(a.W()) : null == a ? a = "" : a instanceof Vb ? a = xd(Wb(a)) : a instanceof Vb ? a = xd(Wb(a)) : a instanceof Yb ? a = xd(Zb(a)) : a instanceof Yb ? a = xd(Zb(a)) : (a = String(a), a = Dd.test(a) ? a : "zSoyz");
+function sanitizeCss(a) {
+  null != a && a.B === pd ? a = xd(a.renderStepLayout()) : null == a ? a = "" : a instanceof Vb ? a = xd(Wb(a)) : a instanceof Vb ? a = xd(Wb(a)) : a instanceof Yb ? a = xd(Zb(a)) : a instanceof Yb ? a = xd(Zb(a)) : (a = String(a), a = Dd.test(a) ? a : "zSoyz");
   return a
 }
 var Ed = {
@@ -2284,20 +2271,20 @@ function Od() {
   return Nd
 };
 
-function Pd() {
-  return vd(URL_GOOGLE_TERMS)
+function getGoogleTermsUrl() {
+  return createSafeUri(URL_GOOGLE_TERMS)
 }
 
-function Qd() {
-  return vd(URL_CHROME_TERMS)
+function getChromeTermsUrl() {
+  return createSafeUri(URL_CHROME_TERMS)
 }
 
-function Rd() {
-  return vd(URL_HELP_CENTER)
+function getHelpCenterUrl() {
+  return createSafeUri(URL_HELP_CENTER)
 }
 
-function Sd() {
-  return vd(URL_DEVICE_LIST)
+function getDeviceListUrl() {
+  return createSafeUri(URL_DEVICE_LIST)
 };
 /*
  SPDX-License-Identifier: Apache-2.0 */
@@ -2537,7 +2524,7 @@ function ye(a) {
 };
 var ze = $d();
 
-function Ae(a, b, c) {
+function safeWindowOpen(a, b, c) {
   b = ld(b);
   return void 0 !== b ? a.open(b, c, void 0) : null
 };
@@ -2762,7 +2749,7 @@ var He = {
     za: "0",
     jb: "+",
     ya: "-",
-    cb: "E",
+    cb: "SOY_KIND_HTML",
     ib: "\u2030",
     eb: "\u221e",
     gb: "NaN",
@@ -2810,7 +2797,7 @@ function Ie() {
         a + '"');
       d = e + f + g;
       break;
-    case "E":
+    case "SOY_KIND_HTML":
       if (this.M) throw Error('Multiple exponential symbols in pattern "' + a + '"');
       this.M = true;
       this.I = 0;
@@ -2840,16 +2827,16 @@ function Ie() {
 function Ke(a, b, c, d) {
   if (a.s > a.j) throw Error("Min value must be less than max value");
   d || (d = []);
-  var e = O(b, a.j);
+  var e = safeMultiplyPow10(b, a.j);
   e = Math.round(e);
-  isFinite(e) ? (b = Math.floor(O(e, -a.j)), e = Math.floor(e - O(b, a.j))) : e = 0;
+  isFinite(e) ? (b = Math.floor(safeMultiplyPow10(e, -a.j)), e = Math.floor(e - safeMultiplyPow10(b, a.j))) : e = 0;
   var f = b;
   var g = e;
   var h = 0 < a.s || 0 < g || false;
   e = a.s;
   h && (e = a.s);
   var k = "";
-  for (b = f; 1E20 < b;) k = "0" + k, b = Math.round(O(b, -1));
+  for (b = f; 1E20 < b;) k = "0" + k, b = Math.round(safeMultiplyPow10(b, -1));
   k = b + k;
   var l = L.bb;
   b = L.za.charCodeAt(0);
@@ -2896,7 +2883,7 @@ function Ke(a, b, c, d) {
         l = c
       } else l = 0 < l ? l : 0;
       l = -l - 1;
-      h = -1 > l ? h && isFinite(h) ? O(Math.round(O(h, -1)), 1) : h : h && isFinite(h) ? O(Math.round(O(h, l)), -l) : h
+      h = -1 > l ? h && isFinite(h) ? safeMultiplyPow10(Math.round(safeMultiplyPow10(h, -1)), 1) : h : h && isFinite(h) ? safeMultiplyPow10(Math.round(safeMultiplyPow10(h, l)), -l) : h
     }
     h = String(h);
     h = h.replace(".", "");
@@ -2959,7 +2946,7 @@ var Me = {
   Ya: ""
 };
 
-function O(a, b) {
+function safeMultiplyPow10(a, b) {
   if (!a || !isFinite(a) || 0 == b) return a;
   a = String(a).split("e");
   return parseFloat(a[0] + "e" + (parseInt(a[1] || 0, 10) + b))
@@ -2971,7 +2958,7 @@ function Ne(a) {
   if (isNaN(a)) b = L.gb;
   else {
     var c = [];
-    a = O(a, -Me.kb);
+    a = safeMultiplyPow10(a, -Me.kb);
     var d = 0 > a || 0 == a && 0 > 1 / a;
     d ? Me.Pa ? c.push(Me.Pa) : (c.push(Me.prefix), c.push(b.H)) : (c.push(Me.prefix), c.push(b.N));
     if (isFinite(a))
@@ -2980,9 +2967,9 @@ function Ne(a) {
         if (0 == e) Ke(b, e, b.g, c), Le(b, 0, c);
         else {
           var f = Math.floor(Math.log(e) / Math.log(10) + 2E-15);
-          e = O(e, -f);
+          e = safeMultiplyPow10(e, -f);
           var g = b.g;
-          1 < b.F && b.F > b.g ? (g = f % b.F, 0 > g && (g = b.F + g), e = O(e, g), f -= g, g = 1) : 1 > b.g ? (f++, e = O(e, -1)) : (f -= b.g - 1, e = O(e, b.g -
+          1 < b.F && b.F > b.g ? (g = f % b.F, 0 > g && (g = b.F + g), e = safeMultiplyPow10(e, g), f -= g, g = 1) : 1 > b.g ? (f++, e = safeMultiplyPow10(e, -1)) : (f -= b.g - 1, e = safeMultiplyPow10(e, b.g -
             1));
           Ke(b, e, g, c);
           Le(b, f, c)
@@ -3008,7 +2995,7 @@ ze.value = function (a, b, c) {
 };
 Td = "ssk";
 
-function P(a) {
+function createTemplate(a) {
   function b(c) {
     c = void 0 === c ? Oe : c;
     a(c)
@@ -3022,9 +3009,9 @@ function P(a) {
     return Qe(a, c)
   };
   b.W = b.toString;
-  b.B = E;
+  b.B = SOY_KIND_HTML;
   b.na = function () {
-    return ud(b.W()).na()
+    return ud(b.renderStepLayout()).na()
   };
   b.Oa = true;
   return b
@@ -3033,7 +3020,7 @@ function P(a) {
 function Qe(a, b) {
   b = void 0 === b ? Pe : b;
   var c = document.createElement("div");
-  Ce(c, function () {
+  patchInner(c, function () {
     a(b)
   });
   return c.innerHTML
@@ -3050,7 +3037,7 @@ function Re(a) {
 
 function Se(a) {
   var b = document.createElement("div");
-  De(b, Re(a));
+  patchOuter(b, Re(a));
   a = [];
   for (var c = 0; c < b.attributes.length; c++)
     if ("" === b.attributes[c].value) a.push(b.attributes[c].name);
@@ -3059,18 +3046,18 @@ function Se(a) {
         e = d.push,
         f = b.attributes[c].name + "='",
         g = b.attributes[c].value;
-      null != g && g.B === E ? (g = g.W(), g = String(g).replace(Jd, "").replace(Kd, "&lt;"), g = String(g).replace(Id, Fd)) : g = String(g).replace(Hd, Fd);
+      null != g && g.B === SOY_KIND_HTML ? (g = g.renderStepLayout(), g = String(g).replace(Jd, "").replace(Kd, "&lt;"), g = String(g).replace(Id, Fd)) : g = String(g).replace(Hd, Fd);
       e.call(d, f + g + "'")
     } return a.sort().join(" ")
 }
 
 function Te(a) {
-  return (a = a.B) && (a === E || a === od)
+  return (a = a.B) && (a === SOY_KIND_HTML || a === od)
 }
 
-function R(a, b, c, d) {
+function renderSoyContent(a, b, c, d) {
   if (Te(b)) switch (b.B) {
-    case E:
+    case SOY_KIND_HTML:
       b(a, c, d, void 0);
       break;
     case od:
@@ -3084,18 +3071,18 @@ function R(a, b, c, d) {
   } else e = b(c, d, void 0), a.text(String(e))
 }
 
-function S(a, b) {
+function renderToDOM(a, b) {
   if (b instanceof sd || b instanceof ac) {
     var c = b instanceof ac ? bc(b).toString() : String(b);
     if (/&|</.test(c)) {
       var d = document.createElement("html-blob");
-      a: if (c = ud(c), Na(c)) {
+      a: if (c = ud(c), isObject(c)) {
         if (c.na && (c = c.na(), c instanceof ac)) break a;
-        c = cc("zSoyz")
-      } else c = cc(String(c));
-      gc(d, c);
+        c = htmlEscapeToSafeHtml("zSoyz")
+      } else c = htmlEscapeToSafeHtml(String(c));
+      safeSetInnerHtml(d, c);
       d = Array.from(d.childNodes);
-      d = v(d);
+      d = getIterator(d);
       for (c = d.next(); !c.done; c = d.next()) {
         c = c.value;
         var e = a.Ha(),
@@ -3109,25 +3096,25 @@ function S(a, b) {
     (b && b.Oa ? b.Ma(a) : a.text(String(b)))
 }
 
-function T(a) {
+function hasVisibleContent(a) {
   if (!a) return false;
   if (a.Oa) {
     var b = new Fe;
     a.Ma(b);
     return b.g
   }
-  return a instanceof sanitizer ? !!a.W() : "object" !== typeof a ? !!String(a) : true
+  return a instanceof sanitizer ? !!a.renderStepLayout() : "object" !== typeof a ? !!String(a) : true
 };
 var Ue = void 0;
 
-function Ve(a, b) {
+function localizedAssetUrl(a, b) {
   var c = "";
   a = checkForNull(a).split(".", 2);
-  c += H(a[0] + "_" + b + "." + a[1]);
-  return vd(c)
+  c += sanitizeUri(a[0] + "_" + b + "." + a[1]);
+  return createSafeUri(c)
 }
 
-function We(a) {
+function renderAppShell(a) {
   var html = new DOMBuilder,
     c = a.vb,
     d = a.Ja,
@@ -3172,7 +3159,7 @@ function We(a) {
     html.i($e || ($e = ["class", "WarningBanner"]));
     html.h();
     html.text("This page is currently configured to flash");
-    switch (Na(k) ? k.toString() : k) {
+    switch (isObject(k) ? k.toString() : k) {
       case "dev":
         html.text(" DVT devices with dev-signed firmware.");
         break;
@@ -3186,7 +3173,7 @@ function We(a) {
     html.close()
   }
   if (k = !l && !Od()) g = html.m("UfInJc"), html.open("header",
-    "jRXaod"), html.i(af || (af = ["class", "TopNav"])), html.h(), html.open("div", "NBYCd"), html.i(bf || (bf = ["class", "LogoArea"])), html.h(), html.open("img", "yk7Tqc"), html.i(cf || (cf = ["class", "TopNavLogo", "src", "assets/logo-dark.svg"])), html.o("alt", "Stadia"), html.h(), html.close(), html.open("div", "ZRMrHe"), html.i(df || (df = ["class", "Divider"])), html.h(), html.close(), html.open("div", "rQ5pWc"), html.i(ef || (ef = ["class", "ProductName"])), html.h(), html.text(D("Unofficial flashing utility")), html.close(), html.close(), e && (p = html.m("yIFP1b"), ff(html), html.l(p)), html.G(), html.l(g);
+    "jRXaod"), html.i(af || (af = ["class", "TopNav"])), html.h(), html.open("div", "NBYCd"), html.i(bf || (bf = ["class", "LogoArea"])), html.h(), html.open("img", "yk7Tqc"), html.i(cf || (cf = ["class", "TopNavLogo", "src", "assets/logo-dark.svg"])), html.o("alt", "Stadia"), html.h(), html.close(), html.open("div", "ZRMrHe"), html.i(df || (df = ["class", "Divider"])), html.h(), html.close(), html.open("div", "rQ5pWc"), html.i(ef || (ef = ["class", "ProductName"])), html.h(), html.text(unescapeHtml("Unofficial flashing utility")), html.close(), html.close(), e && (p = html.m("yIFP1b"), renderFlashCTA(html), html.l(p)), html.G(), html.l(g);
   html.open("div", "Blfkpf");
   html.i(gf || (gf = ["id", "main-scroll-container"]));
   html.o("class", "PageContents " + (k ? " page-home" : ""));
@@ -3195,10 +3182,10 @@ function We(a) {
   html.open("main", "o1GZpe");
   html.i(lf || (lf = ["aria-live", "polite"]));
   html.h();
-  Od() ? (l = html.m("oFFLke"), mf(html), html.l(l)) : l ? wd(c) && !q ? (c = html.m("Wn3c8c"), l(html, {
+  Od() ? (l = html.m("oFFLke"), renderErrorState(html), html.l(l)) : l ? isTruthyContent(c) && !q ? (c = html.m("Wn3c8c"), l(html, {
     locale: h,
     ga: f
-  }, void 0), html.l(c)) : a ? q ? (l = html.m("SsHKhd"), nf(html), html.l(l)) : (l = html.m("TZl2df"), of (html), html.l(l)) : (l = html.m("QTNRqe"), pf(html), html.l(l)) : (l = html.m("qmdSJc"), createMainPage(html), html.l(l));
+  }, void 0), html.l(c)) : a ? q ? (l = html.m("SsHKhd"), renderChromeUpdatePage(html), html.l(l)) : (l = html.m("TZl2df"), of (html), html.l(l)) : (l = html.m("QTNRqe"), renderMobileUnsupportedPage(html), html.l(l)) : (l = html.m("qmdSJc"), createMainPage(html), html.l(l));
   html.close();
   l = html.m("UkUCbf");
   html.open("footer", "AzCefc");
@@ -3225,7 +3212,7 @@ function We(a) {
   }, void 0), html.l(h));
   html.G()
 }
-We.B = E;
+We.B = SOY_KIND_HTML;
 
 var Xe, Ye, Ze, $e, gf, hf, jf, kf, lf, af, bf, cf, df, ef, rf, sf, tf, uf, vf, wf, xf, yf, zf, Af, Bf;
 
@@ -3246,30 +3233,30 @@ function createMainPage(innerHtml) {
   innerHtml.close();
   innerHtml.open("h1", "PdIASd");
   innerHtml.h();
-  innerHtml.text(D("Flash your Stadia\u00ae Controller"));
+  innerHtml.text(unescapeHtml("Flash your Stadia\u00ae Controller"));
   innerHtml.close();
   innerHtml.open("p",
     "zt76Lc");
   innerHtml.i(Gf || (Gf = ["role", "doc-subtitle"]));
   innerHtml.h();
   var b = innerHtml.m("A7rC4e");
-  R(innerHtml, stringBluetooth, null);
+  renderSoyContent(innerHtml, stringBluetooth, null);
   innerHtml.l(b);
   innerHtml.close();
   innerHtml.open("div", "KNDsmb");
   innerHtml.i(If || (If = ["class", "ButtonAndMetatext"]));
   innerHtml.h();
   var c = innerHtml.m("KxbODe");
-  ff(innerHtml, "main-call-to-action");
+  renderFlashCTA(innerHtml, "main-call-to-action");
   innerHtml.l(c);
   innerHtml.open("div", "xHVu8c");
   innerHtml.i(Jf || (Jf = ["class", "Metatext"]));
   innerHtml.h();
-  innerHtml.text(D("Switching to Bluetooth mode downloads a software update"));
+  innerHtml.text(unescapeHtml("Switching to Bluetooth mode downloads a software update"));
   innerHtml.open("br", "RENzXc");
   innerHtml.h();
   innerHtml.close();
-  innerHtml.text(D("System requirements: Chrome 108 or newer"));
+  innerHtml.text(unescapeHtml("System requirements: Chrome 108 or newer"));
   innerHtml.close();
   innerHtml.close();
   innerHtml.close();
@@ -3285,27 +3272,27 @@ function createMainPage(innerHtml) {
   innerHtml.open("h2", "Y940Ec");
   innerHtml.i(Mf || (Mf = ["class", "KeyThingsTitle"]));
   innerHtml.h();
-  innerHtml.text(D("Important things to know"));
+  innerHtml.text(unescapeHtml("Important things to know"));
   innerHtml.close();
   innerHtml.open("div", "PiNcUc");
   innerHtml.i(Nf || (Nf = ["class", "KeyThingsCardContainer"]));
   innerHtml.h();
-  var d = P(function (m) {
+  var d = createTemplate(function (m) {
       var r = m.m("mv233e");
-      V(m, "Switch to Bluetooth mode", void 0, "text", true, void 0, void 0, void 0, void 0, void 0, void 0, "click:selectBruce");
+      renderButton(m, "Switch to Bluetooth mode", void 0, "text", true, void 0, void 0, void 0, void 0, void 0, void 0, "click:selectBruce");
       m.l(r)
     }),
     e = innerHtml.m("Q6lWyb");
-  Of(innerHtml, "toggle_on", "Switching is permanent", "Once you switch your controller to Bluetooth mode, you can\u2019t change it back to use Wi-Fi on Stadia. You can still play wired with USB in Bluetooth mode.",
+  renderKeyThingCard(innerHtml, "toggle_on", "Switching is permanent", "Once you switch your controller to Bluetooth mode, you can\u2019t change it back to use Wi-Fi on Stadia. You can still play wired with USB in Bluetooth mode.",
     d);
   innerHtml.l(e);
-  d = P(function (m) {
+  d = createTemplate(function (m) {
     var r = m.m("NxMG7");
-    V(m, "Go to mode selection page", void 0, "text", true, void 0, void 0, void 0, void 0, void 0, void 0, "click:selectAction");
+    renderButton(m, "Go to mode selection page", void 0, "text", true, void 0, void 0, void 0, void 0, void 0, void 0, "click:selectAction");
     m.l(r)
   });
   var f = innerHtml.m("DiKXlc");
-  Of(innerHtml, "calendar_today", "Available until December 31, 2023", "You can switch to Bluetooth mode, check the controller mode, and check for Bluetooth updates until Dec 31, 2023.", d);
+  renderKeyThingCard(innerHtml, "calendar_today", "Available until December 31, 2023", "You can switch to Bluetooth mode, check the controller mode, and check for Bluetooth updates until Dec 31, 2023.", d);
   innerHtml.l(f);
   innerHtml.close();
   innerHtml.close();
@@ -3316,164 +3303,164 @@ function createMainPage(innerHtml) {
     "RzOZUe");
   innerHtml.i(Qf || (Qf = ["class", "FaqAreaTitle"]));
   innerHtml.h();
-  innerHtml.text(D("Find the answers you need"));
+  innerHtml.text(unescapeHtml("Find the answers you need"));
   innerHtml.close();
   innerHtml.open("div", "oi6B9d");
   innerHtml.i(Rf || (Rf = ["class", "FaqItemList"]));
   innerHtml.h();
-  d = P(function (m) {
-    m.text(D("After switching your controller into Bluetooth mode, press and hold the \u201cY + Stadia\u201d buttons for 2 seconds to enter pairing mode. The status light will flash orange.\n\nThen, go to the device you want to play on and pair your controller in the settings. Once paired and connected, the status light on the controller will turn solid white.\n\nCongrats! You\u2019re ready to start playing. The next time you turn on the controller, it should automatically connect to the last paired device."));
+  d = createTemplate(function (m) {
+    m.text(unescapeHtml("After switching your controller into Bluetooth mode, press and hold the \u201cY + Stadia\u201d buttons for 2 seconds to enter pairing mode. The status light will flash orange.\n\nThen, go to the device you want to play on and pair your controller in the settings. Once paired and connected, the status light on the controller will turn solid white.\n\nCongrats! You\u2019re ready to start playing. The next time you turn on the controller, it should automatically connect to the last paired device."));
     m.open("p", "LB1TMc");
     m.h();
     m.open("a", "H02OF");
     m.i(Sf || (Sf = "href # target _blank jsaction click:gettingStartedModal1".split(" ")));
     m.h();
-    m.text(D("Learn how to use Bluetooth mode"));
+    m.text(unescapeHtml("Learn how to use Bluetooth mode"));
     m.close();
     m.close()
   });
   var g = innerHtml.m("giFsq");
-  Tf(innerHtml, "How do I pair my controller using Bluetooth?", d);
+  renderFaqItem(innerHtml, "How do I pair my controller using Bluetooth?", d);
   innerHtml.l(g);
-  d = P(function (m) {
-    m.text(D("Not all Bluetooth devices are the same, so compatibility will vary. The Stadia Controller uses Bluetooth Low Energy connections, so some features, such as pass-through audio, aren\u2019t possible wirelessly.\n\nWe\u2019ve verified that the Stadia Controller works for gameplay with the list of supported devices. It hasn\u2019t been tested with all Bluetooth device types, so it might not work with others."));
+  d = createTemplate(function (m) {
+    m.text(unescapeHtml("Not all Bluetooth devices are the same, so compatibility will vary. The Stadia Controller uses Bluetooth Low Energy connections, so some features, such as pass-through audio, aren\u2019t possible wirelessly.\n\nWe\u2019ve verified that the Stadia Controller works for gameplay with the list of supported devices. It hasn\u2019t been tested with all Bluetooth device types, so it might not work with others."));
     m.open("p", "JQKsSb");
     m.h();
     m.open("a", "YWN6je");
     m.i(Uf || (Uf = ["target", "_blank"]));
-    m.o("href", H(Sd()));
+    m.o("href", sanitizeUri(getDeviceListUrl()));
     m.h();
     var r = m.m("r5Owcc");
-    R(m, stringDevices, null);
+    renderSoyContent(m, stringDevices, null);
     m.l(r);
     m.close();
     m.close()
   });
   var h = innerHtml.m("AhWz8b");
-  Tf(innerHtml, "What devices are supported?", d);
+  renderFaqItem(innerHtml, "What devices are supported?", d);
   innerHtml.l(h);
-  d = P(function (m) {
-    m.text(D("When using the controller wirelessly in Bluetooth mode, the 3.5mm port and USB port won\u2019t be able to be used for headphones.\n\nWhen using the controller wired with USB, you\u2019ll be able to plug headphones into the controller\u2019s 3.5mm port."))
+  d = createTemplate(function (m) {
+    m.text(unescapeHtml("When using the controller wirelessly in Bluetooth mode, the 3.5mm port and USB port won\u2019t be able to be used for headphones.\n\nWhen using the controller wired with USB, you\u2019ll be able to plug headphones into the controller\u2019s 3.5mm port."))
   });
   var k = innerHtml.m("pxfWOc");
-  Tf(innerHtml, "Is audio supported in Bluetooth mode?", d);
+  renderFaqItem(innerHtml, "Is audio supported in Bluetooth mode?", d);
   innerHtml.l(k);
-  d = P(function (m) {
-    m.text(D("Yes. By default, the Google Assistant and Capture buttons won\u2019t do anything in Bluetooth mode until remapped. You can remap the buttons using button mapping services."))
+  d = createTemplate(function (m) {
+    m.text(unescapeHtml("Yes. By default, the Google Assistant and Capture buttons won\u2019t do anything in Bluetooth mode until remapped. You can remap the buttons using button mapping services."))
   });
   var l = innerHtml.m("JOu0Ne");
-  Tf(innerHtml, "Can I remap the Assistant and Capture buttons?", d);
+  renderFaqItem(innerHtml, "Can I remap the Assistant and Capture buttons?", d);
   innerHtml.l(l);
-  d = P(function (m) {
-    m.text(D("You can verify whether your controller is in Bluetooth mode by checking the controller mode. Doing this also checks for any updates to Bluetooth mode."));
+  d = createTemplate(function (m) {
+    m.text(unescapeHtml("You can verify whether your controller is in Bluetooth mode by checking the controller mode. Doing this also checks for any updates to Bluetooth mode."));
     m.open("p", "ChKJXd");
     m.h();
     m.open("a", "ueIz9c");
     m.i(Wf || (Wf = ["href", "#", "jsaction", "click:checkMode"]));
     m.h();
-    m.text(D("Check controller mode"));
+    m.text(unescapeHtml("Check controller mode"));
     m.close();
     m.close()
   });
   var n = innerHtml.m("depSEb");
-  Tf(innerHtml, "How do I verify my controller\u2019s mode?", d);
+  renderFaqItem(innerHtml, "How do I verify my controller\u2019s mode?", d);
   innerHtml.l(n);
-  d = P(function (m) {
-    m.text(D("Make sure your controller is charged for at least 30 minutes, and that you\u2019re using a USB data cable that can transfer data. The cable that came with your controller will work."));
+  d = createTemplate(function (m) {
+    m.text(unescapeHtml("Make sure your controller is charged for at least 30 minutes, and that you\u2019re using a USB data cable that can transfer data. The cable that came with your controller will work."));
     m.open("p", "qfymOb");
     m.h();
     m.open("a", "pDanod");
     m.i(Xf || (Xf = ["target", "_blank"]));
-    m.o("href", H(Rd()));
+    m.o("href", sanitizeUri(getHelpCenterUrl()));
     m.h();
     var r = m.m("ftGduc");
-    R(m, stringHelpCenter, null);
+    renderSoyContent(m, stringHelpCenter, null);
     m.l(r);
     m.close();
     m.close()
   });
   var p = innerHtml.m("MEMsTe");
-  Tf(innerHtml, "I can\u2019t complete a step. What should I do?", d);
+  renderFaqItem(innerHtml, "I can\u2019t complete a step. What should I do?", d);
   innerHtml.l(p);
-  d = P(function (m) {
-    m.text(D("Make sure your controller is charged for at least 30 minutes. Unplug your controller and hold the Stadia button for 10 seconds \u2014 this should reset the device to be playable again.\n\nIf this still doesn\u2019t work, factory reset the controller by holding the Google Assistant and Capture buttons for 6 seconds \u2014 the controller should vibrate and the status light should flash."));
+  d = createTemplate(function (m) {
+    m.text(unescapeHtml("Make sure your controller is charged for at least 30 minutes. Unplug your controller and hold the Stadia button for 10 seconds \u2014 this should reset the device to be playable again.\n\nIf this still doesn\u2019t work, factory reset the controller by holding the Google Assistant and Capture buttons for 6 seconds \u2014 the controller should vibrate and the status light should flash."));
     m.open("p", "Jg5gkc");
     m.h();
     m.open("a", "dSUhhf");
     m.i(Zf || (Zf = ["target", "_blank"]));
-    m.o("href", H(Rd()));
+    m.o("href", sanitizeUri(getHelpCenterUrl()));
     m.h();
     var r = m.m("VWegud");
-    R(m, stringHelpCenter, null);
+    renderSoyContent(m, stringHelpCenter, null);
     m.l(r);
     m.close();
     m.close()
   });
   var q = innerHtml.m("FclGQd");
-  Tf(innerHtml, "My controller isn\u2019t working. What should I do?", d);
+  renderFaqItem(innerHtml, "My controller isn\u2019t working. What should I do?", d);
   innerHtml.l(q);
-  d = P(function (m) {
-    m.text(D("Unfortunately, customer support is not available for Bluetooth mode. If you have any questions, please go to the help center article."));
+  d = createTemplate(function (m) {
+    m.text(unescapeHtml("Unfortunately, customer support is not available for Bluetooth mode. If you have any questions, please go to the help center article."));
     m.open("p", "nuWLz");
     m.h();
     m.open("a", "Wd81E");
     m.i($f || ($f = ["target", "_blank"]));
-    m.o("href", H(Rd()));
+    m.o("href", sanitizeUri(getHelpCenterUrl()));
     m.h();
     var r = m.m("JJYS7d");
-    R(m, stringHelpCenter, null);
+    renderSoyContent(m, stringHelpCenter, null);
     m.l(r);
     m.close();
     m.close()
   });
   var w = innerHtml.m("Co3rac");
-  Tf(innerHtml, "Something else is wrong. Who do I contact?", d);
+  renderFaqItem(innerHtml, "Something else is wrong. Who do I contact?", d);
   innerHtml.l(w);
   innerHtml.close();
   innerHtml.close();
   innerHtml.open("div", "Z5aXRe");
   innerHtml.i(ag || (ag = ["class", "LegalArea GridSpan10Center GridSmSpanFull GridXsSpanFull"]));
   innerHtml.h();
-  innerHtml.text(D("The Bluetooth\u00ae word mark and logos are registered trademarks owned by Bluetooth SIG, Inc. and any use of such marks by Google is under license. Other trademarks and trade names are those of their respective owners."));
+  innerHtml.text(unescapeHtml("The Bluetooth\u00ae word mark and logos are registered trademarks owned by Bluetooth SIG, Inc. and any use of such marks by Google is under license. Other trademarks and trade names are those of their respective owners."));
   innerHtml.close();
   innerHtml.G()
 }
 var Cf, Df, Ef, Ff, Gf, If, Jf, Kf, Lf, Mf, Nf, Pf, Qf, Rf, Sf, Uf, Wf, Xf, Zf, $f, ag;
 
-function ff(a, b) {
-  V(a, "Flash your controller", void 0, void 0, true, void 0, "arrow_right_alt", void 0, void 0, void 0, b, "click:selectAction")
+function renderFlashCTA(a, b) {
+  renderButton(a, "Flash your controller", void 0, void 0, true, void 0, "arrow_right_alt", void 0, void 0, void 0, b, "click:selectAction")
 }
 
-function mf(a) {
-  var b = P(function (e) {
-      e.text(D("Something went wrong."));
+function renderErrorState(a) {
+  var b = createTemplate(function (e) {
+      e.text(unescapeHtml("Something went wrong."));
       e.open("br", "JqU27d");
       e.h();
       e.close();
-      e.text(D("Please try again later."))
+      e.text(unescapeHtml("Please try again later."))
     }),
-    c = P(function (e) {
+    c = createTemplate(function (e) {
       e.open("div", "W5sF6c");
       e.i(bg || (bg = ["class", "ErrorContent"]));
       e.h();
       var f = e.m("Wf3be");
-      V(e, "Help Center", void 0, "outlined", true, void 0, "open_in_new", void 0, true, void 0, void 0, "click:helpCenter");
+      renderButton(e, "Help Center", void 0, "outlined", true, void 0, "open_in_new", void 0, true, void 0, void 0, "click:helpCenter");
       e.l(f);
       e.close()
     }),
     d = a.m("kTXOYb");
-  cg(a, b, c, "hourglass_top", void 0, false);
+  renderInfoPage(a, b, c, "hourglass_top", void 0, false);
   a.l(d)
 }
 var bg;
 
 function of (a) {
-  var b = P(function (d) {
+  var b = createTemplate(function (d) {
       d.open("div", "d0diIb");
       d.i(dg || (dg = ["class", "ErrorContent"]));
       d.h();
       var e = d.m("B0X5xf");
-      V(d, "Download Chrome", void 0, "outlined", true, void 0, void 0, void 0, true, void 0, void 0, "click:downloadChrome");
+      renderButton(d, "Download Chrome", void 0, "outlined", true, void 0, void 0, void 0, true, void 0, void 0, "click:downloadChrome");
       d.l(e);
       d.open("div", "nBJVnb");
       d.i(eg || (eg = ["class", "Legal"]));
@@ -3487,39 +3474,39 @@ function of (a) {
           h = 0;
         do {
           var k = f.exec("By downloading Chrome, you agree to the \u00010\u0001Google Terms of Service\u00011\u0001 and \u00012\u0001Chrome and ChromeOS Additional Terms of Service\u00011\u0001") || void 0;
-          fg["By downloading Chrome, you agree to the \u00010\u0001Google Terms of Service\u00011\u0001 and \u00012\u0001Chrome and ChromeOS Additional Terms of Service\u00011\u0001"][h] = [D("By downloading Chrome, you agree to the \u00010\u0001Google Terms of Service\u00011\u0001 and \u00012\u0001Chrome and ChromeOS Additional Terms of Service\u00011\u0001".substring(g,
+          fg["By downloading Chrome, you agree to the \u00010\u0001Google Terms of Service\u00011\u0001 and \u00012\u0001Chrome and ChromeOS Additional Terms of Service\u00011\u0001"][h] = [unescapeHtml("By downloading Chrome, you agree to the \u00010\u0001Google Terms of Service\u00011\u0001 and \u00012\u0001Chrome and ChromeOS Additional Terms of Service\u00011\u0001".substring(g,
             k && k.index)), k && k[0]];
           h += 1;
           g = f.lastIndex
         } while (k)
       }
-      f = v(fg["By downloading Chrome, you agree to the \u00010\u0001Google Terms of Service\u00011\u0001 and \u00012\u0001Chrome and ChromeOS Additional Terms of Service\u00011\u0001"]);
+      f = getIterator(fg["By downloading Chrome, you agree to the \u00010\u0001Google Terms of Service\u00011\u0001 and \u00012\u0001Chrome and ChromeOS Additional Terms of Service\u00011\u0001"]);
       for (g = f.next(); !g.done; g = f.next()) switch (g = g.value, g[0] && d.text(g[0]), g[1]) {
         case "\u00010\u0001":
           d.open("a", "Ai6TIe");
           d.i(gg || (gg = ["target", "_blank"]));
-          d.o("href", H(Pd()));
+          d.o("href", sanitizeUri(getGoogleTermsUrl()));
           d.h();
           break;
         case "\u00011\u0001":
           d.close();
           break;
         case "\u00012\u0001":
-          d.open("a", "tcRzsb"), d.i(hg || (hg = ["target", "_blank"])), d.o("href", H(Qd())), d.h()
+          d.open("a", "tcRzsb"), d.i(hg || (hg = ["target", "_blank"])), d.o("href", sanitizeUri(getChromeTermsUrl())), d.h()
       }
       d.close();
       d.close();
       d.close()
     }),
     c = a.m("g8IHq");
-  cg(a, "Open this page in Chrome", b, void 0, stringChromeWarning());
+  renderInfoPage(a, "Open this page in Chrome", b, void 0, stringChromeWarning());
   a.l(c)
 }
 var dg, eg, fg = {},
   gg, hg;
 
-function pf(a) {
-  var b = P(function (d) {
+function renderMobileUnsupportedPage(a) {
+  var b = createTemplate(function (d) {
       d.open("div", "C84RQ");
       d.i(jg || (jg = ["class", "ErrorContent"]));
       d.h();
@@ -3533,12 +3520,12 @@ function pf(a) {
         do {
           var h = e.exec("Go to \u00010\u0001stadia.com/controller\u00011\u0001 on a desktop device that\u2019s running Chrome version 108 or later") ||
             void 0;
-          kg["Go to \u00010\u0001stadia.com/controller\u00011\u0001 on a desktop device that\u2019s running Chrome version 108 or later"][g] = [D("Go to \u00010\u0001stadia.com/controller\u00011\u0001 on a desktop device that\u2019s running Chrome version 108 or later".substring(f, h && h.index)), h && h[0]];
+          kg["Go to \u00010\u0001stadia.com/controller\u00011\u0001 on a desktop device that\u2019s running Chrome version 108 or later"][g] = [unescapeHtml("Go to \u00010\u0001stadia.com/controller\u00011\u0001 on a desktop device that\u2019s running Chrome version 108 or later".substring(f, h && h.index)), h && h[0]];
           g += 1;
           f = e.lastIndex
         } while (h)
       }
-      e = v(kg["Go to \u00010\u0001stadia.com/controller\u00011\u0001 on a desktop device that\u2019s running Chrome version 108 or later"]);
+      e = getIterator(kg["Go to \u00010\u0001stadia.com/controller\u00011\u0001 on a desktop device that\u2019s running Chrome version 108 or later"]);
       for (f = e.next(); !f.done; f = e.next()) switch (f =
         f.value, f[0] && d.text(f[0]), f[1]) {
         case "\u00010\u0001":
@@ -3552,18 +3539,18 @@ function pf(a) {
       d.close()
     }),
     c = a.m("fKZXBe");
-  cg(a, "Open this page in Chrome on a computer", b);
+  renderInfoPage(a, "Open this page in Chrome on a computer", b);
   a.l(c)
 }
 var jg, kg = {};
 
-function nf(a) {
-  var b = P(function (d) {
+function renderChromeUpdatePage(a) {
+  var b = createTemplate(function (d) {
       d.open("div", "R0wysc");
       d.i(lg || (lg = ["class", "ErrorContent"]));
       d.h();
       var e = d.m("fXKlJd");
-      V(d, "Update Chrome", void 0, "outlined", true, void 0, void 0, void 0, true, void 0, void 0, "click:updateChrome");
+      renderButton(d, "Update Chrome", void 0, "outlined", true, void 0, void 0, void 0, true, void 0, void 0, "click:updateChrome");
       d.l(e);
       d.open("div", "GjFdAb");
       d.i(mg || (mg = ["class", "Legal"]));
@@ -3577,45 +3564,45 @@ function nf(a) {
           h = 0;
         do {
           var k = f.exec("By updating Chrome, you agree to the \u00010\u0001Google Terms of Service\u00011\u0001 and \u00012\u0001Chrome and ChromeOS Additional Terms of Service\u00011\u0001") || void 0;
-          ng["By updating Chrome, you agree to the \u00010\u0001Google Terms of Service\u00011\u0001 and \u00012\u0001Chrome and ChromeOS Additional Terms of Service\u00011\u0001"][h] = [D("By updating Chrome, you agree to the \u00010\u0001Google Terms of Service\u00011\u0001 and \u00012\u0001Chrome and ChromeOS Additional Terms of Service\u00011\u0001".substring(g,
+          ng["By updating Chrome, you agree to the \u00010\u0001Google Terms of Service\u00011\u0001 and \u00012\u0001Chrome and ChromeOS Additional Terms of Service\u00011\u0001"][h] = [unescapeHtml("By updating Chrome, you agree to the \u00010\u0001Google Terms of Service\u00011\u0001 and \u00012\u0001Chrome and ChromeOS Additional Terms of Service\u00011\u0001".substring(g,
             k && k.index)), k && k[0]];
           h += 1;
           g = f.lastIndex
         } while (k)
       }
-      f = v(ng["By updating Chrome, you agree to the \u00010\u0001Google Terms of Service\u00011\u0001 and \u00012\u0001Chrome and ChromeOS Additional Terms of Service\u00011\u0001"]);
+      f = getIterator(ng["By updating Chrome, you agree to the \u00010\u0001Google Terms of Service\u00011\u0001 and \u00012\u0001Chrome and ChromeOS Additional Terms of Service\u00011\u0001"]);
       for (g = f.next(); !g.done; g = f.next()) switch (g = g.value, g[0] && d.text(g[0]), g[1]) {
         case "\u00010\u0001":
           d.open("a", "hplOPd");
           d.i(og || (og = ["target", "_blank"]));
-          d.o("href", H(Pd()));
+          d.o("href", sanitizeUri(getGoogleTermsUrl()));
           d.h();
           break;
         case "\u00011\u0001":
           d.close();
           break;
         case "\u00012\u0001":
-          d.open("a", "CY0Gef"), d.i(pg || (pg = ["target", "_blank"])), d.o("href", H(Qd())), d.h()
+          d.open("a", "CY0Gef"), d.i(pg || (pg = ["target", "_blank"])), d.o("href", sanitizeUri(getChromeTermsUrl())), d.h()
       }
       d.close();
       d.close();
       d.close()
     }),
     c = a.m("HgKm3b");
-  cg(a, "Update Chrome to the latest version", b, void 0, stringChromeWarning());
+  renderInfoPage(a, "Update Chrome to the latest version", b, void 0, stringChromeWarning());
   a.l(c)
 }
 var lg, mg, ng = {},
   og, pg;
 
-function cg(a, b, c, d, e, f) {
+function renderInfoPage(a, b, c, d, e, f) {
   d = void 0 === d ? "lightbulb" : d;
   if (void 0 === f || f) {
     a.open("div", "uTmWy");
     a.i(qg || (qg = ["class", "TopLeftContent"]));
     a.h();
     var g = a.m("ed6XBf");
-    V(a, stringHome(), void 0, "stadiatext", true, "left", "arrow_back", void 0, void 0, void 0, void 0, "click:returnHome");
+    renderButton(a, stringHome(), void 0, "stadiatext", true, "left", "arrow_back", void 0, void 0, void 0, void 0, "click:returnHome");
     a.l(g);
     a.close()
   }
@@ -3630,47 +3617,47 @@ function cg(a, b, c, d, e, f) {
   a.h();
   var h =
     a.m("xhDSLb");
-  vg(a, d);
+  renderIconDiv(a, d);
   a.l(h);
   a.open("h1", "c3uqBd");
   a.h();
-  S(a, b);
+  renderToDOM(a, b);
   a.close();
   a.close();
-  T(e) && (a.open("p", "AJcAJb"), a.i(wg || (wg = ["role", "doc-subtitle"])), a.h(), S(a, e), a.close());
+  hasVisibleContent(e) && (a.open("p", "AJcAJb"), a.i(wg || (wg = ["role", "doc-subtitle"])), a.h(), renderToDOM(a, e), a.close());
   a.close();
-  T(c) && S(a, c);
+  hasVisibleContent(c) && renderToDOM(a, c);
   a.close()
 }
 var qg, sg, tg, ug, wg;
 
-function xg(a, b, c) {
-  var d = P(function (g) {
+function renderSelectionHeader(a, b, c) {
+  var d = createTemplate(function (g) {
       var h = g.m("qRlJQ");
-      V(g, stringHome(), void 0, "stadiatext", true, "left", "arrow_back", void 0, void 0, void 0, void 0, "click:returnHome");
+      renderButton(g, stringHome(), void 0, "stadiatext", true, "left", "arrow_back", void 0, void 0, void 0, void 0, "click:returnHome");
       g.l(h)
     }),
-    e = P(function (g) {
+    e = createTemplate(function (g) {
       g.open("h1", "tt680b");
       g.h();
-      S(g, "What would you like to do with your Stadia Controller?");
+      renderToDOM(g, "What would you like to do with your Stadia Controller?");
       g.close();
-      T(c) && (g.open("p", "Dps8Fc"), g.i(yg || (yg = ["role", "doc-subtitle"])), g.h(), S(g, c), g.close())
+      hasVisibleContent(c) && (g.open("p", "Dps8Fc"), g.i(yg || (yg = ["role", "doc-subtitle"])), g.h(), renderToDOM(g, c), g.close())
     }),
     f = a.m("yG5tBd");
-  zg(a, void 0, d, e, b);
+  renderGridLayout(a, void 0, d, e, b);
   a.l(f)
 }
 var yg;
 
-function W(a, b, c, d, e, f, g, h, k, l, n, p, q) {
+function renderStepLayout(a, b, c, d, e, f, g, h, k, l, n, p, q) {
   var w = void 0 === e ? "flasher" : e,
     m = void 0 === f ? false : f,
     r = void 0 === h ? true : h,
     F = void 0 === k ? true : k,
     aa = void 0 === n ? "click:cancelAndExit" : n,
     M = q ? q : "Next step";
-  e = P(function (y) {
+  e = createTemplate(function (y) {
     if ("flasher" == w) {
       var Aa = y.m("JCINN");
       y.open("div", "tlT9");
@@ -3678,38 +3665,38 @@ function W(a, b, c, d, e, f, g, h, k, l, n, p, q) {
       y.o("aria-label", "Stepper for updating your controller");
       y.h();
       var N = y.m("IVyFe");
-      Bg(y, "Verify", 1, b, m);
+      renderStepDot(y, "Verify", 1, b, m);
       y.l(N);
       N = y.m("cF4Iib");
-      Bg(y, "Unlock", 2, b, m);
+      renderStepDot(y, "Unlock", 2, b, m);
       y.l(N);
       N = y.m("yzKx5d");
-      Bg(y, "Download", 3, b, m);
+      renderStepDot(y, "Download", 3, b, m);
       y.l(N);
       N = y.m("KY71tc");
-      Bg(y, "Install", 4, b, m);
+      renderStepDot(y, "Install", 4, b, m);
       y.l(N);
       y.G();
       y.l(Aa)
     }
     y.open("h1", "iVJnN");
     y.h();
-    S(y, c);
+    renderToDOM(y, c);
     y.close();
-    T(g) && (y.open("p", "qS5zje"), y.i(Cg || (Cg = ["role", "doc-subtitle"])), y.h(), S(y, g), y.close())
+    hasVisibleContent(g) && (y.open("p", "qS5zje"), y.i(Cg || (Cg = ["role", "doc-subtitle"])), y.h(), renderToDOM(y, g), y.close())
   });
-  f = P(function (y) {
+  f = createTemplate(function (y) {
     if (r) {
       var Aa = y.m("R9LBmf");
-      V(y, "Cancel and exit", void 0, "stadiatext", void 0, void 0, void 0, void 0, void 0, void 0, void 0, aa);
+      renderButton(y, "Cancel and exit", void 0, "stadiatext", void 0, void 0, void 0, void 0, void 0, void 0, void 0, aa);
       y.l(Aa);
       if (F) {
         y.open("div", "SF4hO");
         y.i(Dg || (Dg = ["class", "RightButtons"]));
         y.h();
-        T(l) && S(y, l);
+        hasVisibleContent(l) && renderToDOM(y, l);
         var N = y.m("faTsD");
-        V(y, M, void 0, "secondary", true, void 0, void 0, null != p, null !=
+        renderButton(y, M, void 0, "secondary", true, void 0, void 0, null != p, null !=
           p, void 0, void 0, p);
         y.l(N);
         y.close()
@@ -3717,25 +3704,25 @@ function W(a, b, c, d, e, f, g, h, k, l, n, p, q) {
     }
   });
   var Q = a.m("fu8Vnb");
-  zg(a, "empty" == w ? "EmptyStepper" : "", void 0, e, d, f);
+  renderGridLayout(a, "empty" == w ? "EmptyStepper" : "", void 0, e, d, f);
   a.l(Q)
 }
 var Cg, Dg;
 
-function zg(a, b, c, d, e, f) {
-  T(c) && (a.open("div", "AUbuae"), a.i(Eg || (Eg = ["class", "TopLeftContent"])), a.h(), S(a, c), a.close());
+function renderGridLayout(a, b, c, d, e, f) {
+  hasVisibleContent(c) && (a.open("div", "AUbuae"), a.i(Eg || (Eg = ["class", "TopLeftContent"])), a.h(), renderToDOM(a, c), a.close());
   a.open("div", "OMP0He");
   a.o("class", "Grid MainContentContainer " + (b ? b : ""));
   a.h();
-  T(d) && (a.open("div", "yZez5"), a.i(Fg || (Fg = ["class", "PanelInstructions GridSpanFull"])), a.h(), S(a, d), a.close());
-  T(e) && S(a, e);
-  T(f) && (a.open("div", "jojrvc"), a.i(Gg || (Gg = ["class", "PanelBottomBarContainer GridSpanFull", "id", "panel-bottom-button-bar"])), a.h(), a.open("div", "PrR4E"), a.i(Hg || (Hg = ["class", "PanelBottomButtonBar GridSpanFull"])),
-    a.h(), a.open("div", "OYh2Wb"), a.i(Ig || (Ig = ["class", "PanelBottomButtonBar__InnerContainer"])), a.h(), S(a, f), a.close(), a.close(), a.close());
+  hasVisibleContent(d) && (a.open("div", "yZez5"), a.i(Fg || (Fg = ["class", "PanelInstructions GridSpanFull"])), a.h(), renderToDOM(a, d), a.close());
+  hasVisibleContent(e) && renderToDOM(a, e);
+  hasVisibleContent(f) && (a.open("div", "jojrvc"), a.i(Gg || (Gg = ["class", "PanelBottomBarContainer GridSpanFull", "id", "panel-bottom-button-bar"])), a.h(), a.open("div", "PrR4E"), a.i(Hg || (Hg = ["class", "PanelBottomButtonBar GridSpanFull"])),
+    a.h(), a.open("div", "OYh2Wb"), a.i(Ig || (Ig = ["class", "PanelBottomButtonBar__InnerContainer"])), a.h(), renderToDOM(a, f), a.close(), a.close(), a.close());
   a.close()
 }
 var Eg, Fg, Gg, Hg, Ig;
 
-function Jg(a, b, c, d, e, f, g, h, k, l, n) {
+function renderDialogBox(a, b, c, d, e, f, g, h, k, l, n) {
   f = void 0 === f ? "high" : f;
   g = void 0 === g ? "medium" : g;
   a.open("dialog", "tnU0xc");
@@ -3749,34 +3736,34 @@ function Jg(a, b, c, d, e, f, g, h, k, l, n) {
   a.i(Mg || (Mg = ["class", "HeadingDescriptionIcon"]));
   a.h();
   e && (a.open("div", "tbY8dd"), a.i(Ng || (Ng = ["aria-hidden", "true"])), a.o("class", "Icon " + f), a.h(),
-    S(a, e), a.close());
+    renderToDOM(a, e), a.close());
   a.open("h2", "gqyllc");
   a.i(Og || (Og = ["id", "active-dialog-title"]));
   a.h();
-  S(a, b);
+  renderToDOM(a, b);
   a.close();
   a.open("div", "IuCG3d");
   a.i(Pg || (Pg = ["id", "active-dialog-description", "class", "Description"]));
   a.h();
-  S(a, c);
+  renderToDOM(a, c);
   a.close();
   a.close();
-  h && (a.open("div", "Rzml3b"), a.i(Qg || (Qg = ["class", "Checkbox"])), a.h(), a.open("input", "XNNETd"), a.i(Rg || (Rg = "type checkbox id dialog-checkbox jsaction change:dialogCheckboxChange".split(" "))), Sg(a), a.h(), a.close(), a.open("label", "zFat8b"), a.i(Tg || (Tg = ["for", "dialog-checkbox"])),
-    a.h(), S(a, h), a.close(), a.close());
+  h && (a.open("div", "Rzml3b"), a.i(Qg || (Qg = ["class", "Checkbox"])), a.h(), a.open("input", "XNNETd"), a.i(Rg || (Rg = "type checkbox id dialog-checkbox jsaction change:dialogCheckboxChange".split(" "))), setAutoFocusAttr(a), a.h(), a.close(), a.open("label", "zFat8b"), a.i(Tg || (Tg = ["for", "dialog-checkbox"])),
+    a.h(), renderToDOM(a, h), a.close(), a.close());
   a.close();
-  wd(n) && checkIfGoogleStaff() && (a.open("div", "zqjYof"), a.i(Ug || (Ug = ["class", "ErrorDetailsContainer"])), a.h(), a.open("div", "TJHiue"), a.i(Vg || (Vg = ["class", "DogfoodOnlyLabel"])), a.h(), a.text("Dogfood only:"), a.close(), a.open("code", "Ymtedf"), a.i(Wg || (Wg = ["class", "ErrorDetails"])), a.h(), S(a, n), a.close(), a.close());
+  isTruthyContent(n) && checkIfGoogleStaff() && (a.open("div", "zqjYof"), a.i(Ug || (Ug = ["class", "ErrorDetailsContainer"])), a.h(), a.open("div", "TJHiue"), a.i(Vg || (Vg = ["class", "DogfoodOnlyLabel"])), a.h(), a.text("Dogfood only:"), a.close(), a.open("code", "Ymtedf"), a.i(Wg || (Wg = ["class", "ErrorDetails"])), a.h(), renderToDOM(a, n), a.close(), a.close());
   a.open("div", "vgpOfd");
   a.i(Xg || (Xg = ["class", "ButtonRow"]));
   a.h();
   if (l) {
     var p = a.m("aOxdCd");
-    V(a, l.label, void 0, "text", null != l.icon, void 0, l.icon, void 0, void 0, void 0,
+    renderButton(a, l.label, void 0, "text", null != l.icon, void 0, l.icon, void 0, void 0, void 0,
       void 0, l.action);
     a.l(p)
   }
   if (d) {
     var q = a.m("ei9BD");
-    V(a, d.label, void 0, "secondary", void 0, void 0, void 0, wd(k) || !h, !h, void 0, void 0, d.action);
+    renderButton(a, d.label, void 0, "secondary", void 0, void 0, void 0, isTruthyContent(k) || !h, !h, void 0, void 0, d.action);
     a.l(q)
   }
   a.close();
@@ -3784,7 +3771,7 @@ function Jg(a, b, c, d, e, f, g, h, k, l, n) {
 }
 var Kg, Lg, Mg, Ng, Og, Pg, Qg, Rg, Tg, Ug, Vg, Wg, Xg, Ag;
 
-function Bg(a, b, c, d, e) {
+function renderStepDot(a, b, c, d, e) {
   var f = d == c;
   d = (c = d > c || f && e) ? "Completed" : "Incomplete";
   a.open("div", "GiGjRb");
@@ -3796,7 +3783,7 @@ function Bg(a, b, c, d, e) {
   a.open("div", "qKyMDc");
   a.i(Zg || (Zg = ["class", "StepLabel", "aria-hidden", "true"]));
   a.h();
-  S(a, b);
+  renderToDOM(a, b);
   a.close();
   a.open("div", "OSYxPb");
   a.i($g || ($g = ["class", "StepTimeline", "aria-hidden", "true"]));
@@ -3810,7 +3797,7 @@ function Bg(a, b, c, d, e) {
   a.i(bh || (bh = ["class", "StepDot"]));
   a.h();
   var g = a.m("yXK7Vc");
-  vg(a, "check", "StepCheck");
+  renderIconDiv(a, "check", "StepCheck");
   a.l(g);
   a.close();
   a.open("div", "mrENRc");
@@ -3822,7 +3809,7 @@ function Bg(a, b, c, d, e) {
 }
 var Yg, Zg, $g, ah, bh, ch;
 
-function dh(a, b, c, d, e, f, g) {
+function renderActionCard(a, b, c, d, e, f, g) {
   a.open("div", "MWOm2c");
   a.o("class", "ActionCard");
   a.h();
@@ -3834,7 +3821,7 @@ function dh(a, b, c, d, e, f, g) {
     a.i(fh || (fh = ["class", "Icon", "aria-hidden", "true"]));
     a.h();
     var h = a.m("hDiRK");
-    gh(a, d, true);
+    renderCardIcon(a, d, true);
     a.l(h);
     a.close()
   }
@@ -3844,16 +3831,16 @@ function dh(a, b, c, d, e, f, g) {
   a.open("h2", "uvUv8");
   a.i(ih || (ih = ["class", "ActionText"]));
   a.h();
-  S(a, b);
+  renderToDOM(a, b);
   a.close();
   a.open("div", "BOguZb");
   a.i(jh || (jh = ["class", "MetaText"]));
   a.h();
-  S(a, c);
+  renderToDOM(a, c);
   a.close();
   a.close();
   a.close();
-  if (T(g)) {
+  if (hasVisibleContent(g)) {
     a.open("div", "NqYd1c");
     a.i(kh || (kh = ["class", "Bottom"]));
     a.h();
@@ -3863,23 +3850,23 @@ function dh(a, b, c, d, e, f, g) {
       a.o("aria-label", null != f ? f : e);
       a.h();
       var k = a.m("MtmUwb");
-      vg(a, "schedule", "TimeChipIcon");
+      renderIconDiv(a, "schedule", "TimeChipIcon");
       a.l(k);
       a.open("span", "ikZL9e");
       a.i(mh || (mh = ["class", "TimeChipText", "aria-hidden", "true"]));
       a.h();
-      S(a, e);
+      renderToDOM(a, e);
       a.close();
       a.close()
     }
-    S(a, g);
+    renderToDOM(a, g);
     a.close()
   }
   a.G()
 }
 var eh, fh, hh, ih, jh, kh, lh, mh;
 
-function nh(a, b, c, d, e, f, g) {
+function renderInstructionCard(a, b, c, d, e, f, g) {
   f = void 0 === f ? "" : f;
   g = void 0 === g ? "" : g;
   a.open("div", "t1rK5e");
@@ -3892,14 +3879,14 @@ function nh(a, b, c, d, e, f, g) {
   a.i(ph || (ph = ["class", "Icon"]));
   a.h();
   var h = a.m("tvvVzb");
-  gh(a, b);
+  renderCardIcon(a, b);
   a.l(h);
   a.close();
   a.open("h2", "a9azZd");
   a.i(qh || (qh = ["class", "InstructionText"]));
   a.o("aria-label", g);
   a.h();
-  S(a, d);
+  renderToDOM(a, d);
   a.close();
   a.close();
   a.open("div", "kUfyBb");
@@ -3915,14 +3902,14 @@ function nh(a, b, c, d, e, f, g) {
   a.open("div", "WhnSEd");
   a.i(th || (th = ["class", "MetaText"]));
   a.h();
-  S(a, e);
+  renderToDOM(a, e);
   a.close();
   a.close();
   a.G()
 }
 var oh, ph, qh, rh, sh, th;
 
-function Of(a, b, c, d, e) {
+function renderKeyThingCard(a, b, c, d, e) {
   a.open("div", "OjiUbd");
   a.o("class", "KeyThingCard");
   a.h();
@@ -3933,7 +3920,7 @@ function Of(a, b, c, d, e) {
   a.i(vh || (vh = ["class", "Icon", "aria-hidden", "true"]));
   a.h();
   var f = a.m("MIzvFc");
-  gh(a, b, true);
+  renderCardIcon(a, b, true);
   a.l(f);
   a.close();
   a.open("div", "SO151b");
@@ -3942,34 +3929,34 @@ function Of(a, b, c, d, e) {
   a.open("h3", "UFxwhd");
   a.i(xh || (xh = ["class", "Heading"]));
   a.h();
-  S(a, c);
+  renderToDOM(a, c);
   a.close();
   a.open("div", "ozaSAe");
   a.i(yh || (yh = ["class", "Content"]));
   a.h();
-  S(a, d);
+  renderToDOM(a, d);
   a.close();
   a.close();
   a.close();
   a.open("div", "Rn2fAf");
   a.i(zh || (zh = ["class", "Bottom"]));
   a.h();
-  S(a, e);
+  renderToDOM(a, e);
   a.close();
   a.G()
 }
 var uh, vh, wh, xh, yh, zh;
 
-function gh(a, b, c) {
+function renderCardIcon(a, b, c) {
   c = void 0 === c ? false : c;
   a.open("span", "gPpZX");
   a.o("class", "CardIcon" + (c ? " symbol" : ""));
   a.h();
-  S(a, b);
+  renderToDOM(a, b);
   a.G()
 }
 
-function V(a, b, c, d, e, f, g, h, k, l, n, p) {
+function renderButton(a, b, c, d, e, f, g, h, k, l, n, p) {
   c = void 0 === c ? "" : c;
   d = void 0 === d ? "brand" : d;
   e = void 0 === e ? false : e;
@@ -3980,26 +3967,26 @@ function V(a, b, c, d, e, f, g, h, k, l, n, p) {
   a.open("button", "IXluUb");
   a.o("class", "Button " + d + (e ? " " + ("left" == f ? "iconleft" : "icon") : "") + (l ? " " + l : ""));
   p && a.o("jsaction", p);
-  h ? k && Sg(a) : (a.o("tabindex", "-1"), a.o("disabled", ""));
+  h ? k && setAutoFocusAttr(a) : (a.o("tabindex", "-1"), a.o("disabled", ""));
   n && a.o("id", n);
   a.o("aria-label", c);
   a.h();
   a.open("span", "x4b05b");
   a.i(Ah || (Ah = ["class", "ButtonText"]));
   a.h();
-  S(a, b);
+  renderToDOM(a, b);
   e && (a.open("span", "Im3JKb"),
-    a.i(Bh || (Bh = ["class", "ButtonIcon", "aria-hidden", "true"])), a.h(), S(a, g), a.close());
+    a.i(Bh || (Bh = ["class", "ButtonIcon", "aria-hidden", "true"])), a.h(), renderToDOM(a, g), a.close());
   a.close();
   a.G()
 }
 var Ah, Bh, Ch;
 
-function Sg(a) {
+function setAutoFocusAttr(a) {
   a.o("data-initial-focus", "")
 }
 
-function Dh(a) {
+function renderMenuButtonIcon(a) {
   a.open("span", "IAxUNb");
   a.i(Eh || (Eh = ["class", "ControllerButton option", "role", "img"]));
   a.o("aria-label", "the Menu button");
@@ -4009,7 +3996,7 @@ function Dh(a) {
 }
 var Eh, Fh, Gh, Hh;
 
-function Ih(a, b, c, d) {
+function renderProgressIndicator(a, b, c, d) {
   c = void 0 === c ? "" : c;
   var e = void 0 === e ? 0 : e;
   var f = void 0 === f ? 100 : f;
@@ -4018,7 +4005,7 @@ function Ih(a, b, c, d) {
 }
 var Jh, Kh, Lh;
 
-function Tf(a, b, c) {
+function renderFaqItem(a, b, c) {
   a.open("details", "Nblq2d");
   a.i(Mh || (Mh = ["class", "FaqItem"]));
   a.h();
@@ -4029,7 +4016,7 @@ function Tf(a, b, c) {
   a.open("div", "FzqLU");
   a.i(Oh || (Oh = ["class", "FaqQuestion", "aria-hidden", "true"]));
   a.h();
-  S(a, b);
+  renderToDOM(a, b);
   a.close();
   a.open("div", "GnYahe");
   a.i(Ph || (Ph = ["class", "FaqChevron more", "aria-hidden", "true"]));
@@ -4045,13 +4032,13 @@ function Tf(a, b, c) {
   a.open("div", "lcMBNe");
   a.i(Rh || (Rh = ["class", "FaqAnswer"]));
   a.h();
-  S(a, c);
+  renderToDOM(a, c);
   a.close();
   a.G()
 }
 var Mh, Nh, Oh, Ph, Qh, Rh;
 
-function Sh(a, b) {
+function renderGettingStartedModal(a, b) {
   b = b || {};
   b = b.Ba;
   b = void 0 === b ? 1 : b;
@@ -4062,12 +4049,12 @@ function Sh(a, b) {
   a.i(Uh || (Uh = ["class", "ModalHeader"]));
   a.h();
   var c = a.m("zQ2Z9d");
-  vg(a, "lightbulb");
+  renderIconDiv(a, "lightbulb");
   a.l(c);
   a.open("h2", "wMP9Me");
   a.i(Vh || (Vh = ["id", "active-dialog-title"]));
   a.h();
-  a.text(D("Getting started with Bluetooth"));
+  a.text(unescapeHtml("Getting started with Bluetooth"));
   a.close();
   c = a.m("dAD0sb");
   a.open("button", "Y9SEPd");
@@ -4079,7 +4066,7 @@ function Sh(a, b) {
   a.open("span", "f3x3Ge");
   a.i(Ch || (Ch = ["class", "Icon", "aria-hidden", "true"]));
   a.h();
-  S(a, "close");
+  renderToDOM(a, "close");
   a.close();
   a.G();
   a.l(c);
@@ -4090,11 +4077,11 @@ function Sh(a, b) {
   a.open("section", "AzTgAe");
   a.i(Xh || (Xh = ["class", "ModalContent__Panel"]));
   a.h();
-  1 == b ? (a.open("h3", "jSua3b"), a.h(), a.text(D("How to pair with Bluetooth")), a.close(), a.open("p",
-    "uArixd"), a.h(), a.text(D("Hold the \u201cY + Stadia\u201d buttons for 2 seconds until the status light flashes orange. It\u2019s now in pairing mode and visible to other devices.")), a.close(), c = a.m("tpp9Fc"), Yh(a, "Pairing_mode.svg", "A Stadia Controller with the Y button and the Stadia button being held down. The Stadia button is the circular center button on the front face of the controller between the analog sticks. The Y button is the top of the 4 circular buttons in a diamond formation on the right side of the front face of the controller. An arrow indicates that after pressing these buttons, the Stadia button will flash orange. The controller will also rumble to indicate it entered pairing mode.",
-    1.5708333333333333), a.l(c)) : (a.open("h3", "dEpN8d"), a.h(), a.text(D("What the status lights mean")), a.close(), a.open("div", "VjSKWd"), a.i(Zh || (Zh = ["class", "LEDStatusList"])), a.h(), a.open("dl", "pYsqqf"), a.i($h || ($h = ["class", "LEDStatus LEDStatus__FlashingOrange"])), a.h(), a.open("dt", "X5pELc"), a.i(ai || (ai = ["class", "LEDStatus__State"])), a.h(), a.text(D("Flashing orange")), a.close(), a.open("dd", "ns4iPc"), a.i(bi || (bi = ["class", "LEDStatus__Description"])), a.h(), a.text(D("Pairing mode, visible to other devices")),
-    a.close(), a.close(), a.open("dl", "SVdPid"), a.i(ci || (ci = ["class", "LEDStatus LEDStatus__FlashingWhite"])), a.h(), a.open("dt", "Ujaczd"), a.i(di || (di = ["class", "LEDStatus__State"])), a.h(), a.text(D("Flashing white")), a.close(), a.open("dd", "ctKwV"), a.i(ei || (ei = ["class", "LEDStatus__Description"])), a.h(), a.text(D("Connecting to last paired device")), a.close(), a.close(), a.open("dl", "Yzj2Yb"), a.i(fi || (fi = ["class", "LEDStatus LEDStatus__SolidWhite"])), a.h(), a.open("dt", "PCRife"), a.i(gi || (gi = ["class", "LEDStatus__State"])),
-    a.h(), a.text(D("Solid white")), a.close(), a.open("dd", "LqSPic"), a.i(hi || (hi = ["class", "LEDStatus__Description"])), a.h(), a.text(D("Connected to a device")), a.close(), a.close(), a.close());
+  1 == b ? (a.open("h3", "jSua3b"), a.h(), a.text(unescapeHtml("How to pair with Bluetooth")), a.close(), a.open("p",
+    "uArixd"), a.h(), a.text(unescapeHtml("Hold the \u201cY + Stadia\u201d buttons for 2 seconds until the status light flashes orange. It\u2019s now in pairing mode and visible to other devices.")), a.close(), c = a.m("tpp9Fc"), renderDiagramImage(a, "Pairing_mode.svg", "A Stadia Controller with the Y button and the Stadia button being held down. The Stadia button is the circular center button on the front face of the controller between the analog sticks. The Y button is the top of the 4 circular buttons in a diamond formation on the right side of the front face of the controller. An arrow indicates that after pressing these buttons, the Stadia button will flash orange. The controller will also rumble to indicate it entered pairing mode.",
+    1.5708333333333333), a.l(c)) : (a.open("h3", "dEpN8d"), a.h(), a.text(unescapeHtml("What the status lights mean")), a.close(), a.open("div", "VjSKWd"), a.i(Zh || (Zh = ["class", "LEDStatusList"])), a.h(), a.open("dl", "pYsqqf"), a.i($h || ($h = ["class", "LEDStatus LEDStatus__FlashingOrange"])), a.h(), a.open("dt", "X5pELc"), a.i(ai || (ai = ["class", "LEDStatus__State"])), a.h(), a.text(unescapeHtml("Flashing orange")), a.close(), a.open("dd", "ns4iPc"), a.i(bi || (bi = ["class", "LEDStatus__Description"])), a.h(), a.text(unescapeHtml("Pairing mode, visible to other devices")),
+    a.close(), a.close(), a.open("dl", "SVdPid"), a.i(ci || (ci = ["class", "LEDStatus LEDStatus__FlashingWhite"])), a.h(), a.open("dt", "Ujaczd"), a.i(di || (di = ["class", "LEDStatus__State"])), a.h(), a.text(unescapeHtml("Flashing white")), a.close(), a.open("dd", "ctKwV"), a.i(ei || (ei = ["class", "LEDStatus__Description"])), a.h(), a.text(unescapeHtml("Connecting to last paired device")), a.close(), a.close(), a.open("dl", "Yzj2Yb"), a.i(fi || (fi = ["class", "LEDStatus LEDStatus__SolidWhite"])), a.h(), a.open("dt", "PCRife"), a.i(gi || (gi = ["class", "LEDStatus__State"])),
+    a.h(), a.text(unescapeHtml("Solid white")), a.close(), a.open("dd", "LqSPic"), a.i(hi || (hi = ["class", "LEDStatus__Description"])), a.h(), a.text(unescapeHtml("Connected to a device")), a.close(), a.close(), a.close());
   a.close();
   a.close();
   a.open("footer", "IRx0Ad");
@@ -4104,7 +4091,7 @@ function Sh(a, b) {
   a.i(ji || (ji = ["class", "ModalFooter__LeftControls"]));
   a.h();
   c = a.m("EBCqQb");
-  V(a, "Help Center", void 0, "text", true, void 0, "open_in_new", void 0, void 0, void 0, void 0, "click:helpCenter");
+  renderButton(a, "Help Center", void 0, "text", true, void 0, "open_in_new", void 0, void 0, void 0, void 0, "click:helpCenter");
   a.l(c);
   a.close();
   c = "Page " +
@@ -4125,33 +4112,33 @@ function Sh(a, b) {
   a.open("div", "YHgkwc");
   a.i(li || (li = ["class", "ModalFooter__RightControls"]));
   a.h();
-  1 == b ? (b = a.m("YzY0te"), V(a, "Next", void 0, "secondary", void 0, void 0, void 0, void 0, true, "NextButton", void 0, "click:gettingStartedModal2"),
-    a.l(b)) : (b = a.m("cozlJf"), V(a, "Back", void 0, "stadiasecondary", void 0, void 0, void 0, void 0, true, "BackButton", void 0, "click:gettingStartedModal1"), a.l(b));
+  1 == b ? (b = a.m("YzY0te"), renderButton(a, "Next", void 0, "secondary", void 0, void 0, void 0, void 0, true, "NextButton", void 0, "click:gettingStartedModal2"),
+    a.l(b)) : (b = a.m("cozlJf"), renderButton(a, "Back", void 0, "stadiasecondary", void 0, void 0, void 0, void 0, true, "BackButton", void 0, "click:gettingStartedModal1"), a.l(b));
   a.close();
   a.close();
   a.G()
 }
-Sh.B = E;
+Sh.B = SOY_KIND_HTML;
 var Th, Uh, Vh, Wh, Xh, Zh, $h, ai, bi, ci, di, ei, fi, gi, hi, ii, ji, ki, li;
 
-function Yh(a, b, c, d) {
+function renderDiagramImage(a, b, c, d) {
   a.open("img", "hoTVge");
   a.i(mi || (mi = ["class", "StandaloneDiagram"]));
   a.o("src", "assets/" + b);
   a.o("alt", c ? c : "");
-  d && a.o("style", "aspect-ratio: " + Cd(d) + ";");
+  d && a.o("style", "aspect-ratio: " + sanitizeCss(d) + ";");
   a.h();
   a.G()
 }
 var mi;
 
-function vg(a, b, c) {
+function renderIconDiv(a, b, c) {
   c = void 0 === c ? "Icon" : c;
   a.open("div", "OlWeC");
   a.i(ni || (ni = ["aria-hidden", "true"]));
   a.o("class", c);
   a.h();
-  S(a, b);
+  renderToDOM(a, b);
   a.G()
 }
 var ni;
@@ -4176,23 +4163,23 @@ function stringBluetooth() {
   return STR_BLUETOOTH_HERO
 };
 
-function oi(a, b) {
-  pi(a, b.qa)
+function renderTermsDialog(a, b) {
+  renderTermsDialogInner(a, b.qa)
 }
 
-function pi(a, b) {
-  Jg(a, "Accept the Terms of Service", P(function (c) {
+function renderTermsDialogInner(a, b) {
+  renderDialogBox(a, "Accept the Terms of Service", createTemplate(function (c) {
       c.open("p", "k3jM9b");
       c.h();
-      c.text(D("Your download and use of the Bluetooth update for the Stadia Controller is subject to the Google Terms of Service. Please read and accept these terms to continue."));
+      c.text(unescapeHtml("Your download and use of the Bluetooth update for the Stadia Controller is subject to the Google Terms of Service. Please read and accept these terms to continue."));
       c.close();
       c.open("p", "EDC2Fc");
       c.h();
       c.open("a", "jq3Z0d");
       c.i(qi || (qi = ["target", "_blank"]));
-      c.o("href", H(Pd()));
+      c.o("href", sanitizeUri(getGoogleTermsUrl()));
       c.h();
-      c.text(D("Read Google Terms of Service"));
+      c.text(unescapeHtml("Read Google Terms of Service"));
       c.close();
       c.close()
     }), {
@@ -4204,17 +4191,17 @@ function pi(a, b) {
       action: "click:closeDialog"
     })
 }
-oi.B = E;
+oi.B = SOY_KIND_HTML;
 var qi;
 
-function ri(a, b) {
-  si(a, b.qa, b.tb)
+function renderCancelDialog(a, b) {
+  renderCancelDialogInner(a, b.qa, b.tb)
 }
 
-function si(a, b, c) {
+function renderCancelDialogInner(a, b, c) {
   var d = stringResetControllerConfirm();
-  Jg(a, "Cancel and exit?", P(function (e) {
-    c ? (e.open("p", "FflBx"), e.h(), e.open("strong", "l2Lkdb"), e.h(), e.text(D("Important: Unplug and reset your controller to use it again.")), e.close(), e.close(), e.open("p", "p9JOnf"), e.h(), e.text(D("Your controller is unlocked, so it can\u2019t be used. To lock and reset it back to normal, unplug the controller and hold the Stadia button for 10 seconds.")), e.close()) : e.text(D("You\u2019ll lose any progress and need to start over."))
+  renderDialogBox(a, "Cancel and exit?", createTemplate(function (e) {
+    c ? (e.open("p", "FflBx"), e.h(), e.open("strong", "l2Lkdb"), e.h(), e.text(unescapeHtml("Important: Unplug and reset your controller to use it again.")), e.close(), e.close(), e.open("p", "p9JOnf"), e.h(), e.text(unescapeHtml("Your controller is unlocked, so it can\u2019t be used. To lock and reset it back to normal, unplug the controller and hold the Stadia button for 10 seconds.")), e.close()) : e.text(unescapeHtml("You\u2019ll lose any progress and need to start over."))
   }), {
     label: "Cancel and exit",
     action: "returnHome"
@@ -4223,68 +4210,68 @@ function si(a, b, c) {
     action: "closeDialog"
   })
 }
-ri.B = E;
+ri.B = SOY_KIND_HTML;
 
-function ui(a, b) {
-  vi(a, b.nb, b.V)
+function renderCloseTabsDialog(a, b) {
+  renderCloseTabsInner(a, b.nb, b.V)
 }
 
-function vi(a, b, c) {
-  Jg(a, "Close other tabs using the controller", P(function (d) {
+function renderCloseTabsInner(a, b, c) {
+  renderDialogBox(a, "Close other tabs using the controller", createTemplate(function (d) {
     d.open("p", "AQzJdc");
     d.h();
-    d.text(D("Couldn\u2019t connect to your controller because it\u2019s currently being used by another tab or program."));
+    d.text(unescapeHtml("Couldn\u2019t connect to your controller because it\u2019s currently being used by another tab or program."));
     d.close();
-    b && (d.open("p", "yi5sid"), d.h(), d.text(D("If you connected the controller to Android apps on ChromeOS, unplug it now to disconnect it.")), d.close());
+    b && (d.open("p", "yi5sid"), d.h(), d.text(unescapeHtml("If you connected the controller to Android apps on ChromeOS, unplug it now to disconnect it.")), d.close());
     d.open("p", "h96Lle");
     d.h();
-    d.text(D("Close any tabs or programs using the controller, then try again."));
+    d.text(unescapeHtml("Close any tabs or programs using the controller, then try again."));
     d.close()
   }), {
     label: "Got it",
     action: "closeDialog"
   }, "tab", "low", void 0, void 0, void 0, void 0, c)
 }
-ui.B = E;
+ui.B = SOY_KIND_HTML;
 
-function wi(a, b) {
-  xi(a, b.action)
+function renderUnpluggedDialog(a, b) {
+  renderUnpluggedInner(a, b.action)
 }
 
-function xi(a, b) {
-  Jg(a, "Plug in your controller", P(function (c) {
-    c.text(D("Sorry \u2014 the current process was interrupted because your controller was unplugged. Plug in the controller, then restart this step."))
+function renderUnpluggedInner(a, b) {
+  renderDialogBox(a, "Plug in your controller", createTemplate(function (c) {
+    c.text(unescapeHtml("Sorry \u2014 the current process was interrupted because your controller was unplugged. Plug in the controller, then restart this step."))
   }), {
     label: "Restart step",
     action: b
   }, "usb_off")
 }
-wi.B = E;
+wi.B = SOY_KIND_HTML;
 
-function yi(a) {
-  Jg(a, "Your controller isn\u2019t unlocked", P(function (b) {
-    b.text(D("Your controller needs to be unlocked to download the update. Return to the Unlock step and try again."))
+function renderNotUnlockedDialog(a) {
+  renderDialogBox(a, "Your controller isn\u2019t unlocked", createTemplate(function (b) {
+    b.text(unescapeHtml("Your controller needs to be unlocked to download the update. Return to the Unlock step and try again."))
   }), {
     label: "Return to Unlock step",
     action: "enterSdpMode"
   }, "lock")
 }
-yi.B = E;
+yi.B = SOY_KIND_HTML;
 
-function zi(a, b, c) {
-  Ai(c, a, b.qa, b.V)
+function renderResetDialog(a, b, c) {
+  renderResetDialogInner(c, a, b.qa, b.V)
 }
 
-function Ai(a, b, c, d) {
-  Jg(b, stringControllerRestart(), P(function (e) {
+function renderResetDialogInner(a, b, c, d) {
+  renderDialogBox(b, stringControllerRestart(), createTemplate(function (e) {
     e.open("p", "YsMOUe");
     e.h();
-    e.text(D("Sorry \u2014 the update was interrupted and your controller needs to be reset."));
+    e.text(unescapeHtml("Sorry \u2014 the update was interrupted and your controller needs to be reset."));
     e.close();
     e.open("p", "MsvVYb");
     e.h();
     var f = e.m("AupbBc");
-    R(e, stringControllerReset, null, a);
+    renderSoyContent(e, stringControllerReset, null, a);
     e.l(f);
     e.close()
   }), {
@@ -4292,27 +4279,27 @@ function Ai(a, b, c, d) {
     action: "connectController"
   }, "restart_alt", void 0, void 0, stringResetControllerConfirm(), c, void 0, d)
 }
-zi.B = E;
+zi.B = SOY_KIND_HTML;
 
-function Di(a, b, c) {
-  Ei(c, a, b.rb)
+function renderStillUnlockedDialog(a, b, c) {
+  renderStillUnlockedInner(c, a, b.rb)
 }
 
-function Ei(a, b, c) {
-  Jg(b, stringControllerRestart(), P(function (d) {
+function renderStillUnlockedInner(a, b, c) {
+  renderDialogBox(b, stringControllerRestart(), createTemplate(function (d) {
     d.open("p", "HITwyd");
     d.h();
-    d.text(D("Your controller is still unlocked. This can cause issues."));
+    d.text(unescapeHtml("Your controller is still unlocked. This can cause issues."));
     d.close();
     d.open("p", "mheSh");
     d.h();
     var e = d.m("LpOsne");
-    R(d, stringControllerReset, null, a);
+    renderSoyContent(d, stringControllerReset, null, a);
     d.l(e);
     d.close();
     d.open("p", "fExFHf");
     d.h();
-    d.text(D("Only go to the next step if your controller won\u2019t reset properly."));
+    d.text(unescapeHtml("Only go to the next step if your controller won\u2019t reset properly."));
     d.close()
   }), {
     label: "Start over",
@@ -4322,18 +4309,18 @@ function Ei(a, b, c) {
     action: c
   })
 }
-Di.B = E;
+Di.B = SOY_KIND_HTML;
 
-function Fi(a, b, c) {
-  Jg(a, stringControllerRestart(), P(function (d) {
+function renderNeedsResetDialog(a, b, c) {
+  renderDialogBox(a, stringControllerRestart(), createTemplate(function (d) {
     d.open("p", "yrHdpd");
     d.h();
-    d.text(D("Your controller is still unlocked and needs to be reset."));
+    d.text(unescapeHtml("Your controller is still unlocked and needs to be reset."));
     d.close();
     d.open("p", "n1IKSd");
     d.h();
     var e = d.m("FXOiGe");
-    R(d, stringControllerReset, null, c);
+    renderSoyContent(d, stringControllerReset, null, c);
     d.l(e);
     d.close()
   }), {
@@ -4341,21 +4328,21 @@ function Fi(a, b, c) {
     action: "connectController"
   }, "restart_alt")
 }
-Fi.B = E;
+Fi.B = SOY_KIND_HTML;
 
-function Gi(a, b) {
-  Hi(a, b.V)
+function renderLinuxUdevDialog(a, b) {
+  renderLinuxUdevInner(a, b.V)
 }
 
-function Hi(a, b) {
-  Jg(a, "Manually update Linux udev rules to continue", P(function (c) {
+function renderLinuxUdevInner(a, b) {
+  renderDialogBox(a, "Manually update Linux udev rules to continue", createTemplate(function (c) {
     c.open("p", "qQQTNe");
     c.h();
-    c.text(D("You need to manually edit a rules file on your computer to allow Chrome to access Stadia Controllers over USB."));
+    c.text(unescapeHtml("You need to manually edit a rules file on your computer to allow Chrome to access Stadia Controllers over USB."));
     c.close();
     c.open("p", "ZmKCId");
     c.h();
-    c.text(D("Open and follow the instructions \u2014 this opens in a new tab. Once you\u2019re done, restart this step."));
+    c.text(unescapeHtml("Open and follow the instructions \u2014 this opens in a new tab. Once you\u2019re done, restart this step."));
     c.close()
   }), {
     label: "Restart step",
@@ -4366,14 +4353,14 @@ function Hi(a, b) {
     icon: "open_in_new"
   }, b)
 }
-Gi.B = E;
+Gi.B = SOY_KIND_HTML;
 
-function Ii(a, b) {
-  Ji(a, b.U)
+function renderBatteryDialog(a, b) {
+  renderBatteryDialogInner(a, b.U)
 }
 
-function Ji(a, b) {
-  Jg(a, "Charge your controller", P(function (c) {
+function renderBatteryDialogInner(a, b) {
+  renderDialogBox(a, "Charge your controller", createTemplate(function (c) {
     if (!Ki["Your controller\u2019s battery is \u00010\u0001%. It needs to be charged to 10% or more to continue. \n\nCharging from 0\u201310% can take up to 30 minutes. Restart the step to check the battery again."]) {
       Ki["Your controller\u2019s battery is \u00010\u0001%. It needs to be charged to 10% or more to continue. \n\nCharging from 0\u201310% can take up to 30 minutes. Restart the step to check the battery again."] = [];
       var d = /\x01\d+\x01/g,
@@ -4381,23 +4368,23 @@ function Ji(a, b) {
         f = 0;
       do {
         var g = d.exec("Your controller\u2019s battery is \u00010\u0001%. It needs to be charged to 10% or more to continue. \n\nCharging from 0\u201310% can take up to 30 minutes. Restart the step to check the battery again.") || void 0;
-        Ki["Your controller\u2019s battery is \u00010\u0001%. It needs to be charged to 10% or more to continue. \n\nCharging from 0\u201310% can take up to 30 minutes. Restart the step to check the battery again."][f] = [D("Your controller\u2019s battery is \u00010\u0001%. It needs to be charged to 10% or more to continue. \n\nCharging from 0\u201310% can take up to 30 minutes. Restart the step to check the battery again.".substring(e,
+        Ki["Your controller\u2019s battery is \u00010\u0001%. It needs to be charged to 10% or more to continue. \n\nCharging from 0\u201310% can take up to 30 minutes. Restart the step to check the battery again."][f] = [unescapeHtml("Your controller\u2019s battery is \u00010\u0001%. It needs to be charged to 10% or more to continue. \n\nCharging from 0\u201310% can take up to 30 minutes. Restart the step to check the battery again.".substring(e,
           g && g.index)), g && g[0]];
         f += 1;
         e = d.lastIndex
       } while (g)
     }
-    d = v(Ki["Your controller\u2019s battery is \u00010\u0001%. It needs to be charged to 10% or more to continue. \n\nCharging from 0\u201310% can take up to 30 minutes. Restart the step to check the battery again."]);
+    d = getIterator(Ki["Your controller\u2019s battery is \u00010\u0001%. It needs to be charged to 10% or more to continue. \n\nCharging from 0\u201310% can take up to 30 minutes. Restart the step to check the battery again."]);
     for (e = d.next(); !e.done; e = d.next()) switch (e = e.value, e[0] && c.text(e[0]), e[1]) {
       case "\u00010\u0001":
-        S(c, Ne(b))
+        renderToDOM(c, Ne(b))
     }
   }), {
     label: "Restart step",
     action: "connectController"
   }, "battery_very_low", "high")
 }
-Ii.B = E;
+Ii.B = SOY_KIND_HTML;
 var Ki = {};
 
 function stringControllerRestart() {
@@ -4412,22 +4399,22 @@ function stringResetControllerConfirm() {
   return STR_RESET_CONFIRM
 };
 
-function Gj() {
+function getStadiaHost() {
   return STADIA_HOST
 }
 
-function Hj(a, b, c) {
-  b = P(function (f) {
-    f.text(D("You\u2019ll need a USB data cable for these actions. The cable that came with your controller will work."))
+function renderModeSelectPage(a, b, c) {
+  b = createTemplate(function (f) {
+    f.text(unescapeHtml("You\u2019ll need a USB data cable for these actions. The cable that came with your controller will work."))
   });
-  var d = P(function (f) {
+  var d = createTemplate(function (f) {
       f.open("div", "z07dwe");
       f.i(Ij || (Ij = ["class", "PanelContent CardsAction GridSpan10Center GridSmSpanFull GridXsSpanFull"]));
       f.h();
-      var g = P(function (q) {
-          q.text(D("Switch to Bluetooth Mode"))
+      var g = createTemplate(function (q) {
+          q.text(unescapeHtml("Switch to Bluetooth Mode"))
         }),
-        h = P(function (innerHtml) {
+        h = createTemplate(function (innerHtml) {
           if (!Jj["\u00010\u0001Play wirelessly on supported Bluetooth devices. This disables Stadia Wi-Fi wireless play.\u00011\u0001\u00010\u0001\u00012\u0001Switching is permanent\u00013\u0001\u00011\u0001"]) {
             Jj["\u00010\u0001Play wirelessly on supported Bluetooth devices. This disables Stadia Wi-Fi wireless play.\u00011\u0001\u00010\u0001\u00012\u0001Switching is permanent\u00013\u0001\u00011\u0001"] = [];
             var w = /\x01\d+\x01/g,
@@ -4435,13 +4422,13 @@ function Hj(a, b, c) {
               r = 0;
             do {
               var F = w.exec("\u00010\u0001Play wirelessly on supported Bluetooth devices. This disables Stadia Wi-Fi wireless play.\u00011\u0001\u00010\u0001\u00012\u0001Switching is permanent\u00013\u0001\u00011\u0001") || void 0;
-              Jj["\u00010\u0001Play wirelessly on supported Bluetooth devices. This disables Stadia Wi-Fi wireless play.\u00011\u0001\u00010\u0001\u00012\u0001Switching is permanent\u00013\u0001\u00011\u0001"][r] = [D("\u00010\u0001Play wirelessly on supported Bluetooth devices. This disables Stadia Wi-Fi wireless play.\u00011\u0001\u00010\u0001\u00012\u0001Switching is permanent\u00013\u0001\u00011\u0001".substring(m,
+              Jj["\u00010\u0001Play wirelessly on supported Bluetooth devices. This disables Stadia Wi-Fi wireless play.\u00011\u0001\u00010\u0001\u00012\u0001Switching is permanent\u00013\u0001\u00011\u0001"][r] = [unescapeHtml("\u00010\u0001Play wirelessly on supported Bluetooth devices. This disables Stadia Wi-Fi wireless play.\u00011\u0001\u00010\u0001\u00012\u0001Switching is permanent\u00013\u0001\u00011\u0001".substring(m,
                 F && F.index)), F && F[0]];
               r += 1;
               m = w.lastIndex
             } while (F)
           }
-          w = v(Jj["\u00010\u0001Play wirelessly on supported Bluetooth devices. This disables Stadia Wi-Fi wireless play.\u00011\u0001\u00010\u0001\u00012\u0001Switching is permanent\u00013\u0001\u00011\u0001"]);
+          w = getIterator(Jj["\u00010\u0001Play wirelessly on supported Bluetooth devices. This disables Stadia Wi-Fi wireless play.\u00011\u0001\u00010\u0001\u00012\u0001Switching is permanent\u00013\u0001\u00011\u0001"]);
           for (m = w.next(); !m.done; m = w.next()) switch (m = m.value, m[0] && innerHtml.text(m[0]), m[1]) {
             case "\u00010\u0001":
               innerHtml.open("p", "sd0Kzc");
@@ -4462,80 +4449,80 @@ function Hj(a, b, c) {
           innerHtml.h();
           innerHtml.open("a", "eepBqb");
           innerHtml.i(Kj || (Kj = ["target", "_blank"]));
-          innerHtml.o("href", H(Sd()));
+          innerHtml.o("href", sanitizeUri(getDeviceListUrl()));
           innerHtml.h();
           var aa = innerHtml.m("W1pELd");
-          R(innerHtml, stringDevices, null, c);
+          renderSoyContent(innerHtml, stringDevices, null, c);
           innerHtml.l(aa);
           innerHtml.close();
           innerHtml.close()
         }),
-        k = P(function (q) {
+        k = createTemplate(function (q) {
           var w = q.m("NyLHoc");
-          V(q, "Start", "Start switching the controller into Bluetooth mode", "secondary", true, void 0, void 0, void 0, true, void 0, void 0, "click:selectBruce");
+          renderButton(q, "Start", "Start switching the controller into Bluetooth mode", "secondary", true, void 0, void 0, void 0, true, void 0, void 0, "click:selectBruce");
           q.l(w)
         }),
         l = f.m("bGPAu");
-      dh(f, g, h, "bluetooth_searching", "3 min", "Estimated time of 3 minutes", k);
+      renderActionCard(f, g, h, "bluetooth_searching", "3 min", "Estimated time of 3 minutes", k);
       f.l(l);
-      g = P(function (q) {
-        q.text(D("Check mode and updates"))
+      g = createTemplate(function (q) {
+        q.text(unescapeHtml("Check mode and updates"))
       });
-      h = P(function (q) {
-        q.text(D("Check if your controller is in Bluetooth mode, and if a Bluetooth update is available."))
+      h = createTemplate(function (q) {
+        q.text(unescapeHtml("Check if your controller is in Bluetooth mode, and if a Bluetooth update is available."))
       });
-      k = P(function (q) {
+      k = createTemplate(function (q) {
         var w = q.m("mz6oEd");
-        V(q, "Check", void 0, "outlined", true, void 0, void 0, void 0, void 0, void 0, void 0, "click:checkMode");
+        renderButton(q, "Check", void 0, "outlined", true, void 0, void 0, void 0, void 0, void 0, void 0, "click:checkMode");
         q.l(w)
       });
       var n = f.m("DPxxsb");
-      dh(f, g, h, "update", "1 min", "Estimated time of 1 minute", k);
+      renderActionCard(f, g, h, "update", "1 min", "Estimated time of 1 minute", k);
       f.l(n);
       if (checkIfGoogleStaff()) {
         var p = f.m("gdP1Gd");
-        V(f, "Revert to Wi-Fi mode (Dogfood only)", void 0, "text", void 0, void 0, void 0, void 0, void 0, void 0, void 0, "click:selectGotham");
+        renderButton(f, "Revert to Wi-Fi mode (Dogfood only)", void 0, "text", void 0, void 0, void 0, void 0, void 0, void 0, void 0, "click:selectGotham");
         f.l(p)
       }
       f.close()
     }),
     e = a.m("pinEZ");
-  xg(a, d, b);
+  renderSelectionHeader(a, d, b);
   a.l(e)
 }
-Hj.B = E;
+Hj.B = SOY_KIND_HTML;
 var Ij, Jj = {},
   Kj;
 
-function Lj(a, b) {
+function renderPlugInPage(a, b) {
   b = b || {};
-  Mj(a, b.C)
+  renderPlugInPageInner(a, b.C)
 }
 
-function Mj(a, b) {
-  var c = P(function (innerHtml) {
+function renderPlugInPageInner(a, b) {
+  var c = createTemplate(function (innerHtml) {
       innerHtml.open("div", "iqjG8c");
       innerHtml.i(Nj || (Nj = ["class", "PanelContent GridSpan6Center GridSmSpan4Center GridXsSpanFull"]));
       innerHtml.h();
       var f = innerHtml.m("lmjj8d");
-      Yh(innerHtml, "Verify_Plug_in_controller.svg", "A Stadia Controller with an arrow indicating that you plug the USB cable into the USB port on the top of the controller.", 1.3333333333333333);
+      renderDiagramImage(innerHtml, "Verify_Plug_in_controller.svg", "A Stadia Controller with an arrow indicating that you plug the USB cable into the USB port on the top of the controller.", 1.3333333333333333);
       innerHtml.l(f);
       innerHtml.close()
     }),
     d = a.m("nidk8e");
-  W(a, 1, "First, plug your Stadia Controller into your computer", c, b ? "flasher" : "empty", void 0, "Make sure your controller has been charged for 30 minutes, and you\u2019re using a USB data cable.",
+  renderStepLayout(a, 1, "First, plug your Stadia Controller into your computer", c, b ? "flasher" : "empty", void 0, "Make sure your controller has been charged for 30 minutes, and you\u2019re using a USB data cable.",
     void 0, void 0, void 0, "click:returnHome", "click:verifyController", "Continue");
   a.l(d)
 }
-Lj.B = E;
+Lj.B = SOY_KIND_HTML;
 var Nj;
 
-function Oj(a, b) {
-  Pj(a, b.locale, b.ga, b.C)
+function renderVerifyPage(a, b) {
+  renderVerifyPageInner(a, b.locale, b.ga, b.C)
 }
 
-function Pj(a, b, c, d) {
-  var e = P(function (innerHtml) {
+function renderVerifyPageInner(a, b, c, d) {
+  var e = createTemplate(function (innerHtml) {
       innerHtml.open("div", "raBDRc");
       innerHtml.i(Qj || (Qj = ["class", "PanelContent GridSpan6Center GridSmSpan4Center GridXsSpanFull"]));
       innerHtml.h();
@@ -4543,36 +4530,36 @@ function Pj(a, b, c, d) {
       innerHtml.i(Rj || (Rj = ["class", "PanelTopButtonRow"]));
       innerHtml.h();
       var h = innerHtml.m("bdTlx");
-      V(innerHtml, "Allow Chrome to verify", void 0, "secondary", void 0, void 0, void 0, void 0, true, void 0, void 0, "click:selectControllerUsbDevice");
+      renderButton(innerHtml, "Allow Chrome to verify", void 0, "secondary", void 0, void 0, void 0, void 0, true, void 0, void 0, "click:selectControllerUsbDevice");
       innerHtml.l(h);
       if (c) {
         innerHtml.open("div", "HgC96e");
         innerHtml.i(Sj || (Sj = ["class", "TopButtonHelpText"]));
         innerHtml.h();
         var k = innerHtml.m("xUhbVc");
-        Tj(innerHtml);
+        renderPermissionHelpText(innerHtml);
         innerHtml.l(k);
         innerHtml.close()
       }
       innerHtml.close();
-      var l = "A two-part image illustrating what to do during this step after selecting the \u201cAllow Chrome to verify\u201d button. The first part shows the Chrome device list dialog with the text \u201c" + Gj() + " wants to connect\u201d. The device list has one entry titled \u201cStadia Controller rev. A\u201d as an example. A mouse is clicking the device to select it. In the second part of the image, a mouse is clicking the \u201cConnect\u201d button in that same dialog.",
+      var l = "A two-part image illustrating what to do during this step after selecting the \u201cAllow Chrome to verify\u201d button. The first part shows the Chrome device list dialog with the text \u201c" + getStadiaHost() + " wants to connect\u201d. The device list has one entry titled \u201cStadia Controller rev. A\u201d as an example. A mouse is clicking the device to select it. In the second part of the image, a mouse is clicking the \u201cConnect\u201d button in that same dialog.",
         n = innerHtml.m("HT9JPc");
-      Uj(innerHtml, "" + Ve("Chrome_dialog_Verify.svg",
+      renderImageWithTip(innerHtml, "" + localizedAssetUrl("Chrome_dialog_Verify.svg",
         b), Vj("Stadia Controller", "SP Blank RT Family", "USB COMPOSITE DEVICE", "Bootloader"), l, void 0, "No compatible devices found? Make sure your controller has been charged for 30 minutes and you\u2019re using a USB data cable, then try again.", 1.9722650231124808);
       innerHtml.l(n);
       innerHtml.close()
     }),
     f = a.m("dVOwy");
-  W(a, 1, "Allow Chrome to verify your controller", e, d ? "flasher" : "empty", void 0, "This opens a device list by your URL bar. Select your controller in the list, then click \u201cConnect\u201d.", void 0, null != d);
+  renderStepLayout(a, 1, "Allow Chrome to verify your controller", e, d ? "flasher" : "empty", void 0, "This opens a device list by your URL bar. Select your controller in the list, then click \u201cConnect\u201d.", void 0, null != d);
   a.l(f)
 }
-Oj.B = E;
+Oj.B = SOY_KIND_HTML;
 var Qj, Rj, Sj;
 
-function Wj(a) {
+function renderUpToDatePage(a) {
   var b = Xj(),
     c = stringHome(),
-    d = P(function (innerHtml) {
+    d = createTemplate(function (innerHtml) {
       if (!Yj["Your controller has the latest version of Bluetooth mode. It can connect to devices using\u00a0Bluetooth.\n\u00010\u0001List of supported devices\u00011\u0001"]) {
         Yj["Your controller has the latest version of Bluetooth mode. It can connect to devices using\u00a0Bluetooth.\n\u00010\u0001List of supported devices\u00011\u0001"] = [];
         var h = /\x01\d+\x01/g,
@@ -4580,100 +4567,100 @@ function Wj(a) {
           l = 0;
         do {
           var n = h.exec("Your controller has the latest version of Bluetooth mode. It can connect to devices using\u00a0Bluetooth.\n\u00010\u0001List of supported devices\u00011\u0001") || void 0;
-          Yj["Your controller has the latest version of Bluetooth mode. It can connect to devices using\u00a0Bluetooth.\n\u00010\u0001List of supported devices\u00011\u0001"][l] = [D("Your controller has the latest version of Bluetooth mode. It can connect to devices using\u00a0Bluetooth.\n\u00010\u0001List of supported devices\u00011\u0001".substring(k, n && n.index)), n && n[0]];
+          Yj["Your controller has the latest version of Bluetooth mode. It can connect to devices using\u00a0Bluetooth.\n\u00010\u0001List of supported devices\u00011\u0001"][l] = [unescapeHtml("Your controller has the latest version of Bluetooth mode. It can connect to devices using\u00a0Bluetooth.\n\u00010\u0001List of supported devices\u00011\u0001".substring(k, n && n.index)), n && n[0]];
           l += 1;
           k = h.lastIndex
         } while (n)
       }
-      h = v(Yj["Your controller has the latest version of Bluetooth mode. It can connect to devices using\u00a0Bluetooth.\n\u00010\u0001List of supported devices\u00011\u0001"]);
+      h = getIterator(Yj["Your controller has the latest version of Bluetooth mode. It can connect to devices using\u00a0Bluetooth.\n\u00010\u0001List of supported devices\u00011\u0001"]);
       for (k = h.next(); !k.done; k = h.next()) switch (k = k.value, k[0] && innerHtml.text(k[0]), k[1]) {
         case "\u00010\u0001":
           innerHtml.open("a", "i7Dbsc");
           innerHtml.i(Zj || (Zj = ["target", "_blank"]));
-          innerHtml.o("href", H(Sd()));
+          innerHtml.o("href", sanitizeUri(getDeviceListUrl()));
           innerHtml.h();
           break;
         case "\u00011\u0001":
           innerHtml.close()
       }
     }),
-    e = P(function (innerHtml) {
+    e = createTemplate(function (innerHtml) {
       innerHtml.open("div", "cEqhUc");
       innerHtml.i(ak || (ak = ["class", "PanelContent GridSpan6Center GridSmSpan4Center GridXsSpanFull"]));
       innerHtml.h();
       var h = innerHtml.m("WrVLNb");
-      Yh(innerHtml, "Check_Bluetooth_mode.svg", void 0, 1.3333333333333333);
+      renderDiagramImage(innerHtml, "Check_Bluetooth_mode.svg", void 0, 1.3333333333333333);
       innerHtml.l(h);
       innerHtml.close();
       innerHtml.open("div", "lN3q3e");
       innerHtml.i(bk || (bk = ["class", "ButtonStack GridSpan4Center GridSmSpan4Center GridXsSpanFull"]));
       innerHtml.h();
       var k = innerHtml.m("o58d6c");
-      V(innerHtml, b, void 0, "secondary", void 0, void 0, void 0, void 0, true, void 0, void 0, "click:gettingStartedModal1");
+      renderButton(innerHtml, b, void 0, "secondary", void 0, void 0, void 0, void 0, true, void 0, void 0, "click:gettingStartedModal1");
       innerHtml.l(k);
       var l = innerHtml.m("z9JXwb");
-      V(innerHtml, "Reinstall Bluetooth mode", void 0, "stadiasecondary", void 0, void 0, void 0, void 0, void 0, void 0, void 0, "click:applyBruce");
+      renderButton(innerHtml, "Reinstall Bluetooth mode", void 0, "stadiasecondary", void 0, void 0, void 0, void 0, void 0, void 0, void 0, "click:applyBruce");
       innerHtml.l(l);
       var n = innerHtml.m("Tan5mc");
-      V(innerHtml, c, void 0, "stadiatext", void 0, void 0, void 0, void 0, void 0, void 0, void 0, "click:returnHome");
+      renderButton(innerHtml, c, void 0, "stadiatext", void 0, void 0, void 0, void 0, void 0, void 0, void 0, "click:returnHome");
       innerHtml.l(n);
       innerHtml.close()
     }),
     f = a.m("B80zwb");
-  W(a, 1, "Your controller is up to date in Bluetooth mode", e, "empty",
+  renderStepLayout(a, 1, "Your controller is up to date in Bluetooth mode", e, "empty",
     true, d, false);
   a.l(f)
 }
-Wj.B = E;
+Wj.B = SOY_KIND_HTML;
 var Yj = {},
   Zj, ak, bk;
 
-function ck(a) {
+function renderUpdateAvailPage(a) {
   var b = Xj(),
     c = stringHome(),
-    d = P(function (innerHtml) {
-      innerHtml.text(D("Your controller is on an older version of Bluetooth mode. Update to the latest version \u2014 this should only take a few minutes."))
+    d = createTemplate(function (innerHtml) {
+      innerHtml.text(unescapeHtml("Your controller is on an older version of Bluetooth mode. Update to the latest version \u2014 this should only take a few minutes."))
     }),
-    e = P(function (innerHtml) {
+    e = createTemplate(function (innerHtml) {
       innerHtml.open("div", "atE8G");
       innerHtml.i(dk || (dk = ["class", "PanelContent GridSpan6Center GridSmSpan4Center GridXsSpanFull"]));
       innerHtml.h();
       var h = innerHtml.m("HqXteb");
-      Yh(innerHtml, "Check_Bluetooth_mode.svg", void 0, 1.3333333333333333);
+      renderDiagramImage(innerHtml, "Check_Bluetooth_mode.svg", void 0, 1.3333333333333333);
       innerHtml.l(h);
       innerHtml.close();
       innerHtml.open("div", "PSQ0Vc");
       innerHtml.i(ek || (ek = ["class", "ButtonStack GridSpan4Center GridSmSpan4Center GridXsSpanFull"]));
       innerHtml.h();
       var k = innerHtml.m("dz5ldb");
-      V(innerHtml, "Update to latest version", void 0, "secondary", true, void 0, void 0, void 0, true, void 0, void 0, "click:applyBruce");
+      renderButton(innerHtml, "Update to latest version", void 0, "secondary", true, void 0, void 0, void 0, true, void 0, void 0, "click:applyBruce");
       innerHtml.l(k);
       var l = innerHtml.m("YZpCSc");
-      V(innerHtml, b, void 0, "stadiasecondary", void 0, void 0, void 0, void 0, void 0, void 0, void 0, "click:gettingStartedModal1");
+      renderButton(innerHtml, b, void 0, "stadiasecondary", void 0, void 0, void 0, void 0, void 0, void 0, void 0, "click:gettingStartedModal1");
       innerHtml.l(l);
       var n = innerHtml.m("pyt4Ze");
-      V(innerHtml, c, void 0, "stadiatext", void 0, void 0, void 0, void 0, void 0, void 0, void 0, "click:returnHome");
+      renderButton(innerHtml, c, void 0, "stadiatext", void 0, void 0, void 0, void 0, void 0, void 0, void 0, "click:returnHome");
       innerHtml.l(n);
       innerHtml.close()
     }),
     f = a.m("wL8ggd");
-  W(a, 1, "A new version of Bluetooth mode is available", e, void 0, true, d, false);
+  renderStepLayout(a, 1, "A new version of Bluetooth mode is available", e, void 0, true, d, false);
   a.l(f)
 }
-ck.B = E;
+ck.B = SOY_KIND_HTML;
 var dk, ek;
 
-function fk(a) {
+function renderWifiModePage(a) {
   var b = stringHome(),
-    c = P(function (f) {
-      f.text(D("This is the best way to play on Stadia. Switch to Bluetooth mode to play on more devices and services."))
+    c = createTemplate(function (f) {
+      f.text(unescapeHtml("This is the best way to play on Stadia. Switch to Bluetooth mode to play on more devices and services."))
     }),
-    d = P(function (f) {
+    d = createTemplate(function (f) {
       f.open("div", "dO7n9d");
       f.i(gk || (gk = ["class", "PanelContent GridSpan6Center GridSmSpan4Center GridXsSpanFull"]));
       f.h();
       var g = f.m("CIeIw");
-      Yh(f, "Check_Wifi_mode.svg", void 0, 1.3333333333333333);
+      renderDiagramImage(f, "Check_Wifi_mode.svg", void 0, 1.3333333333333333);
       f.l(g);
       f.close();
       f.open("div", "wIjGwd");
@@ -4681,54 +4668,54 @@ function fk(a) {
       f.h();
       var h =
         f.m("NFj8Xb");
-      V(f, "Switch to Bluetooth mode", void 0, "secondary", void 0, void 0, void 0, void 0, true, void 0, void 0, "click:applyBruce");
+      renderButton(f, "Switch to Bluetooth mode", void 0, "secondary", void 0, void 0, void 0, void 0, true, void 0, void 0, "click:applyBruce");
       f.l(h);
       var k = f.m("e7ApSc");
-      V(f, "Check another Stadia Controller", void 0, "stadiasecondary", void 0, void 0, void 0, void 0, void 0, void 0, void 0, "click:selectAction");
+      renderButton(f, "Check another Stadia Controller", void 0, "stadiasecondary", void 0, void 0, void 0, void 0, void 0, void 0, void 0, "click:selectAction");
       f.l(k);
       var l = f.m("bOhOCc");
-      V(f, b, void 0, "stadiatext", void 0, void 0, void 0, void 0, void 0, void 0, void 0, "click:returnHome");
+      renderButton(f, b, void 0, "stadiatext", void 0, void 0, void 0, void 0, void 0, void 0, void 0, "click:returnHome");
       f.l(l);
       f.close()
     }),
     e = a.m("Xb38Oe");
-  W(a, 1, "Your controller is in Stadia Wi-Fi mode", d, "empty",
+  renderStepLayout(a, 1, "Your controller is in Stadia Wi-Fi mode", d, "empty",
     true, c, false);
   a.l(e)
 }
-fk.B = E;
+fk.B = SOY_KIND_HTML;
 var gk, hk;
 
-function ik(a) {
-  var b = P(function (innerHtml) {
+function renderVerifiedPage(a) {
+  var b = createTemplate(function (innerHtml) {
       innerHtml.open("div", "x5B42d");
       innerHtml.i(jk || (jk = ["class", "PanelContent GridSpan6Center GridSmSpan4Center GridXsSpanFull"]));
       innerHtml.h();
       var e = innerHtml.m("RYg7mf");
-      Yh(innerHtml, "Verify_Chrome_verified_your_controller.svg", void 0, 1.3333333333333333);
+      renderDiagramImage(innerHtml, "Verify_Chrome_verified_your_controller.svg", void 0, 1.3333333333333333);
       innerHtml.l(e);
       innerHtml.close()
     }),
     c = a.m("OTcTHc");
-  W(a, 1, "Chrome verified your Stadia Controller", b, void 0, true, "Go to the next step to unlock your controller", void 0, void 0, void 0, void 0, "click:enterSdpMode");
+  renderStepLayout(a, 1, "Chrome verified your Stadia Controller", b, void 0, true, "Go to the next step to unlock your controller", void 0, void 0, void 0, void 0, "click:enterSdpMode");
   a.l(c)
 }
-ik.B = E;
+ik.B = SOY_KIND_HTML;
 var jk;
 
-function kk(a) {
-  var b = P(function (d) {
+function renderUnlockPage(a) {
+  var b = createTemplate(function (d) {
       d.open("div", "BoAfm");
       d.i(lk || (lk = ["class", "PanelContent InstructionCards GridSpanFull"]));
       d.o("aria-label", "Instructions");
       d.h();
       var e = d.m("UauwZ");
-      nh(d, "1", "Unlock_Unplug.svg", "Unplug your controller to power it off", "If it turns on again, hold the Stadia button for 4 seconds to power it off.", "A Stadia Controller with the USB cord being unplugged out of the controller\u2019s USB port.");
+      renderInstructionCard(d, "1", "Unlock_Unplug.svg", "Unplug your controller to power it off", "If it turns on again, hold the Stadia button for 4 seconds to power it off.", "A Stadia Controller with the USB cord being unplugged out of the controller\u2019s USB port.");
       d.l(e);
-      var f = P(function (l) {
-          var n = P(function (r) {
+      var f = createTemplate(function (l) {
+          var n = createTemplate(function (r) {
             var F = r.m("y8xX9");
-            Dh(r);
+            renderMenuButtonIcon(r);
             r.l(F)
           });
           if (!mk["Hold \u00010\u0001 while plugging in your controller"]) {
@@ -4738,28 +4725,28 @@ function kk(a) {
               w = 0;
             do {
               var m = p.exec("Hold \u00010\u0001 while plugging in your controller") || void 0;
-              mk["Hold \u00010\u0001 while plugging in your controller"][w] = [D("Hold \u00010\u0001 while plugging in your controller".substring(q, m && m.index)), m && m[0]];
+              mk["Hold \u00010\u0001 while plugging in your controller"][w] = [unescapeHtml("Hold \u00010\u0001 while plugging in your controller".substring(q, m && m.index)), m && m[0]];
               w += 1;
               q = p.lastIndex
             } while (m)
           }
-          p = v(mk["Hold \u00010\u0001 while plugging in your controller"]);
+          p = getIterator(mk["Hold \u00010\u0001 while plugging in your controller"]);
           for (q = p.next(); !q.done; q =
             p.next()) switch (q = q.value, q[0] && l.text(q[0]), q[1]) {
             case "\u00010\u0001":
-              S(l, n)
+              renderToDOM(l, n)
           }
         }),
-        g = P(function (l) {
-          l.text(D("The status light should remain off. If it turns on, unplug and try again."))
+        g = createTemplate(function (l) {
+          l.text(unescapeHtml("The status light should remain off. If it turns on, unplug and try again."))
         }),
         h = d.m("pTGQ6e");
-      nh(d, "2", "Unlock_Option_Plug.svg", f, g, "A Stadia Controller with the Menu button being held down, while a USB cord is being plugged into the controller\u2019s USB port. The menu button is the top-left button on the front face of the controller, closest to the directional pad.", "Hold the Menu button while plugging in your controller");
+      renderInstructionCard(d, "2", "Unlock_Option_Plug.svg", f, g, "A Stadia Controller with the Menu button being held down, while a USB cord is being plugged into the controller\u2019s USB port. The menu button is the top-left button on the front face of the controller, closest to the directional pad.", "Hold the Menu button while plugging in your controller");
       d.l(h);
-      f = P(function (l) {
-        var n = P(function (r) {
+      f = createTemplate(function (l) {
+        var n = createTemplate(function (r) {
           var F = r.m("Gy0vYe");
-          Dh(r);
+          renderMenuButtonIcon(r);
           r.l(F);
           r.text(" + ");
           var aa = r.m("cekumc");
@@ -4796,46 +4783,46 @@ function kk(a) {
             w = 0;
           do {
             var m = p.exec("Press \u00010\u0001 at the same time") || void 0;
-            nk["Press \u00010\u0001 at the same time"][w] = [D("Press \u00010\u0001 at the same time".substring(q, m && m.index)), m && m[0]];
+            nk["Press \u00010\u0001 at the same time"][w] = [unescapeHtml("Press \u00010\u0001 at the same time".substring(q, m && m.index)), m && m[0]];
             w += 1;
             q = p.lastIndex
           } while (m)
         }
-        p = v(nk["Press \u00010\u0001 at the same time"]);
+        p = getIterator(nk["Press \u00010\u0001 at the same time"]);
         for (q = p.next(); !q.done; q = p.next()) switch (q = q.value, q[0] && l.text(q[0]), q[1]) {
           case "\u00010\u0001":
-            S(l, n)
+            renderToDOM(l, n)
         }
       });
-      g = P(function (l) {
-        l.text(D("There won\u2019t be any controller feedback. Go to the next step to confirm it unlocked."))
+      g = createTemplate(function (l) {
+        l.text(unescapeHtml("There won\u2019t be any controller feedback. Go to the next step to confirm it unlocked."))
       });
       var k = d.m("qZlFue");
-      nh(d, "3", "Unlock_Four_buttons.svg", f, g, "A plugged-in Stadia Controller with the Menu button, the Google Assistant button, the A button, and the Y button indicated. The menu button is the top-left oval button on the front face of the controller, closest to the directional pad. The circular Google Assistant button is just below and slightly to the right of the Menu button. The circular A and Y buttons are on the right side of the front face of the controller in a diamond formation with 2 other circular buttons, 4 buttons total. In this formation, the Y button is the top button, and the A button is the bottom button.",
+      renderInstructionCard(d, "3", "Unlock_Four_buttons.svg", f, g, "A plugged-in Stadia Controller with the Menu button, the Google Assistant button, the A button, and the Y button indicated. The menu button is the top-left oval button on the front face of the controller, closest to the directional pad. The circular Google Assistant button is just below and slightly to the right of the Menu button. The circular A and Y buttons are on the right side of the front face of the controller in a diamond formation with 2 other circular buttons, 4 buttons total. In this formation, the Y button is the top button, and the A button is the bottom button.",
         "Press the Menu button, the Google Assistant button, the A button, and the Y button at the same time.");
       d.l(k);
       d.close()
     }),
     c = a.m("y7eUhc");
-  W(a, 2, "Unlock your Stadia Controller", b, void 0, void 0, "Your controller needs to be unlocked to download updates. Follow these instructions to unlock your controller.", void 0, void 0, void 0, void 0, "click:uploadFlashloader");
+  renderStepLayout(a, 2, "Unlock your Stadia Controller", b, void 0, void 0, "Your controller needs to be unlocked to download updates. Follow these instructions to unlock your controller.", void 0, void 0, void 0, void 0, "click:uploadFlashloader");
   a.l(c)
 }
-kk.B = E;
+kk.B = SOY_KIND_HTML;
 var lk, mk = {},
   nk = {};
 
-function ok(a, b, c) {
-  pk(c, a, b.C, b.locale, b.ga, b.progress)
+function renderDownloadPage(a, b, c) {
+  renderDownloadPageInner(c, a, b.C, b.locale, b.ga, b.progress)
 }
 
-function pk(a, b, c, d, e, f) {
+function renderDownloadPageInner(a, b, c, d, e, f) {
   var g = void 0 === f ? false : f;
   f = "";
   "bruce" == c ? f += "Download Bluetooth mode update" : "gotham" == c && (f += "Download Wi-Fi mode");
-  var h = P(function (p) {
-      p.text(D("Select your controller in the Chrome device list again, then click \u201cConnect.\u201d\nThis checks that your controller is unlocked, then starts downloading to the controller."))
+  var h = createTemplate(function (p) {
+      p.text(unescapeHtml("Select your controller in the Chrome device list again, then click \u201cConnect.\u201d\nThis checks that your controller is unlocked, then starts downloading to the controller."))
     }),
-    k = P(function (p) {
+    k = createTemplate(function (p) {
       p.open("div", "Lg7Vre");
       p.i(qk || (qk = ["class", "PanelContent GridSpan6Center GridSmSpanFull GridXsSpanFull"]));
       p.h();
@@ -4845,7 +4832,7 @@ function pk(a, b, c, d, e, f) {
         p.i(rk || (rk = ["class", "LoadingContent"]));
         p.h();
         var q = p.m("UDnWcb");
-        Ih(p, "progress-circle");
+        renderProgressIndicator(p, "progress-circle");
         p.l(q);
         p.open("div", "njAcjf");
         p.i(sk || (sk = ["class", "LoadingText"]));
@@ -4853,12 +4840,12 @@ function pk(a, b, c, d, e, f) {
         p.open("label", "ijVFed");
         p.i(tk || (tk = ["class", "Major", "for", "progress-circle"]));
         p.h();
-        "bruce" == c ? p.text(D("Downloading Bluetooth mode update. Don\u2019t unplug your controller.")) : "gotham" == c && p.text("Downloading Wi-Fi mode. Don\u2019t unplug your controller.");
+        "bruce" == c ? p.text(unescapeHtml("Downloading Bluetooth mode update. Don\u2019t unplug your controller.")) : "gotham" == c && p.text("Downloading Wi-Fi mode. Don\u2019t unplug your controller.");
         p.close();
         p.open("span", "Tpyibb");
         p.i(uk || (uk = ["class", "Minor"]));
         p.h();
-        p.text(D("This will only take a moment..."));
+        p.text(unescapeHtml("This will only take a moment..."));
         p.close();
         p.close();
         p.close()
@@ -4867,85 +4854,85 @@ function pk(a, b, c, d, e, f) {
         p.i(vk || (vk = ["class", "PanelTopButtonRow"]));
         p.h();
         var w = p.m("GrjH3e");
-        V(p, "Allow Chrome to download", void 0, "secondary", void 0, void 0, void 0, void 0, true, void 0, void 0, "click:selectController");
+        renderButton(p, "Allow Chrome to download", void 0, "secondary", void 0, void 0, void 0, void 0, true, void 0, void 0, "click:selectController");
         p.l(w);
         if (e) {
           p.open("div", "dtI4N");
           p.i(wk || (wk = ["class", "TopButtonHelpText"]));
           p.h();
           var m = p.m("ldKEAd");
-          Tj(p);
+          renderPermissionHelpText(p);
           p.l(m);
           p.close()
         }
         p.close();
         var r = "A two-part image illustrating what to do during this step after selecting the \u201cAllow Chrome to download\u201d button. The first part shows the Chrome device list dialog with the text \u201c" +
-          Gj() + " wants to connect to a HID device\u201d. The device list has one entry titled \u201cSP Blank RT Family\u201d as an example. A mouse is clicking the device to select it. In the second part of the image, a mouse is clicking the \u201cConnect\u201d button in that same dialog.",
-          F = P(function (Q) {
+          getStadiaHost() + " wants to connect to a HID device\u201d. The device list has one entry titled \u201cSP Blank RT Family\u201d as an example. A mouse is clicking the device to select it. In the second part of the image, a mouse is clicking the \u201cConnect\u201d button in that same dialog.",
+          F = createTemplate(function (Q) {
             var y = Q.m("liTRHe");
-            R(Q, xk, {
+            renderSoyContent(Q, xk, {
               Ea: "SP Blank RT Family",
               Sa: "Stadia Controller",
               Ta: "USB COMPOSITE DEVICE"
             }, a);
             Q.l(y)
           }),
-          aa = P(function (Q) {
-            Q.text(D("No compatible devices found? The controller may still be locked. Go back to the Unlock step and\u00a0try\u00a0again."))
+          aa = createTemplate(function (Q) {
+            Q.text(unescapeHtml("No compatible devices found? The controller may still be locked. Go back to the Unlock step and\u00a0try\u00a0again."))
           }),
           M = p.m("So4Pee");
-        Uj(p, "" + Ve("Chrome_dialog_Download.svg", d), F, r, void 0, aa, 1.9722650231124808);
+        renderImageWithTip(p, "" + localizedAssetUrl("Chrome_dialog_Download.svg", d), F, r, void 0, aa, 1.9722650231124808);
         p.l(M)
       }
       p.close()
     }),
-    l = P(function (p) {
+    l = createTemplate(function (p) {
       var q = p.m("V5FAMe");
-      V(p, "Back to Unlock step", void 0, "outlined", void 0, void 0, void 0, void 0, true, void 0, void 0, "click:enterSdpMode");
+      renderButton(p, "Back to Unlock step", void 0, "outlined", void 0, void 0, void 0, void 0, true, void 0, void 0, "click:enterSdpMode");
       p.l(q)
     }),
     n = b.m("qyj8Ob");
-  W(b, 3, f, k, void 0, void 0, h, !g, void 0, l);
+  renderStepLayout(b, 3, f, k, void 0, void 0, h, !g, void 0, l);
   b.l(n)
 }
-ok.B = E;
+ok.B = SOY_KIND_HTML;
 var qk, vk, wk, rk, sk, tk, uk;
 
-function yk(a, b) {
-  zk(a, b.C)
+function renderDownloadDonePage(a, b) {
+  renderDownloadDoneInner(a, b.C)
 }
 
-function zk(a, b) {
+function renderDownloadDoneInner(a, b) {
   var c = "";
   "bruce" == b ? c += "You\u2019re almost done! Go to the final step to install the latest version of Bluetooth mode on your controller." : "gotham" == b && (c += "You\u2019re almost done! Go to the final step to install and enable Wi-Fi mode on your controller.");
   b = c;
-  c = P(function (e) {
+  c = createTemplate(function (e) {
     e.open("div", "EubiEf");
     e.i(Ak || (Ak = ["class", "PanelContent GridSpan6Center GridSmSpan4Center GridXsSpanFull"]));
     e.h();
     var f = e.m("ug8N5b");
-    Yh(e, "Download_Download_complete.svg", void 0, 1.3333333333333333);
+    renderDiagramImage(e, "Download_Download_complete.svg", void 0, 1.3333333333333333);
     e.l(f);
     e.close()
   });
   var d = a.m("xx9bMc");
-  W(a, 3, "Download complete", c, void 0, true, b, void 0, void 0, void 0, void 0, "click:uploadFirmware");
+  renderStepLayout(a, 3, "Download complete", c, void 0, true, b, void 0, void 0, void 0, void 0, "click:uploadFirmware");
   a.l(d)
 }
-yk.B = E;
+yk.B = SOY_KIND_HTML;
 var Ak;
 
-function Bk(a, b, c) {
-  Ck(c, a, b.C, b.locale, b.progress)
+function renderInstallPage(a, b, c) {
+  renderInstallPageInner(c, a, b.C, b.locale, b.progress)
 }
 
-function Ck(a, b, c, d, e) {
+function renderInstallPageInner(a, b, c, d, e) {
   var f = "";
   "bruce" == c ? f += "Install Bluetooth mode" : "gotham" == c && (f += "Install & enable Wi-Fi mode");
-  var g = P(function (l) {
-      l.text(D("One more time \u2014 select your controller in the Chrome device list, then click \u201cConnect\u201d.\nInstallation will start automatically, and should only take a minute."))
+  var g = createTemplate(function (l) {
+      l.text(unescapeHtml("One more time \u2014 select your controller in the Chrome device list, then click \u201cConnect\u201d.\nInstallation will start automatically, and should only take a minute."))
     }),
-    h = P(function (l) {
+    h = createTemplate(function (l) {
       l.open("div", "U3Bapc");
       l.i(Dk || (Dk = ["class", "PanelContent GridSpan6Center GridSmSpanFull GridXsSpanFull"]));
       l.h();
@@ -4955,31 +4942,31 @@ function Ck(a, b, c, d, e) {
           (Ek = ["class", "PanelTopButtonRow"]));
         l.h();
         var n = l.m("YdGuX");
-        V(l, "Allow Chrome to install", void 0, "secondary", void 0, void 0, void 0, void 0, true, void 0, void 0, "click:selectController");
+        renderButton(l, "Allow Chrome to install", void 0, "secondary", void 0, void 0, void 0, void 0, true, void 0, void 0, "click:selectController");
         l.l(n);
         l.close();
-        var p = "A two-part image illustrating what to do during this step after selecting the \u201cAllow Chrome to install\u201d button. The first part shows the Chrome device list dialog with the text \u201c" + Gj() + " wants to connect to a HID device\u201d. The device list has one entry titled \u201cUSB COMPOSITE DEVICE\u201d as an example. A mouse is clicking the device to select it. In the second part of the image, a mouse is clicking the \u201cConnect\u201d button in that same dialog.",
-          q = P(function (F) {
+        var p = "A two-part image illustrating what to do during this step after selecting the \u201cAllow Chrome to install\u201d button. The first part shows the Chrome device list dialog with the text \u201c" + getStadiaHost() + " wants to connect to a HID device\u201d. The device list has one entry titled \u201cUSB COMPOSITE DEVICE\u201d as an example. A mouse is clicking the device to select it. In the second part of the image, a mouse is clicking the \u201cConnect\u201d button in that same dialog.",
+          q = createTemplate(function (F) {
             var aa = F.m("SSPuh");
-            R(F, xk, {
+            renderSoyContent(F, xk, {
               Ea: "USB COMPOSITE DEVICE",
               Sa: "Stadia Controller",
               Ta: "SP Blank RT Family"
             }, a);
             F.l(aa)
           }),
-          w = P(function (F) {
-            F.text(D("No compatible device found? Make sure your controller is plugged in and\u00a0try\u00a0again."))
+          w = createTemplate(function (F) {
+            F.text(unescapeHtml("No compatible device found? Make sure your controller is plugged in and\u00a0try\u00a0again."))
           }),
           m = l.m("Ted0qb");
-        Uj(l, "" + Ve("Chrome_dialog_Install.svg", d), q, p, void 0, w, 1.9722650231124808);
+        renderImageWithTip(l, "" + localizedAssetUrl("Chrome_dialog_Install.svg", d), q, p, void 0, w, 1.9722650231124808);
         l.l(m)
       } else {
         l.open("div", "gNJfld");
         l.i(Fk || (Fk = ["class", "LoadingContent"]));
         l.h();
         var r = l.m("nTKPs");
-        Ih(l, "progress-bar", "Installation progress", e);
+        renderProgressIndicator(l, "progress-bar", "Installation progress", e);
         l.l(r);
         l.open("div", "FTvqsf");
         l.i(Gk || (Gk = ["class", "LoadingText"]));
@@ -4987,7 +4974,7 @@ function Ck(a, b, c, d, e) {
         l.open("label", "aZOubb");
         l.i(Hk || (Hk = ["class", "Major", "for", "progress-bar"]));
         l.h();
-        "bruce" == c ? l.text(D("Installing Bluetooth mode update. Don\u2019t unplug your controller.")) : "gotham" == c && l.text("Installing Wi-Fi mode. Don\u2019t unplug your controller.");
+        "bruce" == c ? l.text(unescapeHtml("Installing Bluetooth mode update. Don\u2019t unplug your controller.")) : "gotham" == c && l.text("Installing Wi-Fi mode. Don\u2019t unplug your controller.");
         l.close();
         l.close();
         l.close()
@@ -4995,30 +4982,30 @@ function Ck(a, b, c, d, e) {
       l.close()
     }),
     k = b.m("V4peNc");
-  W(b, 4, f, h, void 0, void 0, g, null == e, false);
+  renderStepLayout(b, 4, f, h, void 0, void 0, g, null == e, false);
   b.l(k)
 }
-Bk.B = E;
+Bk.B = SOY_KIND_HTML;
 var Dk, Ek, Fk, Gk, Hk;
 
-function Ik(a, b) {
-  Jk(a, b.C)
+function renderSuccessPage(a, b) {
+  renderSuccessPageInner(a, b.C)
 }
 
-function Jk(a, b) {
+function renderSuccessPageInner(a, b) {
   if ("bruce" == b) {
-    b = P(function (f) {
-      f.text(D("Your controller is in Bluetooth mode and can pair to Bluetooth devices.\nYou can now unplug your controller."))
+    b = createTemplate(function (f) {
+      f.text(unescapeHtml("Your controller is in Bluetooth mode and can pair to Bluetooth devices.\nYou can now unplug your controller."))
     });
-    var c = P(function (f) {
+    var c = createTemplate(function (f) {
         f.open("div", "GsHmBe");
         f.i(Kk || (Kk = ["class", "PanelContent GridSpan6Center GridSmSpanFull GridXsSpanFull"]));
         f.h();
-        var g = P(function (q) {
-            q.text(D("Tip: The first time you turn on the controller, it should enter pairing mode \u2014 the status light should flash orange. To enter pairing mode manually, hold the \u201cY + Stadia\u201d buttons for 2 seconds. Once paired, the controller auto-connects to the last paired device when turned on."))
+        var g = createTemplate(function (q) {
+            q.text(unescapeHtml("Tip: The first time you turn on the controller, it should enter pairing mode \u2014 the status light should flash orange. To enter pairing mode manually, hold the \u201cY + Stadia\u201d buttons for 2 seconds. Once paired, the controller auto-connects to the last paired device when turned on."))
           }),
           h = f.m("cxJQre");
-        Uj(f, "Finish_Bluetooth_enabled.svg", g, "A Stadia Controller emitting Bluetooth radio waves to a desktop, laptop, and mobile phone. The screens all have the Bluetooth symbol on them, and a hand-drawn rocket is launching out of the screens towards the controller.", "lightbulb", void 0, 1.9722650231124808);
+        renderImageWithTip(f, "Finish_Bluetooth_enabled.svg", g, "A Stadia Controller emitting Bluetooth radio waves to a desktop, laptop, and mobile phone. The screens all have the Bluetooth symbol on them, and a hand-drawn rocket is launching out of the screens towards the controller.", "lightbulb", void 0, 1.9722650231124808);
         f.l(h);
         f.close();
         f.open("div", "E3jusd");
@@ -5027,30 +5014,30 @@ function Jk(a, b) {
         g = Xj();
         var k = stringHome(),
           l = f.m("BpOomf");
-        V(f, g, void 0, "secondary",
+        renderButton(f, g, void 0, "secondary",
           void 0, void 0, void 0, void 0, true, void 0, void 0, "click:gettingStartedModal1");
         f.l(l);
         var n = f.m("cEnfFc");
-        V(f, "Update another Stadia Controller", void 0, "stadiasecondary", void 0, void 0, void 0, void 0, void 0, void 0, void 0, "click:selectAction");
+        renderButton(f, "Update another Stadia Controller", void 0, "stadiasecondary", void 0, void 0, void 0, void 0, void 0, void 0, void 0, "click:selectAction");
         f.l(n);
         var p = f.m("W3n0Eb");
-        V(f, k, void 0, "stadiatext", void 0, void 0, void 0, void 0, void 0, void 0, void 0, "click:returnHome");
+        renderButton(f, k, void 0, "stadiatext", void 0, void 0, void 0, void 0, void 0, void 0, void 0, "click:returnHome");
         f.l(p);
         f.close()
       }),
       d = a.m("LlrLfb");
-    W(a, 4, "The latest Bluetooth mode update is installed. Game on!", c, void 0, true, b, false);
+    renderStepLayout(a, 4, "The latest Bluetooth mode update is installed. Game on!", c, void 0, true, b, false);
     a.l(d)
   } else if ("gotham" ==
     b) {
-    b = P(function (f) {
+    b = createTemplate(function (f) {
       f.text("Your controller is now in Wi-Fi mode. Enjoy gaming on Stadia.\nYou can now unplug the controller.")
     });
-    c = P(function (f) {
+    c = createTemplate(function (f) {
       f.open("div", "XH68Mc");
       f.i(Mk || (Mk = ["class", "PanelContent GridSpan6Center GridSmSpanFull GridXsSpanFull"]));
       f.h();
-      var g = P(function (n) {
+      var g = createTemplate(function (n) {
           n.open("strong", "ue9kf");
           n.h();
           n.text("Tip:");
@@ -5058,7 +5045,7 @@ function Jk(a, b) {
           n.text(" Once the controller is unplugged, hold the Stadia button for 4 seconds to turn it on and enter linking mode.")
         }),
         h = f.m("ogtZnd");
-      Uj(f, "Finish_Wi_Fi_enabled.svg",
+      renderImageWithTip(f, "Finish_Wi_Fi_enabled.svg",
         g, "A Stadia Controller emitting Wi-Fi radio waves with the Stadia logo towards a desktop, laptop, and mobile phone. The screens all have Stadia symbols on them, and a hand-drawn rocket is launching out of the screens towards the controller.", "lightbulb", void 0, 1.966205837173579);
       f.l(h);
       f.close();
@@ -5067,27 +5054,27 @@ function Jk(a, b) {
       f.h();
       g = stringHome();
       var k = f.m("SiZJif");
-      V(f, "Update another Stadia Controller", void 0, "stadiasecondary",
+      renderButton(f, "Update another Stadia Controller", void 0, "stadiasecondary",
         void 0, void 0, void 0, void 0, true, void 0, void 0, "click:selectAction");
       f.l(k);
       var l = f.m("roDMtc");
-      V(f, g, void 0, "stadiatext", void 0, void 0, void 0, void 0, void 0, void 0, void 0, "click:returnHome");
+      renderButton(f, g, void 0, "stadiatext", void 0, void 0, void 0, void 0, void 0, void 0, void 0, "click:returnHome");
       f.l(l);
       f.close()
     });
     var e = a.m("ENlWoe");
-    W(a, 4, "Wi-Fi mode is enabled. Game on!", c, void 0, true, b, false);
+    renderStepLayout(a, 4, "Wi-Fi mode is enabled. Game on!", c, void 0, true, b, false);
     a.l(e)
   }
 }
-Ik.B = E;
+Ik.B = SOY_KIND_HTML;
 var Kk, Lk, Mk, Nk;
 
-function Ok(a) {
-  var b = P(function (e) {
-      e.text(D("Chrome couldn\u2019t automatically confirm if installation worked. Check the controller mode to confirm."))
+function renderNeedsConfirmPage(a) {
+  var b = createTemplate(function (e) {
+      e.text(unescapeHtml("Chrome couldn\u2019t automatically confirm if installation worked. Check the controller mode to confirm."))
     }),
-    c = P(function (e) {
+    c = createTemplate(function (e) {
       e.open("div", "usoqif");
       e.i(Pk || (Pk = ["class", "PanelContent GridSpan6Center GridSmSpan4Center GridXsSpanFull"]));
       e.h();
@@ -5095,22 +5082,22 @@ function Ok(a) {
       e.i(Qk || (Qk = ["class", "PanelTopButtonRow"]));
       e.h();
       var f = e.m("nMTav");
-      V(e, "Check controller mode", void 0, "secondary", void 0, void 0, void 0, void 0, true, void 0, void 0, "click:checkMode");
+      renderButton(e, "Check controller mode", void 0, "secondary", void 0, void 0, void 0, void 0, true, void 0, void 0, "click:checkMode");
       e.l(f);
       e.close();
       var g = e.m("AKPpge");
-      Yh(e, "Finished_but_needs_confirmation.svg", void 0, 1.3333333333333333);
+      renderDiagramImage(e, "Finished_but_needs_confirmation.svg", void 0, 1.3333333333333333);
       e.l(g);
       e.close()
     }),
     d = a.m("mll0K");
-  W(a, 4, "Check the controller mode to confirm installation", c, void 0, true, b, false);
+  renderStepLayout(a, 4, "Check the controller mode to confirm installation", c, void 0, true, b, false);
   a.l(d)
 }
-Ok.B = E;
+Ok.B = SOY_KIND_HTML;
 var Pk, Qk;
 
-function Uj(a, b, c, d, e, f, g) {
+function renderImageWithTip(a, b, c, d, e, f, g) {
   e = void 0 === e ? "info" : e;
   a.open("div", "cKk6Nc");
   a.i(Rk || (Rk = ["class", "DialogImageWithTipAndHelpText"]));
@@ -5122,7 +5109,7 @@ function Uj(a, b, c, d, e, f, g) {
   a.i(Tk || (Tk = ["class", "DialogImage"]));
   a.o("src", "assets/" + b);
   a.o("alt", d ? d : "");
-  g && a.o("style", "aspect-ratio: " + Cd(g) + ";");
+  g && a.o("style", "aspect-ratio: " + sanitizeCss(g) + ";");
   a.h();
   a.close();
   a.open("div", "Hij3ie");
@@ -5134,17 +5121,17 @@ function Uj(a, b, c, d, e, f, g) {
   a.open("span", "a2k6S");
   a.i(Wk || (Wk = ["class", "DialogTipIcon", "aria-hidden", "true"]));
   a.h();
-  S(a, e);
+  renderToDOM(a, e);
   a.close();
   a.open("span", "jTwfxc");
   a.i(Xk || (Xk = ["class", "DialogTipText"]));
   a.h();
-  S(a, c);
+  renderToDOM(a, c);
   a.close();
   a.close();
   a.close();
   a.close();
-  T(f) && (a.open("div", "D04Fyc"), a.i(Yk || (Yk = ["class", "DialogHelpText"])), a.h(), S(a, f), a.close());
+  hasVisibleContent(f) && (a.open("div", "D04Fyc"), a.i(Yk || (Yk = ["class", "DialogHelpText"])), a.h(), renderToDOM(a, f), a.close());
   a.G()
 }
 var Rk, Sk, Tk, Uk, Vk, Wk, Xk, Yk;
@@ -5161,7 +5148,7 @@ function Xj() {
   return STR_LEARN_BLUETOOTH_PAIRING
 }
 
-function Tj(a) {
+function renderPermissionHelpText(a) {
   if (!Zk["If the device list doesn\u2019t open, \u00010\u0001give Chrome permission to connect to USB and HID devices\u00011\u0001."]) {
     Zk["If the device list doesn\u2019t open, \u00010\u0001give Chrome permission to connect to USB and HID devices\u00011\u0001."] = [];
     var b = /\x01\d+\x01/g,
@@ -5169,20 +5156,20 @@ function Tj(a) {
       d = 0;
     do {
       var e = b.exec("If the device list doesn\u2019t open, \u00010\u0001give Chrome permission to connect to USB and HID devices\u00011\u0001.") || void 0;
-      Zk["If the device list doesn\u2019t open, \u00010\u0001give Chrome permission to connect to USB and HID devices\u00011\u0001."][d] = [D("If the device list doesn\u2019t open, \u00010\u0001give Chrome permission to connect to USB and HID devices\u00011\u0001.".substring(c, e && e.index)), e && e[0]];
+      Zk["If the device list doesn\u2019t open, \u00010\u0001give Chrome permission to connect to USB and HID devices\u00011\u0001."][d] = [unescapeHtml("If the device list doesn\u2019t open, \u00010\u0001give Chrome permission to connect to USB and HID devices\u00011\u0001.".substring(c, e && e.index)), e && e[0]];
       d += 1;
       c = b.lastIndex
     } while (e)
   }
-  b = v(Zk["If the device list doesn\u2019t open, \u00010\u0001give Chrome permission to connect to USB and HID devices\u00011\u0001."]);
+  b = getIterator(Zk["If the device list doesn\u2019t open, \u00010\u0001give Chrome permission to connect to USB and HID devices\u00011\u0001."]);
   for (c = b.next(); !c.done; c = b.next()) switch (c = c.value, c[0] && a.text(c[0]), c[1]) {
     case "\u00010\u0001":
       a.open("a", "PBl8yc");
       a.i($k || ($k = ["target", "_blank"]));
       c = a;
       d = c.o;
-      e = vd("https://support.google.com/chrome/answer/12576972");
-      d.call(c, "href", H(e));
+      e = createSafeUri("https://support.google.com/chrome/answer/12576972");
+      d.call(c, "href", sanitizeUri(e));
       a.h();
       break;
     case "\u00011\u0001":
@@ -5235,7 +5222,7 @@ function jl() {
 }
 
 function kl(a) {
-  var b = A.document;
+  var b = globalScope.document;
   if (b && !b.createEvent && b.createEventObject) try {
     return b.createEventObject(a)
   } catch (c) {
@@ -5314,14 +5301,14 @@ var ll = {
  Copyright 2008 Google LLC.
  SPDX-License-Identifier: Apache-2.0
 */
-function ql(a, b, c, d, e, f) {
+function ActionFlow(a, b, c, d, e, f) {
   Db.call(this);
   this.ha = a.replace(rl, "_");
   this.N = b || null;
   this.M = c ? kl(c) : null;
   this.Z = e || null;
   this.H = f || null;
-  if (a = !this.H && c && c.target) a = c.target, a = Na(a) && 1 == a.nodeType;
+  if (a = !this.H && c && c.target) a = c.target, a = isObject(a) && 1 == a.nodeType;
   a && (this.H = c.target);
   this.K = [];
   this.S = {};
@@ -5336,9 +5323,9 @@ function ql(a, b, c, d, e, f) {
   sl.push(this);
   this.Y = ++tl;
   b = new ul("created", this);
-  null != vl && C(vl, b)
+  null != vl && dispatchEvent(vl, b)
 }
-ra(ql, Db);
+inherits(ql, Db);
 closureTempHolder = ql.prototype;
 closureTempHolder.id = function () {
   return this.Y
@@ -5353,7 +5340,7 @@ closureTempHolder.done = function (a, b, c) {
       var d = c.time || Date.now();
       !c.lb && !c.Eb && d > this.R && (this.R = d);
       for (var e = d - this.O, f = this.K.length; 0 < f && this.K[f - 1][1] > e;) f--;
-      hb(this.K, f, 0, [b, e, c.lb]);
+      arraySpliceInsert(this.K, f, 0, [b, e, c.lb]);
       this.S[b] = d
     }
     this.j[a]--;
@@ -5372,9 +5359,9 @@ closureTempHolder.done = function (a, b, c) {
         b && (this.F.dup = b);
         h = new ul("beforedone",
           this);
-        C(this, h) && C(vl, h) ? ((a = xl(this.F)) && (this.g.cad = a), h.type = "done", a = C(vl, h)) : a = false
+        dispatchEvent(this, h) && dispatchEvent(vl, h) ? ((a = xl(this.F)) && (this.g.cad = a), h.type = "done", a = dispatchEvent(vl, h)) : a = false
       } else a = true;
-    a && (this.u = true, gb(sl, this), this.M = this.N = null, this.D || (this.D = true, this.ca()))
+    a && (this.u = true, arrayRemove(sl, this), this.M = this.N = null, this.D || (this.D = true, this.ca()))
   }
 };
 
@@ -5385,13 +5372,13 @@ function wl(a, b, c, d) {
     e.j = c;
     e.u = d;
     e.s = a.u;
-    C(vl, e)
+    dispatchEvent(vl, e)
   }
 }
 
 function xl(a) {
   var b = [];
-  qb(a, function (c, d) {
+  forEachProperty(a, function (c, d) {
     d = encodeURIComponent(d);
     c = encodeURIComponent(c).replace(/%7C/g, "|");
     b.push(d + ":" + c)
@@ -5447,7 +5434,7 @@ var sl = [],
 function ul(a, b) {
   lb.call(this, a, b)
 }
-ra(ul, lb);
+inherits(ul, lb);
 
 function Al(a) {
   return function () {
@@ -5464,7 +5451,7 @@ function Al(a) {
  Copyright 2020 Google LLC.
  SPDX-License-Identifier: Apache-2.0
 */
-function Bl() {
+function ActionDispatcher() {
   this.j = {};
   this.g = [];
   var a = Cl;
@@ -5591,13 +5578,13 @@ function Dl(a, b) {
 }
 
 function Cl(a) {
-  return new ql(a.action, a.actionElement, a.event, a.timeStamp, a.eventType, a.targetElement)
+  return new ActionFlow(a.action, a.actionElement, a.event, a.timeStamp, a.eventType, a.targetElement)
 };
-var El = A._jsa || {};
+var El = globalScope._jsa || {};
 El._cfc = void 0;
 El._aeh = void 0;
 
-function Fl() {
+function EventContract() {
   this.v = [];
   this.s = [];
   this.u = {};
@@ -5609,7 +5596,7 @@ function Gl(a) {
   return String.prototype.trim ? a.trim() : a.replace(/^\s+/, "").replace(/\s+$/, "")
 }
 
-function Hl(a, b) {
+function createEventHandler(a, b) {
   return function f(d, e) {
     e = void 0 === e ? true : e;
     var g = b;
@@ -5709,7 +5696,7 @@ function Jl(a, b) {
   return c
 }
 
-function Nl(a, b) {
+function createEventRegistrar(a, b) {
   return function (c) {
     var d = a,
       e = b,
@@ -5727,11 +5714,11 @@ function Nl(a, b) {
   }
 }
 
-function Ol(a) {
+function ensureEventTypeRegistered(a) {
   var b = Pl;
   if (!b.u.hasOwnProperty(a) && "mouseenter" != a && "mouseleave" != a && "pointerenter" != a && "pointerleave" != a) {
-    var c = Hl(b, a),
-      d = Nl(a, c);
+    var c = createEventHandler(b, a),
+      d = createEventRegistrar(a, c);
     b.u[a] = c;
     b.v.push(d);
     for (a = 0; a < b.s.length; ++a) c = b.s[a], c.j.push(d.call(null, c.g))
@@ -5745,29 +5732,29 @@ var Ql = "undefined" != typeof navigator && /iPhone|iPad|iPod/.test(navigator.us
   Ll = "click",
   Ml = {};
 
-function Rl(a) {
+function markAsClosureTemplate(a) {
   a.toString = function () {
     return "zSoyTemplatez"
   };
   return a
 }
 
-function Sl(a, b) {
+function bindDefaultData(a, b) {
   function c(d, e, f) {
     a(d, null == e ? b : Object.assign({}, b, e), f)
   }
   c.B = a.B;
-  return Rl(c)
+  return markAsClosureTemplate(c)
 };
 
 function detectMobileBrowser() {
   return searchUAString("iPad") || searchUAString("Android") && !searchUAString("Mobile") || searchUAString("Silk")
 };
 
-function Ul(a) {
+function patchAppContainer(a) {
   var b = APP_CONFIG;
-  De(a, function () {
-    We(b)
+  patchOuter(a, function () {
+    renderAppShell(b)
   })
 }
 ze.jsaction = function (a, b, c) {
@@ -5799,8 +5786,8 @@ const APP_CONFIG = {
     activeElement: null
   },
   scrollObserver = new IntersectionObserver(function (a) {
-    a = v(a).next().value;
-    hm({
+    a = getIterator(a).next().value;
+    updateAppState({
       Ka: !a.isIntersecting
     })
   }, {
@@ -5808,13 +5795,13 @@ const APP_CONFIG = {
     rootMargin: "0px 0px -20px 0px"
   });
 
-function hm(a) {
+function updateAppState(a) {
   Object.assign(APP_CONFIG, a);
   var root = document.getElementById("app-container");
   var c = root.contains(document.activeElement) || APP_CONFIG.Ua && document.activeElement === document.body;
   var d = null != root.querySelector("#active-dialog");
   d || (APP_CONFIG.activeElement = document.activeElement);
-  Ul(root);
+  patchAppContainer(root);
   var e = document.querySelector("#active-dialog"),
     f = e && !e.open;
   f && (e.showModal(), e.addEventListener("cancel", function (k) {
@@ -5836,25 +5823,25 @@ function hm(a) {
 
 
 
-function lm() {
+function fetchSelectedFirmware() {
   var a = APP_CONFIG.C;
   APP_CONFIG.ba || APP_CONFIG.ra || console.warn("The verification step was skipped. This may result in the wrong firmware being flashed to DVT controllers.");
   var b, c, d = null != (c = null != (b = APP_CONFIG.ra) ? b : APP_CONFIG.ba) ? c : "pvt";
-  return getFirmwareURL(FIRMWARE_LIST[a + "_" + d])
+  return fetchFirmwareBinary(FIRMWARE_LIST[a + "_" + d])
 }
 
-var nm = [ok, yk, Bk];
+var flashInProgressPages = [ok, yk, Bk];
 
 function returnValueEmpty(event) {
   event.returnValue = " "
 }
 
-function Y(a, b) {
-  var c = !!a && nm.includes(a);
+function navigateToPage(a, b) {
+  var c = !!a && flashInProgressPages.includes(a);
   c ? window.addEventListener("beforeunload", returnValueEmpty) : window.removeEventListener("beforeunload", returnValueEmpty);
   var d;
-  a ? d = Sl(Rl(a), b) : d = null;
-  hm({
+  a ? d = bindDefaultData(markAsClosureTemplate(a), b) : d = null;
+  updateAppState({
     sa: void 0,
     Va: c,
     Ua: d
@@ -5866,26 +5853,26 @@ function Y(a, b) {
   }
 }
 
-function Z(a, b) {
-  a = Sl(Rl(a), b);
-  hm({
+function showDialog(a, b) {
+  a = bindDefaultData(markAsClosureTemplate(a), b);
+  updateAppState({
     Ja: void 0,
     sa: a
   })
 }
 
-function pm(a) {
-  hm({
+function setLoadingState(a) {
+  updateAppState({
     vb: a
   })
 }
 
 function InitFlasherApp() {
   APP_CONFIG.Wa = false;
-  Y(null);
+  navigateToPage(null);
   (new IntersectionObserver(function (a) {
-    a = v(a).next().value;
-    hm({
+    a = getIterator(a).next().value;
+    updateAppState({
       Wa: !a.isIntersecting
     })
   }, {
@@ -5894,54 +5881,54 @@ function InitFlasherApp() {
   })).observe(document.getElementById("main-call-to-action"))
 }
 
-function rm() {
-  APP_CONFIG.Ca ? Y(Lj, {
+function startConnectFlow() {
+  APP_CONFIG.Ca ? navigateToPage(Lj, {
     C: APP_CONFIG.C
-  }) : Z(oi)
+  }) : showDialog(oi)
 }
 
-function sm() {
-  return null != APP_CONFIG.U && 10 > APP_CONFIG.U ? (Z(Ii, {
+function checkBatteryPrecondition() {
+  return null != APP_CONFIG.U && 10 > APP_CONFIG.U ? (showDialog(Ii, {
     U: APP_CONFIG.U
   }), true) : false
 }
 
-function tm() {
-  sm() || Y(kk)
+function enterSdpModeStep() {
+  checkBatteryPrecondition() || navigateToPage(kk)
 }
 
-function um() {
+function requestHidDevice() {
   var a, b, c, d;
-  return z(function (e) {
-    if (1 == e.g) return pm(true), wa(e), a = Date.now(), x(e, navigator.hid.requestDevice({
+  return asyncRun(function (e) {
+    if (1 == e.g) return setLoadingState(true), resetTryCatch(e), a = Date.now(), yieldValue(e, navigator.hid.requestDevice({
       filters: DEVICE_IDS
     }), 4);
-    if (2 != e.g) return b = e.j, c = Date.now() - a, console.log("requestDevice returned after " + c + "ms"), 0 === b.length && 100 > c && hm({
+    if (2 != e.g) return b = e.j, c = Date.now() - a, console.log("requestDevice returned after " + c + "ms"), 0 === b.length && 100 > c && updateAppState({
       ga: true
     }), e.return(null != (d = b[0]) ? d : null);
-    za(e);
-    pm(false);
-    return Ba(e, 0)
+    enterFinally(e);
+    setLoadingState(false);
+    return leaveFinally(e, 0)
   })
 }
 
-function vm() {
+function requestUsbDevice() {
   var a, b, c;
-  return z(function (d) {
+  return asyncRun(function (d) {
     switch (d.g) {
       case 1:
-        return pm(true), a = Date.now(), va(d, 2, 3), x(d, navigator.usb.requestDevice({
+        return setLoadingState(true), a = Date.now(), setTryCatchTargets(d, 2, 3), yieldValue(d, navigator.usb.requestDevice({
           filters: DEVICE_IDS
         }), 5);
       case 5:
         return d.return(d.j);
       case 3:
-        za(d);
-        pm(false);
-        Ba(d, 0);
+        enterFinally(d);
+        setLoadingState(false);
+        leaveFinally(d, 0);
         break;
       case 2:
-        return b = ya(d), c = Date.now() - a, console.log("requestDevice returned after " + c + "ms"), 100 > c && hm({
+        return b = consumeThrow(d), c = Date.now() - a, console.log("requestDevice returned after " + c + "ms"), 100 > c && updateAppState({
           ga: true
         }), console.log(b), d.return(null)
     }
@@ -5950,96 +5937,96 @@ function vm() {
 
 function getFlashloader(a) {
   var b, c;
-  return z(function (d) {
+  return asyncRun(function (d) {
     switch (d.g) {
       case 1:
-        return Y(ok, {
+        return navigateToPage(ok, {
           C: APP_CONFIG.C,
           progress: true
-        }), va(d, 2), x(d, getFirmwareURL("restricted_ivt_flashloader.bin"), 4);
+        }), setTryCatchTargets(d, 2), yieldValue(d, fetchFirmwareBinary("restricted_ivt_flashloader.bin"), 4);
       case 4:
-        return b = d.j, console.log("flashloader image is " + b.byteLength + " bytes"), x(d, Promise.all([bj(a, b), lm(), new Promise(function (e) {
+        return b = d.j, console.log("flashloader image is " + b.byteLength + " bytes"), yieldValue(d, Promise.all([a.uploadSdpPayload(b), fetchSelectedFirmware(), new Promise(function (e) {
           return void setTimeout(e, 2E3)
         })]), 5);
       case 5:
-        Y(yk, {
+        navigateToPage(yk, {
           C: APP_CONFIG.C
         });
-        xa(d, 0);
+        jumpAndResetTry(d, 0);
         break;
       case 2:
-        c = ya(d), console.log(c), c instanceof handleHIDDeviceDisconnection ? Z(wi, {
+        c = consumeThrow(d), console.log(c), c instanceof HIDDisconnectionError ? showDialog(wi, {
           action: "uploadFlashloader"
-        }) : Z(zi, {
+        }) : showDialog(zi, {
           V: c.toString()
         }), d.g = 0
     }
   })
 }
 
-function xm(a) {
+function performFirmwareFlash(a) {
   var b, c, d, e, f, g, h;
-  return z(function (k) {
+  return asyncRun(function (k) {
     switch (k.g) {
       case 1:
-        return b = BUILD_NUMBERS[APP_CONFIG.C], Y(Bk, {
+        return b = BUILD_NUMBERS[APP_CONFIG.C], navigateToPage(Bk, {
           C: APP_CONFIG.C,
           progress: 0
-        }), va(k, 2), x(k, lm(), 4);
+        }), setTryCatchTargets(k, 2), yieldValue(k, fetchSelectedFirmware(), 4);
       case 4:
-        return c = k.j, console.log("Firmware image is " + c.byteLength + " bytes"), x(k, fj(a, c, function (l) {
-          return void Y(Bk, {
+        return c = k.j, console.log("Firmware image is " + c.byteLength + " bytes"), yieldValue(k, a.flashFirmware(c, function (l) {
+          return void navigateToPage(Bk, {
             C: APP_CONFIG.C,
             progress: Math.min(Math.max(l, 0), 100)
           })
         }), 5);
       case 5:
-        if (!APP_CONFIG.serialNumber) return console.log("Unable to confirm flash because verification was skipped."), Y(Ok), k.return();
+        if (!APP_CONFIG.serialNumber) return console.log("Unable to confirm flash because verification was skipped."), navigateToPage(Ok), k.return();
         d = null;
         e = Date.now();
       case 6:
         if (!(null == d && 1E4 > Date.now() - e)) {
           console.log((d ? "Reconnected" :
             "Failed to reconnect") + (" within " + (Date.now() - e) + "ms"));
-          if (d !== b) return Y(Ok), k.return();
-          Y(Ik, {
+          if (d !== b) return navigateToPage(Ok), k.return();
+          navigateToPage(Ik, {
             C: APP_CONFIG.C
           });
-          xa(k, 0);
+          jumpAndResetTry(k, 0);
           break
         }
-        return x(k, new Promise(function (l) {
+        return yieldValue(k, new Promise(function (l) {
           return void setTimeout(l, 250)
         }), 8);
       case 8:
-        return x(k, zj(), 9);
+        return yieldValue(k, findConnectedController(APP_CONFIG.serialNumber), 9);
       case 9:
         f = k.j;
         if (!f) {
           k.J(6);
           break
         }
-        va(k, 11, 12);
-        return x(k, f.open(), 14);
+        setTryCatchTargets(k, 11, 12);
+        return yieldValue(k, f.open(), 14);
       case 14:
-        return x(k, Dj(f), 15);
+        return yieldValue(k, readFirmwareVersion(f), 15);
       case 15:
         d = k.j, console.log("Controller firmware version is now " + d);
       case 12:
-        return za(k, 2), x(k, f.close(), 16);
+        return enterFinally(k, 2), yieldValue(k, f.close(), 16);
       case 16:
-        Ba(k, 6);
+        leaveFinally(k, 6);
         break;
       case 11:
-        g = ya(k);
+        g = consumeThrow(k);
         console.log(g);
         k.J(12);
         break;
       case 2:
-        h = ya(k),
-          console.log(h), h instanceof handleHIDDeviceDisconnection ? Z(wi, {
+        h = consumeThrow(k),
+          console.log(h), h instanceof HIDDisconnectionError ? showDialog(wi, {
             action: "uploadFirmware"
-          }) : Z(zi, {
+          }) : showDialog(zi, {
             V: h.toString()
           }), k.g = 0
     }
@@ -6055,79 +6042,79 @@ var Pl = new Fl,
 Ql && (Am.style.cursor = "pointer");
 for (var Bm = 0; Bm < ym.v.length; ++Bm) zm.j.push(ym.v[Bm].call(null, zm.g));
 ym.s.push(zm);
-Ol("click");
-Ol("change");
+ensureEventTypeRegistered("click");
+ensureEventTypeRegistered("change");
 var Cm = new Bl,
   Dm = Pl,
   Em = Cm.s.bind(Cm);
 Dm.j = Em;
 Dm.g && (0 < Dm.g.length && Em(Dm.g), Dm.g = null);
 (function (a) {
-  qb(a, Qa(function (b, c) {
+  forEachProperty(a, closureBind(function (b, c) {
     this.j["zatanna." + c] = b
   }, Cm))
 })({
   selectBruce: function () {
     APP_CONFIG.C = "bruce";
-    rm()
+    startConnectFlow()
   },
   applyBruce: function () {
     APP_CONFIG.C = "bruce";
-    tm()
+    enterSdpModeStep()
   },
   selectGotham: function () {
     APP_CONFIG.C = "gotham";
-    rm()
+    startConnectFlow()
   },
   revertToGotham: function () {
     APP_CONFIG.C = "gotham";
-    tm()
+    enterSdpModeStep()
   },
   checkMode: function () {
     APP_CONFIG.C = void 0;
-    rm()
+    startConnectFlow()
   },
   selectControllerUsbDevice: function () {
     var a, b, c, d, e, firmwareBuild, g, h;
-    return z(function (k) {
+    return asyncRun(function (k) {
       switch (k.g) {
         case 1:
-          return x(k, vm(), 2);
+          return yieldValue(k, requestUsbDevice(), 2);
         case 2:
           a = k.j;
           if (!a) return k.return();
           APP_CONFIG.serialNumber = void 0;
           APP_CONFIG.ba = void 0;
           APP_CONFIG.U = void 0;
-          if (!yj(a)) return console.log("Controller is not in OEM mode"),
-            APP_CONFIG.C ? (b = "enterSdpMode", 8137 === a.vendorId && 309 === a.productId ? b = "uploadFlashloader" : 5538 === a.vendorId && 115 === a.productId && (b = "uploadFirmware"), Z(Di, {
+          if (!isStadiaController(a)) return console.log("Controller is not in OEM mode"),
+            APP_CONFIG.C ? (b = "enterSdpMode", 8137 === a.vendorId && 309 === a.productId ? b = "uploadFlashloader" : 5538 === a.vendorId && 115 === a.productId && (b = "uploadFirmware"), showDialog(Di, {
               rb: b
-            })) : Z(Fi), k.return();
+            })) : showDialog(Fi), k.return();
           APP_CONFIG.serialNumber = a.serialNumber;
           console.log("Controller serial number: " + APP_CONFIG.serialNumber);
-          va(k, 3, 4);
+          setTryCatchTargets(k, 3, 4);
           d = null != (c = APP_CONFIG.serialNumber.slice(0, 2)) ? c : "";
           if (["91", "92", "93", "94"].includes(d)) throw Error("Unable to flash devices with serial number prefix " + d);
           ["95", "96", "97"].includes(d) ? APP_CONFIG.ba = "dvt" : APP_CONFIG.ba = "98" === d && "9809" > APP_CONFIG.serialNumber.slice(0,
             4) ? "dvt" : "pvt";
           console.log("Controller is a " + APP_CONFIG.ba + " device");
-          return x(k, a.open(), 6);
+          return yieldValue(k, a.open(), 6);
         case 6:
-          return x(k, Dj(a), 7);
+          return yieldValue(k, readFirmwareVersion(a), 7);
         case 7:
-          return e = k.j, firmwareBuild = 320480 >= e ? "gotham" : "bruce", console.log("Current firmware is " + firmwareBuild + " build " + e), g = APP_CONFIG, x(k, Ej(a), 8);
+          return e = k.j, firmwareBuild = 320480 >= e ? "gotham" : "bruce", console.log("Current firmware is " + firmwareBuild + " build " + e), g = APP_CONFIG, yieldValue(k, readBatteryLevel(a), 8);
         case 8:
           if (g.U = k.j, console.log("Current battery level: " + APP_CONFIG.U + "%"), APP_CONFIG.C && firmwareBuild !== APP_CONFIG.C) {
-            if (sm()) return k.return();
-            Y(ik)
-          } else "bruce" === firmwareBuild && e >= BUILD_NUMBERS[firmwareBuild] ? Y(Wj) : "bruce" === firmwareBuild && e < BUILD_NUMBERS[firmwareBuild] ? Y(ck) : Y(fk);
+            if (checkBatteryPrecondition()) return k.return();
+            navigateToPage(ik)
+          } else "bruce" === firmwareBuild && e >= BUILD_NUMBERS[firmwareBuild] ? navigateToPage(Wj) : "bruce" === firmwareBuild && e < BUILD_NUMBERS[firmwareBuild] ? navigateToPage(ck) : navigateToPage(fk);
         case 4:
-          return za(k), x(k, a.close(), 9);
+          return enterFinally(k), yieldValue(k, a.close(), 9);
         case 9:
-          Ba(k, 0);
+          leaveFinally(k, 0);
           break;
         case 3:
-          h = ya(k), console.log(h), Z(ui, {
+          h = consumeThrow(k), console.log(h), showDialog(ui, {
             nb: searchUAString("CrOS"),
             V: h.toString()
           }), k.J(4)
@@ -6136,51 +6123,51 @@ Dm.g && (0 < Dm.g.length && Em(Dm.g), Dm.g = null);
   },
   selectController: function () {
     var a, usbConnection, c;
-    return z(function (d) {
+    return asyncRun(function (d) {
       switch (d.g) {
         case 1:
-          return x(d, um(), 2);
+          return yieldValue(d, requestHidDevice(), 2);
         case 2:
           a = d.j;
           if (!a) return d.return();
-          usbConnection = new Zi(a);
-          if (6353 === usbConnection.device.vendorId && (37888 === usbConnection.device.productId || 37995 === usbConnection.device.productId)) return Z(yi), d.return();
-          va(d, 3);
-          return x(d, usbConnection.open(), 5);
+          usbConnection = new StadiaHIDController(a);
+          if (6353 === usbConnection.device.vendorId && (37888 === usbConnection.device.productId || 37995 === usbConnection.device.productId)) return showDialog(yi), d.return();
+          setTryCatchTargets(d, 3);
+          return yieldValue(d, usbConnection.open(), 5);
         case 5:
-          xa(d, 4);
+          jumpAndResetTry(d, 4);
           break;
         case 3:
-          return c = ya(d), console.log(c), searchUAString("Linux") ? Z(Gi, {
+          return c = consumeThrow(d), console.log(c), searchUAString("Linux") ? showDialog(Gi, {
             V: c.toString()
-          }) : Z(zi, {
+          }) : showDialog(zi, {
             V: c.toString()
           }), d.return();
         case 4:
-          if (8137 === usbConnection.device.vendorId && 309 === usbConnection.device.productId) return x(d,
+          if (8137 === usbConnection.device.vendorId && 309 === usbConnection.device.productId) return yieldValue(d,
             getFlashloader(usbConnection), 0);
-          if (5538 === usbConnection.device.vendorId && 115 === usbConnection.device.productId) return x(d, xm(usbConnection), 0);
+          if (5538 === usbConnection.device.vendorId && 115 === usbConnection.device.productId) return yieldValue(d, performFirmwareFlash(usbConnection), 0);
           d.J(0)
       }
     })
   },
   closeDialog: function () {
-    hm({
+    updateAppState({
       sa: void 0
     })
   },
   dialogCheckboxChange: function () {
     var a = document.getElementById("dialog-checkbox");
-    hm({
+    updateAppState({
       Ja: a.checked
     })
   },
   selectAction: function () {
-    return void Y(Hj)
+    return void navigateToPage(Hj)
   },
   agreeToTerms: function () {
     APP_CONFIG.Ca = true;
-    rm()
+    startConnectFlow()
   },
   languageSelected: function () {
     var a = new URLSearchParams(window.location.search),
@@ -6192,52 +6179,52 @@ Dm.g && (0 < Dm.g.length && Em(Dm.g), Dm.g = null);
   },
   connectController: rm,
   verifyController: function () {
-    return void Y(Oj, {
+    return void navigateToPage(Oj, {
       C: APP_CONFIG.C
     })
   },
   enterSdpMode: tm,
   uploadFlashloader: function () {
-    return void Y(ok, {
+    return void navigateToPage(ok, {
       C: APP_CONFIG.C
     })
   },
   uploadFirmware: function () {
-    return void Y(Bk, {
+    return void navigateToPage(Bk, {
       C: APP_CONFIG.C
     })
   },
   returnHome: InitFlasherApp,
   cancelAndExit: function () {
-    return void Z(ri, {
+    return void showDialog(ri, {
       tb: APP_CONFIG.Va
     })
   },
   downloadChrome: function () {
     var a = window;
-    var b = vd(URL_CHROME_DOWNLOAD);
-    return void Ae(a, rd(b))
+    var b = createSafeUri(URL_CHROME_DOWNLOAD);
+    return void safeWindowOpen(a, unwrapSafeUrl(b))
   },
   updateChrome: function () {
     var a = window;
-    var b = vd(URL_CHROME_UPDATE);
-    return void Ae(a,
-      rd(b))
+    var b = createSafeUri(URL_CHROME_UPDATE);
+    return void safeWindowOpen(a,
+      unwrapSafeUrl(b))
   },
   openUdevInstructions: function () {
-    var url = vd(URL_UDEV_INSTRUCTIONS);
-    return void Ae(window, rd(url), "_blank")
+    var url = createSafeUri(URL_UDEV_INSTRUCTIONS);
+    return void safeWindowOpen(window, unwrapSafeUrl(url), "_blank")
   },
   helpCenter: function () {
-    return void Ae(window, rd(Rd()), "_blank")
+    return void safeWindowOpen(window, unwrapSafeUrl(getHelpCenterUrl()), "_blank")
   },
   gettingStartedModal1: function () {
-    return void Z(Sh, {
+    return void showDialog(Sh, {
       Ba: 1
     })
   },
   gettingStartedModal2: function () {
-    return void Z(Sh, {
+    return void showDialog(Sh, {
       Ba: 2
     })
   }

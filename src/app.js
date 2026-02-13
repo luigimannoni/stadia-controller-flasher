@@ -5205,7 +5205,7 @@ const APP_CONFIG = {
     locale: pageLocale,
     ra: Yl,
     Va: false,
-    xb: "hid" in navigator,
+    supportsHid: "hid" in navigator,
     wb: $l,
     ob: !(!detectMobileBrowser() && (searchUAString("iPod") || searchUAString("iPhone") || searchUAString("Android") || searchUAString("IEMobile"))) && !detectMobileBrowser(),
     Ca: false,

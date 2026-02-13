@@ -46,6 +46,32 @@ import {
   getChromeVersion,
   isChromeOutdated,
 } from './lib/browser-utils.js';
+import {
+  GOOGLE_STAFF,
+  FIRMWARE_LIST,
+  BUILD_NUMBERS,
+  DEVICE_IDS,
+  STADIA_HOST,
+} from './lib/config.js';
+import {
+  STR_HOME,
+  STR_HELP_CENTER,
+  STR_DEVICES_LIST,
+  STR_LEARN_BLUETOOTH_PAIRING,
+  STR_BLUETOOTH_HERO,
+  STR_CHROME_WARNING,
+  STR_CONTROLLER_RESTART,
+  STR_CONTROLLER_RESET,
+  STR_RESET_CONFIRM,
+  formatDeviceNameHint,
+  URL_GOOGLE_TERMS,
+  URL_CHROME_TERMS,
+  URL_HELP_CENTER,
+  URL_DEVICE_LIST,
+  URL_CHROME_DOWNLOAD,
+  URL_CHROME_UPDATE,
+  URL_UDEV_INSTRUCTIONS,
+} from './lib/strings.js';
 
 // ─── Compatibility aliases ──────────────────────────────────────────────
 // Maps old obfuscated names to new module exports so that call sites
@@ -2248,8 +2274,6 @@ function yd(a) {
 }
 var Jd = /<(?:!|\/?([a-zA-Z][a-zA-Z0-9:\-]*))(?:[^>'"]|"[^"]*"|'[^']*')*>/g,
   Kd = /</g;
-var GOOGLE_STAFF = true;
-
 function checkIfGoogleStaff() {
   return GOOGLE_STAFF
 }
@@ -2261,23 +2285,19 @@ function Od() {
 };
 
 function Pd() {
-  return vd("https://policies.google.com/terms")
+  return vd(URL_GOOGLE_TERMS)
 }
 
 function Qd() {
-  return vd("https://www.google.com/chrome/terms/")
+  return vd(URL_CHROME_TERMS)
 }
 
 function Rd() {
-  var url = "https://support.google.com/stadia?p=controllerconnect";
-  // var a = checkIfGoogleStaff() ? "http://go/gotham-ble-howto" : "https://support.google.com/stadia?p=controllerconnect";
-  return vd(url)
+  return vd(URL_HELP_CENTER)
 }
 
 function Sd() {
-  var url = "https://support.google.com/stadia?p=controllerconnect#devicelist";
-  // var a = checkIfGoogleStaff() ? "http://go/gotham-ble-howto#bookmark=id.hyltxa1q9n1w" : "https://support.google.com/stadia?p=controllerconnect#devicelist";
-  return vd(url)
+  return vd(URL_DEVICE_LIST)
 };
 /*
  SPDX-License-Identifier: Apache-2.0 */
@@ -4137,23 +4157,23 @@ function vg(a, b, c) {
 var ni;
 
 function stringChromeWarning() {
-  return "You need to use Chrome version 108 or later to switch your Stadia Controller to Bluetooth mode"
+  return STR_CHROME_WARNING
 }
 
 function stringHelpCenter() {
-  return "Go to Bluetooth mode Help Center"
+  return STR_HELP_CENTER
 }
 
 function stringDevices() {
-  return "List of supported devices"
+  return STR_DEVICES_LIST
 }
 
 function stringHome() {
-  return "Return to home"
+  return STR_HOME
 }
 
 function stringBluetooth() {
-  return "Switch your Stadia Controller to Bluetooth mode to keep gaming wirelessly on your favorite devices and services after Stadia shuts\u00a0down"
+  return STR_BLUETOOTH_HERO
 };
 
 function oi(a, b) {
@@ -4381,22 +4401,19 @@ Ii.B = E;
 var Ki = {};
 
 function stringControllerRestart() {
-  return "Reset your controller and start over"
+  return STR_CONTROLLER_RESTART
 }
 
 function stringControllerReset() {
-  return "Unplug your controller, then hold the Stadia button for 10 seconds to reset it. Once that\u2019s done, you can start over."
+  return STR_CONTROLLER_RESET
 }
 
 function stringResetControllerConfirm() {
-  return "I confirm that I unplugged and reset my controller"
+  return STR_RESET_CONFIRM
 };
 
-var Fj = void 0;
-
 function Gj() {
-  void 0 === Fj && (Fj = "stadia.google.com");
-  return Fj
+  return STADIA_HOST
 }
 
 function Hj(a, b, c) {
@@ -5137,11 +5154,11 @@ function xk(a) {
 }
 
 function Vj(a, b, c, d) {
-  return d ? "The Stadia Controller name should include \u201c" + a + "\u201d. The name could instead include \u201c" + b + "\u201d, \u201c" + c + "\u201d, or \u201c" + d + "\u201d." : "The Stadia Controller name should include \u201c" + a + "\u201d. The name could instead include \u201c" + b + "\u201d or \u201c" + c + "\u201d\u201d."
+  return formatDeviceNameHint(a, b, c, d)
 }
 
 function Xj() {
-  return "Learn how to pair with Bluetooth"
+  return STR_LEARN_BLUETOOTH_PAIRING
 }
 
 function Tj(a) {
@@ -5817,19 +5834,7 @@ function hm(a) {
   void 0 === (null == a ? void 0 : a.Ka) && (scrollObserver.disconnect(), (a = document.getElementById("panel-bottom-button-bar")) && scrollObserver.observe(a))
 }
 
-const FIRMWARE_LIST = {
-    bruce_dev: "bruce_dvt_a_dev_signed.bin",
-    bruce_dvt: "bruce_dvt_a_stage_signed.bin",
-    bruce_pvt: "bruce_pvt_a_prod_signed.bin",
-    // gotham_dev: "gotham_dvt_a_dev_signed.bin", Unavailable
-    // gotham_dvt: "gotham_dvt_a_stage_signed.bin", Unavailable
-    gotham_pvt: "ota.316382.stable-channel.gotham-pvt-b.da986392604309ea67eab5fa84f747e955f2875c.bin"
-  };
 
-const BUILD_NUMBERS = {
-  bruce: 337784,
-  gotham: 282115
-};
 
 function lm() {
   var a = APP_CONFIG.C;
@@ -5837,19 +5842,7 @@ function lm() {
   var b, c, d = null != (c = null != (b = APP_CONFIG.ra) ? b : APP_CONFIG.ba) ? c : "pvt";
   return getFirmwareURL(FIRMWARE_LIST[a + "_" + d])
 }
-const DEVICE_IDS = [{
-    vendorId: 5538,
-    productId: 115
-  }, {
-    vendorId: 6353,
-    productId: 37888
-  }, {
-    vendorId: 6353,
-    productId: 37995
-  }, {
-    vendorId: 8137,
-    productId: 309
-  }];
+
 var nm = [ok, yk, Bk];
 
 function returnValueEmpty(event) {
@@ -6222,19 +6215,17 @@ Dm.g && (0 < Dm.g.length && Em(Dm.g), Dm.g = null);
   },
   downloadChrome: function () {
     var a = window;
-    var b = vd("https://www.google.com/chrome/");
+    var b = vd(URL_CHROME_DOWNLOAD);
     return void Ae(a, rd(b))
   },
   updateChrome: function () {
     var a = window;
-    var b = vd("https://www.google.com/chrome/update/");
+    var b = vd(URL_CHROME_UPDATE);
     return void Ae(a,
       rd(b))
   },
   openUdevInstructions: function () {
-    var url = "https://support.google.com/stadia?p=controllerconnect#linuxrule";
-    // var b = checkIfGoogleStaff() ? "http://go/gotham-ble-howto#bookmark=id.3wy2t3ujrxkq" : "https://support.google.com/stadia?p=controllerconnect#linuxrule";
-    url = vd(url);
+    var url = vd(URL_UDEV_INSTRUCTIONS);
     return void Ae(window, rd(url), "_blank")
   },
   helpCenter: function () {
@@ -6253,5 +6244,5 @@ Dm.g && (0 < Dm.g.length && Em(Dm.g), Dm.g = null);
 });
 
 // Boot the app
-console.log("Currently serving Bruce build 337784");
+console.log(`Currently serving Bruce build ${BUILD_NUMBERS.bruce}`);
 document.documentElement.hasAttribute("data-is-placeholder") || InitFlasherApp();
